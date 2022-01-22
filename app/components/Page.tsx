@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useAuth } from "~/contexts/auth";
 import Unauthenticated from "./Unauthenticated";
 
 type PageProps = {
@@ -6,6 +7,9 @@ type PageProps = {
 };
 
 export default function Page({ children }: PageProps) {
-  return <Unauthenticated />;
+  const { user } = useAuth();
+
+  if (!user) return <Unauthenticated />;
+
   return <div>{children}</div>;
 }

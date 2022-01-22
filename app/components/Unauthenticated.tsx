@@ -1,4 +1,8 @@
+import { useAuth } from "~/contexts/auth";
+
 export default function Unauthenticated() {
+  const { login } = useAuth();
+
   return (
     <div className="grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop 2xl:grid-cols-main-xl-desktop auto-rows-12">
       <div className="col-start-2 col-end-5 lm:col-start-2 lm:col-end-6 xl:col-start-2 xl:col-end-3 row-start-1 row-span-1 2xl:col-start-3 2xl:col-end-4 2xl:row-auto">
@@ -31,6 +35,11 @@ export default function Unauthenticated() {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
           bibendum suspendisse purus netus est mauris. Morbi vivamus rutrum
           ullamcorper maecenas condimentum nunc sed.
+        </p>
+
+        <p>
+          <br />
+          <button onClick={login}>Login</button>
         </p>
       </main>
     </div>

@@ -5,9 +5,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
 import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
+import { createClient } from "@supabase/supabase-js";
+import { SupabaseProvider } from "./contexts/auth";
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
@@ -25,7 +28,20 @@ export function links() {
   ];
 }
 
+export function loader() {
+  return {
+    ENV: {
+      SUPERBASE_URL: process.env.SUPERBASE_URL,
+      SUPERBASE_KEY: process.env.SUPERBASE_KEY,
+      ALL_BOOKS_API: process.env.ALL_BOOKS_API,
+    },
+  };
+}
+
 export default function App() {
+  const { ENV } = useLoaderData();
+  const config = createClient(ENV.SUPERBASE_URL, ENV.SUPERBASE_KEY);
+
   return (
     <html lang="en">
       <head>
@@ -35,11 +51,20 @@ export default function App() {
         <Links />
       </head>
       <body className="font-serifPro">
-        <Outlet />
+        <SupabaseProvider supabase={config}>
+          <Outlet />
+        </SupabaseProvider>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          }}
+        />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
   );
 }
+
+// TODO: Add a catchboundary to the SupabaseProvider so that if the SupabaseClient is not available, the app will not crash.
