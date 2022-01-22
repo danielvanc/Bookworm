@@ -1,7 +1,11 @@
+import BookList from "~/components/BookLIst";
+import Page from "~/components/Page";
+
 export default function Index() {
   return (
-    <div>
-      <h1 className="text-8xl text-purple-400">Hello World</h1>
-    </div>
+    <Page>
+      <h1>Home</h1>
+      <BookList />
+    </Page>
   );
 }

@@ -14,7 +14,15 @@ export const meta: MetaFunction = () => {
 };
 
 export function links() {
-  return [{ rel: "stylesheet", href: tailwindStyles }];
+  return [
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com?crossOrigin=true" },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@600&family=Source+Serif+Pro:wght@400;700&display=swap&crossOrigin=true",
+    },
+    { rel: "stylesheet", href: tailwindStyles },
+  ];
 }
 
 export default function App() {
@@ -26,7 +34,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-serifPro">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
