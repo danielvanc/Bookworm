@@ -10,7 +10,7 @@ import {
 import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import { createClient } from "@supabase/supabase-js";
-import { SupabaseProvider } from "./contexts/auth";
+import { AuthProvider } from "./contexts/auth";
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
@@ -51,9 +51,9 @@ export default function App() {
         <Links />
       </head>
       <body className="font-serifPro">
-        <SupabaseProvider supabase={config}>
+        <AuthProvider supabase={config}>
           <Outlet />
-        </SupabaseProvider>
+        </AuthProvider>
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

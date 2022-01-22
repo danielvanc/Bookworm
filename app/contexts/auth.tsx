@@ -7,21 +7,22 @@ import {
 } from "react";
 import { SupabaseClient, Session } from "@supabase/supabase-js";
 
-type AuthContext = {
+type ContextProps = {
   login?: () => void;
   logout?: () => void;
   user?: Session | null;
 };
 
-const defaultContext: AuthContext = {
+const defaultContext: ContextProps = {
   login: () => {},
   logout: () => {},
   user: null,
 };
 
-export const SupabaseContext = createContext<AuthContext>(defaultContext);
+export const AuthContext = createContext<ContextProps>(defaultContext);
+AuthContext.displayName = "AuthContext";
 
-export function SupabaseProvider({
+export function AuthProvider({
   children,
   supabase,
 }: {
@@ -63,18 +64,14 @@ export function SupabaseProvider({
     user,
   };
 
-  return (
-    <SupabaseContext.Provider value={value}>
-      {children}
-    </SupabaseContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  const context = useContext(SupabaseContext);
+  const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error("useSupabase must be used within a SupabaseProvider");
+    throw new Error("useAuth must be used within an AuthProvider");
   }
 
   return context;
