@@ -7,11 +7,11 @@ import {
 } from "react";
 import { SupabaseClient, Session } from "@supabase/supabase-js";
 
-type ContextProps = {
+interface ContextProps {
   login?: () => void;
   logout?: () => void;
   user?: Session | null;
-};
+}
 
 const defaultContext: ContextProps = {
   login: () => {},

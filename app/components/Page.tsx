@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 import { useAuth } from "~/contexts/auth";
 import Unauthenticated from "./Unauthenticated";
-
-type PageProps = {
+interface PageProps {
   children: ReactNode;
-};
+}
 
 export default function Page({ children }: PageProps) {
   const { user } = useAuth();
