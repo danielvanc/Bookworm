@@ -1,22 +1,15 @@
+import BookList from "~/components/BookLIst";
 import Page from "~/components/Page";
 import { useAuth } from "~/contexts/auth";
 
-import { useLoaderData, redirect } from "remix";
-import type { LoaderFunction, ActionFunction } from "remix";
-
-export function loader() {
-  return redirect("/home");
-}
-
 export default function Index() {
-  const { logout, user } = useAuth();
-  // return redirect("/home");
-
+  const { logout } = useAuth();
   return (
     <Page>
       <h1>Home</h1>
+      <BookList />
 
-      {/* <button onClick={logout}>Logout</button> */}
+      <button onClick={logout}>Logout</button>
     </Page>
   );
 }
