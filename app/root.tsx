@@ -31,8 +31,8 @@ export function links() {
 export function loader() {
   return {
     ENV: {
-      SUPERBASE_URL: process.env.SUPERBASE_URL,
-      SUPERBASE_KEY: process.env.SUPERBASE_KEY,
+      SUPABASE_URL: process.env.SUPABASE_URL,
+      SUPABASE_KEY: process.env.SUPABASE_KEY,
       ALL_BOOKS_API: process.env.ALL_BOOKS_API,
     },
   };
@@ -40,7 +40,7 @@ export function loader() {
 
 export default function App() {
   const { ENV } = useLoaderData();
-  const config = createClient(ENV.SUPERBASE_URL, ENV.SUPERBASE_KEY);
+  const config = createClient(ENV.SUPABASE_URL, ENV.SUPABASE_KEY);
 
   return (
     <html lang="en">
