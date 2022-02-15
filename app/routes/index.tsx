@@ -6,8 +6,9 @@ import { useLoaderData } from "remix";
 
 export async function loader() {
   const prisma = new PrismaClient();
-  const allUsers = await prisma.profile.findMany();
-  return { allUsers };
+  // const allUsers = await prisma.profile.findMany();
+  // return { allUsers };
+  return {};
 }
 
 export default function Index() {

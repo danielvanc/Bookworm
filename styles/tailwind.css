@@ -6,4 +6,12 @@
   .custom-class {
     @apply underline;
   }
+
+  .unauthed-wrapper {
+    @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh];
+  }
+  .unauthed-header {
+    @apply uppercase text-grayWorm-300 grid grid-cols-8 col-span-full row-start-2 row-end-4 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-header-desktop xl:col-start-1 xl:col-end-2;
+    /* xl:row-start-2 xl:row-end-3 */
+  }
 }
