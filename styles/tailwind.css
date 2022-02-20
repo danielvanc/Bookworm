@@ -9,9 +9,21 @@
 
   .unauthed-wrapper {
     @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh];
+    background: url("/images/book-stack-bg.png") no-repeat left center;
+    background-size: 45% 100%;
+    object-fit: cover;
   }
   .unauthed-header {
     @apply uppercase text-grayWorm-300 grid grid-cols-8 col-span-full row-start-2 row-end-4 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-header-desktop xl:col-start-1 xl:col-end-2;
-    /* xl:row-start-2 xl:row-end-3 */
+  }
+
+  .main-heading {
+    font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2600 - 300)));
+    @apply opacity-5 leading-tighter lm:leading-10 lm:opacity-100  font-fred desktop:leading-none bg-white;
+  }
+  .sub-heading {
+    font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (2600 - 300)));
+
+    @apply font-fred text-grayWorm-300 desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 xl:pl-2 bg-white pb-8;
   }
 }
