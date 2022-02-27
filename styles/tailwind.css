@@ -7,6 +7,14 @@
     @apply underline;
   }
 
+  .btn {
+    @apply bg-slate-300 rounded-lg text-slate-800;
+  }
+
+  .input {
+    @apply border-[1px] border-slate-300 rounded-lg pt-2 pb-1 px-2;
+  }
+
   .unauthed-wrapper {
     @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh];
     background: url("/images/book-stack-bg.png") no-repeat left center;
@@ -25,5 +33,9 @@
     font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (2600 - 300)));
 
     @apply font-fred text-grayWorm-300 desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 xl:pl-2 bg-white pb-8;
+  }
+
+  .social-logins li {
+    @apply bg-slate-200 rounded-md px-2 pt-2;
   }
 }
