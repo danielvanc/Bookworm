@@ -16,23 +16,43 @@
   }
 
   .unauthed-wrapper {
-    @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh];
-    background: url("/images/book-stack-bg.png") no-repeat left center;
-    background-size: 45% 100%;
-    object-fit: cover;
+    @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh] bg-fixed bg-loggedOutMobile xl:bg-loggedOut bg-loggedOutPosSmMobile lm:bg-loggedOutPosMobile md:bg-loggedOutPosTablet xl:bg-left bg-no-repeat bg-loggedOutSizeSmMobile lm:bg-loggedOutSizeMobile md:bg-loggedOutSizeTablet xl:bg-loggedOutSize;
   }
   .unauthed-header {
     @apply uppercase text-grayWorm-300 grid grid-cols-8 col-span-full row-start-2 row-end-4 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-header-desktop xl:col-start-1 xl:col-end-2;
   }
 
   .main-heading {
-    font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2600 - 300)));
-    @apply opacity-5 leading-tighter lm:leading-10 lm:opacity-100  font-fred desktop:leading-none bg-white;
+    font-size: calc(14px + (405 - 14) * ((100vw - 100px) / (2600 - 300)));
+
+    @apply opacity-5 leading-10 lm:leading-[0.8] desktop:leading-none lm:opacity-100 font-fred bg-white pt-5;
   }
   .sub-heading {
-    font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (2600 - 300)));
+    font-size: calc(14px + (120 - 14) * ((100vw - 340px) / (3800 - 300)));
 
-    @apply font-fred text-grayWorm-300 desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 xl:pl-2 bg-white pb-8;
+    @apply font-fred text-grayWorm-300 leading-none desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 md:pt-0 pb-5 pl-1 xl:pl-2 bg-white xl:pb-8;
+  }
+
+  @media screen and (min-width: 768px) {
+    .sub-heading {
+      font-size: calc(14px + (104 - 14) * ((100vw - 300px) / (2690 - 300)));
+    }
+  }
+  @media screen and (min-width: 1280px) {
+    .main-heading {
+      font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2950 - 300)));
+    }
+    .sub-heading {
+      font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (3550 - 300)));
+    }
+  }
+  @media screen and (min-width: 1600px) {
+    .main-heading {
+      font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2600 - 300)));
+    }
+    .sub-heading {
+      font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (2600 - 300)));
+    }
   }
 
   .social-logins li {

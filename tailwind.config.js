@@ -1,3 +1,4 @@
+const { backgroundPosition } = require("tailwindcss/defaultTheme");
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}"],
@@ -7,7 +8,29 @@ module.exports = {
       desktop: "1200px",
       ...defaultTheme.screens,
     },
+    // Small mobile
+    // background-size: 106% 50%;
+    // background-position: -1123% 0;
+
+    // 400+
+    // background-size: 105% 77%;
+    // background-position: -1310% 0;
     extend: {
+      backgroundImage: {
+        loggedOut: `url('/images/book-stack-bg.png')`,
+        loggedOutMobile: `url('/images/book-stack-bg-right.jpg')`,
+      },
+      backgroundSize: {
+        loggedOutSize: "45% 100%",
+        loggedOutSizeSmMobile: "106% 100%",
+        loggedOutSizeMobile: "106% 100%",
+        loggedOutSizeTablet: "105% 110%",
+      },
+      backgroundPosition: {
+        loggedOutPosMobile: "-1123% 0",
+        loggedOutPosSmMobile: "-1310% 0",
+        loggedOutPosTablet: "-1090% 0",
+      },
       colors: {
         rosyWorm: {
           900: "#81334F",
