@@ -33,12 +33,12 @@
     @apply font-fred text-grayWorm-300 leading-none desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 md:pt-0 pb-5 pl-1 xl:pl-2 bg-white xl:pb-8;
   }
 
-  @media screen and (min-width: 768px) {
+  @screen md {
     .sub-heading {
-      font-size: calc(14px + (104 - 14) * ((100vw - 300px) / (2690 - 300)));
+      font-size: calc(14px + (104 - 14) * ((100vw - 300px) / (2730 - 300)));
     }
   }
-  @media screen and (min-width: 1280px) {
+  @screen xl {
     .main-heading {
       font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2950 - 300)));
     }
@@ -46,7 +46,8 @@
       font-size: calc(14px + (62 - 14) * ((100vw - 300px) / (3550 - 300)));
     }
   }
-  @media screen and (min-width: 1600px) {
+
+  @screen 2xl {
     .main-heading {
       font-size: calc(14px + (245 - 14) * ((100vw - 100px) / (2600 - 300)));
     }

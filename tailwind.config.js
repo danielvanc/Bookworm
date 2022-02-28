@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 const { backgroundPosition } = require("tailwindcss/defaultTheme");
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
@@ -8,13 +9,6 @@ module.exports = {
       desktop: "1200px",
       ...defaultTheme.screens,
     },
-    // Small mobile
-    // background-size: 106% 50%;
-    // background-position: -1123% 0;
-
-    // 400+
-    // background-size: 105% 77%;
-    // background-position: -1310% 0;
     extend: {
       backgroundImage: {
         loggedOut: `url('/images/book-stack-bg.png')`,
@@ -67,6 +61,9 @@ module.exports = {
       serifPro: ['"Source Serif Pro"', "serif"],
     },
   },
-  variants: {},
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("initial", "html :where(&)");
+    }),
+  ],
 };

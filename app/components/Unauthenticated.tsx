@@ -23,13 +23,13 @@ export default function Unauthenticated() {
         </p>
       </header>
 
-      <main className="row-start-4 row-span-1 col-start-2 col-end-8 lm:col-end-9 md:col-end-7 xl:col-start-2 xl:col-end-3 xl:row-start-2 xl:row-end-4 xl:mr-10 pb-10">
+      <main className="row-start-4 row-span-1 col-start-2 col-end-8 lm:col-end-9 md:col-end-7 xl:col-start-2 xl:col-end-3 xl:row-start-2 xl:row-end-4 xl:mr-10 pb-10 text-grayWorm-300">
         <p className="text-base md:text-xl 2xl:text-3xl my-12 xl:mb-0 xl:my-8 xl:pl-8 xl:pr-[5rem]">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
           bibendum suspendisse purus netus est mauris. Morbi vivamus rutrum
           ullamcorper maecenas condimentum nunc sed.
         </p>
-        <div className="border-[1px] rounded-lg bg-white p-5 xl:mr-10 mb-10 xl:mt-10">
+        <div className="border-[1px] rounded-lg bg-white shadow-lg p-5 xl:mr-10 mb-10 xl:mt-10">
           <h2 className="text-center text-2xl font-fred uppercase tracking-widest mb-5">
             Sign in
           </h2>
@@ -67,7 +67,7 @@ export default function Unauthenticated() {
               </h3>
               <div className="flex flex-col xl:flex-row w-full xl:justify-between">
                 <input
-                  className="input xl:max-w-[38%] mb-3 xl:mb-0"
+                  className="input xl:max-w-[38%] mb-3 xl:mb-0 focus:outline-none focus:shadow-outline"
                   type="email"
                   placeholder="Add your email"
                 />
