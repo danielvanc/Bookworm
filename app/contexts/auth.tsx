@@ -8,13 +8,15 @@ import {
 import { SupabaseClient, Session } from "@supabase/supabase-js";
 
 interface ContextProps {
-  login?: () => void;
+  gitHubLogin?: () => void;
+  googleLogin?: () => void;
   logout?: () => void;
   user?: Session | null;
 }
 
 const defaultContext: ContextProps = {
-  login: () => {},
+  gitHubLogin: () => {},
+  googleLogin: () => {},
   logout: () => {},
   user: null,
 };
