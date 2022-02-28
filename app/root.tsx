@@ -11,9 +11,10 @@ import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import { createClient } from "@supabase/supabase-js";
 import { AuthProvider } from "./contexts/auth";
+import { getMetaInfo } from "./utils/seo";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { ...getMetaInfo({ title: "Login to BKWorm" }) };
 };
 
 export function links() {
