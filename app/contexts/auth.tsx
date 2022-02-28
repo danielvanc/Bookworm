@@ -37,9 +37,14 @@ export function AuthProvider({
     window.history.pushState({}, "", "/");
   }
 
-  async function handleLogIn() {
+  async function handleGitHubLogIn() {
     await supabase.auth.signIn({
       provider: "github",
+    });
+  }
+  async function handleGoogleLogIn() {
+    await supabase.auth.signIn({
+      provider: "google",
     });
   }
 
@@ -59,7 +64,8 @@ export function AuthProvider({
   }, []);
 
   const value = {
-    login: handleLogIn,
+    gitHubLogin: handleGitHubLogIn,
+    googleLogin: handleGoogleLogIn,
     logout: handleLogout,
     user,
   };

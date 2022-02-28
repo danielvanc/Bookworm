@@ -3,16 +3,16 @@ import { FaApple, FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 export default function Unauthenticated() {
-  const { login } = useAuth();
+  const { gitHubLogin, googleLogin } = useAuth();
 
   return (
     <div className="unauthed-wrapper">
-      <div className="col-start-2 col-end-5 row-start-1 row-span-1 lm:col-start-2 lm:col-end-6 xl:col-start-2 xl:col-end-3 xl:self-end pt-20 xl:pt-10  xl:pl-8">
+      <div className="col-start-2 col-end-5 row-start-1 row-span-1 lm:col-start-2 lm:col-end-6 xl:col-start-2 xl:col-end-3 xl:self-end pt-20 xl:pt-10 xl:pl-8">
         <img src="/images/logo.svg" alt="" width="131" height="38" />
       </div>
 
       <header className="unauthed-header relative">
-        <div className="col-start-1 col-end-6 row-start-1 xl:row-start-2 row-span-full lm:col-span-full  xl:col-start-1 xl:col-end-7 xl:self-end xl:mb-10 pl-[6px]">
+        <div className="col-start-1 col-end-6 row-start-1 row-span-full lm:col-span-full  xl:col-start-1 xl:col-end-7 xl:row-start-2 xl:self-end xl:mb-10 pl-[6px]">
           <h1 className="main-heading">Read more</h1>
           <h2 className="sub-heading">
             Find read and spread your love for books
@@ -41,7 +41,7 @@ export default function Unauthenticated() {
                 </button>
               </li>
               <li>
-                <button>
+                <button onClick={googleLogin}>
                   <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
                 </button>
               </li>
@@ -56,7 +56,7 @@ export default function Unauthenticated() {
                 </button>
               </li>
               <li>
-                <button onClick={login}>
+                <button onClick={gitHubLogin}>
                   <FaGithub className="text-lg lm:text-xl md:text-2xl" />
                 </button>
               </li>
