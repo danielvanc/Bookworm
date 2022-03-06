@@ -6,7 +6,6 @@ import {
   useEffect,
 } from "react";
 import { SupabaseClient, Session } from "@supabase/supabase-js";
-
 interface ContextProps {
   gitHubLogin?: () => void;
   googleLogin?: () => void;
@@ -50,6 +49,12 @@ export function AuthProvider({
     });
   }
 
+  async function handleTwitterLogIn() {
+    await supabase.auth.signIn({
+      provider: "twitter",
+    });
+  }
+
   useEffect(() => {
     const session = supabase.auth.session();
 
@@ -68,6 +73,7 @@ export function AuthProvider({
   const value = {
     gitHubLogin: handleGitHubLogIn,
     googleLogin: handleGoogleLogIn,
+    twitterLogin: handleTwitterLogIn,
     logout: handleLogout,
     user,
   };

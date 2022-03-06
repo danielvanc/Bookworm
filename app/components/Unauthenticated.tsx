@@ -3,7 +3,7 @@ import { FaApple, FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 export default function Unauthenticated() {
-  const { gitHubLogin, googleLogin } = useAuth();
+  const { gitHubLogin, googleLogin, twitterLogin } = useAuth();
 
   return (
     <div className="unauthed-wrapper">
@@ -35,18 +35,18 @@ export default function Unauthenticated() {
           </h2>
           <div>
             <ul className="flex justify-between max-w-[300px] mx-auto social-logins">
-              <li>
+              {/* <li>
                 <button>
                   <FaApple className="text-lg lm:text-xl md:text-2xl" />
                 </button>
-              </li>
+              </li> */}
               <li>
                 <button onClick={googleLogin}>
                   <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
                 </button>
               </li>
               <li>
-                <button>
+                <button onClick={twitterLogin}>
                   <FaTwitter className="text-lg lm:text-xl md:text-2xl" />
                 </button>
               </li>
