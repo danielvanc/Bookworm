@@ -3,7 +3,7 @@ import { FaApple, FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 export default function Unauthenticated() {
-  const { gitHubLogin, googleLogin, twitterLogin } = useAuth();
+  const { gitHubLogin, googleLogin, twitterLogin, facebookLogin } = useAuth();
 
   return (
     <div className="unauthed-wrapper">
@@ -51,7 +51,7 @@ export default function Unauthenticated() {
                 </button>
               </li>
               <li>
-                <button>
+                <button onClick={facebookLogin}>
                   <FaFacebookF className="text-lg lm:text-xl md:text-2xl" />
                 </button>
               </li>

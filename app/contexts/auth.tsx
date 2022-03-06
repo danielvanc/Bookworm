@@ -55,6 +55,12 @@ export function AuthProvider({
     });
   }
 
+  async function handleFacebookLogIn() {
+    await supabase.auth.signIn({
+      provider: "facebook",
+    });
+  }
+
   useEffect(() => {
     const session = supabase.auth.session();
 
@@ -74,6 +80,7 @@ export function AuthProvider({
     gitHubLogin: handleGitHubLogIn,
     googleLogin: handleGoogleLogIn,
     twitterLogin: handleTwitterLogIn,
+    facebookLogin: handleFacebookLogIn,
     logout: handleLogout,
     user,
   };
