@@ -5,19 +5,26 @@ import {
   useState,
   useEffect,
 } from "react";
-import { SupabaseClient, Session } from "@supabase/supabase-js";
+import { SupabaseClient, Session, Provider } from "@supabase/supabase-js";
+
 interface ContextProps {
-  gitHubLogin?: () => void;
-  googleLogin?: () => void;
-  logout?: () => void;
-  user?: Session | null;
+  login: (provider: Provider) => void;
+  logout: () => void;
+  user: Session | null;
 }
 
 const defaultContext: ContextProps = {
-  gitHubLogin: () => {},
-  googleLogin: () => {},
-  logout: () => {},
+  login: () => null,
+  logout: () => null,
   user: null,
+};
+
+const Providers = {
+  google: "google",
+  github: "github",
+  twitter: "twitter",
+  facebook: "facebook",
+  email: "email",
 };
 
 export const AuthContext = createContext<ContextProps>(defaultContext);
@@ -32,33 +39,20 @@ export function AuthProvider({
 }) {
   const [user, setUser] = useState<any>(null);
 
-  async function handleLogout() {
+  async function logout() {
     await supabase.auth.signOut();
     setUser(null);
     window.history.pushState({}, "", "/");
   }
 
-  async function handleGitHubLogIn() {
-    await supabase.auth.signIn({
-      provider: "github",
-    });
-  }
-  async function handleGoogleLogIn() {
-    await supabase.auth.signIn({
-      provider: "google",
-    });
-  }
+  function login(provider: Provider) {
+    if (provider === Providers.email) return Providers.email;
 
-  async function handleTwitterLogIn() {
-    await supabase.auth.signIn({
-      provider: "twitter",
-    });
-  }
+    async function loginWithSocial() {
+      await supabase.auth.signIn({ provider });
+    }
 
-  async function handleFacebookLogIn() {
-    await supabase.auth.signIn({
-      provider: "facebook",
-    });
+    loginWithSocial();
   }
 
   useEffect(() => {
@@ -76,14 +70,7 @@ export function AuthProvider({
     };
   }, []);
 
-  const value = {
-    gitHubLogin: handleGitHubLogIn,
-    googleLogin: handleGoogleLogIn,
-    twitterLogin: handleTwitterLogIn,
-    facebookLogin: handleFacebookLogIn,
-    logout: handleLogout,
-    user,
-  };
+  const value = { login, logout, user };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
