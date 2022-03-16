@@ -9,12 +9,10 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
-import { createClient } from "@supabase/supabase-js";
-import { AuthProvider } from "./contexts/auth";
 import { getMetaInfo } from "./utils/seo";
 
 export const meta: MetaFunction = () => {
-  return { ...getMetaInfo({ title: "Login to BKWorm" }) };
+  return { ...getMetaInfo({ title: "Welcome to BKWorm!" }) };
 };
 
 export function links() {
@@ -34,6 +32,7 @@ export function loader() {
     ENV: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
+      SESSION_SECRET: process.env.SESSION_SECRET,
       ALL_BOOKS_API: process.env.ALL_BOOKS_API,
     },
   };
@@ -41,7 +40,6 @@ export function loader() {
 
 export default function App() {
   const { ENV } = useLoaderData();
-  const config = createClient(ENV.SUPABASE_URL, ENV.SUPABASE_KEY);
 
   return (
     <html lang="en">
@@ -52,9 +50,7 @@ export default function App() {
         <Links />
       </head>
       <body className="font-serifPro">
-        <AuthProvider supabase={config}>
-          <Outlet />
-        </AuthProvider>
+        <Outlet />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

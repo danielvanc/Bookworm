@@ -1,25 +1,41 @@
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, json, useLoaderData } from "remix";
+import { authenticator, oAuthStrategy } from "~/auth/auth.server";
 import BookList from "~/components/BookLIst";
-import Page from "~/components/Page";
-import { useAuth } from "~/contexts/auth";
 import { PrismaClient } from "@prisma/client";
-import { useLoaderData } from "remix";
 
-export async function loader() {
+type LoaderData = { email?: string };
+
+export const action: ActionFunction = async ({ request }) => {
+  await authenticator.logout(request, { redirectTo: "/welcome" });
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
   const prisma = new PrismaClient();
   // const allUsers = await prisma.profile.findMany();
   // return { allUsers };
-  return {};
-}
+  const session = await oAuthStrategy.checkSession(request, {
+    failureRedirect: "/welcome",
+  });
+
+  return json<LoaderData>({ email: session.user?.email });
+};
 
 export default function Index() {
-  const { logout } = useAuth();
   // const { allUsers } = useLoaderData();
+  const { email } = useLoaderData<LoaderData>();
   return (
-    <Page>
-      <h1>Home</h1>
-      <BookList />
+    <>
+      {/* <h1>Home</h1>
+      <BookList /> */}
 
-      <button onClick={logout}>Logout</button>
-    </Page>
+      <h1>Hello {email}</h1>
+
+      <Form method="post">
+        <button>Log Out</button>
+      </Form>
+
+      {/* <button onClick={logout}>Logout</button> */}
+    </>
   );
 }
