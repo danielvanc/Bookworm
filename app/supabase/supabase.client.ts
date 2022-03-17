@@ -1,5 +1,6 @@
 import type { Provider } from "@supabase/supabase-js";
 import { createClient } from "@supabase/supabase-js";
+import invariant from "tiny-invariant";
 
 declare global {
   interface Window {
@@ -11,11 +12,9 @@ declare global {
   }
 }
 
-if (!window.ENV.SUPABASE_URL) throw new Error("SUPABASE_URL is required");
-
-if (!window.ENV.SUPABASE_KEY) throw new Error("SUPABASE_KEY is required");
-
-if (!window.ENV.SESSION_SECRET) throw new Error("SESSION_SECRET is required");
+invariant(window.ENV.SUPABASE_URL, "SUPABASE_URL is required");
+invariant(window.ENV.SUPABASE_KEY, "SUPABASE_KEY is required");
+invariant(window.ENV.SESSION_SECRET, "SESSION_SECRET is required");
 
 export const supabaseClient = createClient(
   window.ENV.SUPABASE_URL,

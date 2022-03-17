@@ -1,5 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import type { Session } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
+import invariant from "tiny-invariant";
 
 declare global {
   namespace NodeJS {
@@ -11,10 +12,8 @@ declare global {
   }
 }
 
-if (!process.env.SUPABASE_URL) throw new Error("SUPABASE_URL is required");
-
-if (!process.env.SUPABASE_SERVICE_KEY)
-  throw new Error("SUPABASE_SERVICE_KEY is required");
+invariant(process.env.SUPABASE_URL, "SUPABASE_URL is required");
+invariant(process.env.SUPABASE_SERVICE_KEY, "SUPABASE_KEY is required");
 
 export const supabaseServer = createClient(
   process.env.SUPABASE_URL,
