@@ -2,12 +2,15 @@ import type { Provider } from "@supabase/supabase-js";
 import { createClient } from "@supabase/supabase-js";
 import invariant from "tiny-invariant";
 
+const redirectUrl = `${window.ENV.VERCEL_URL}/oauth/callback`;
+
 declare global {
   interface Window {
     ENV: {
       SUPABASE_URL: string;
       SUPABASE_KEY: string;
       SESSION_SECRET: string;
+      VERCEL_URL: string;
     };
   }
 }
@@ -24,5 +27,5 @@ export const supabaseClient = createClient(
 
 export const signInWithProvider = (
   provider: Provider,
-  redirectTo: string = "http://localhost:3000/oauth/callback"
+  redirectTo: string = redirectUrl
 ) => supabaseClient.auth.signIn({ provider }, { redirectTo });
