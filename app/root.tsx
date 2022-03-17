@@ -34,8 +34,7 @@ export function loader() {
       SUPABASE_KEY: process.env.SUPABASE_KEY,
       SESSION_SECRET: process.env.SESSION_SECRET,
       ALL_BOOKS_API: process.env.ALL_BOOKS_API,
-      VERCEL_URL: process.env.VERCEL_URL,
-      VERCEL_NEV: process.env.VERCEL_ENV,
+      APP_ENV: process.env.NODE_ENV,
     },
   };
 }

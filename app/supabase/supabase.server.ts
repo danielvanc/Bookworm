@@ -5,8 +5,7 @@ import invariant from "tiny-invariant";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      DAN_TEST: string;
-      VERCEL_URL: string;
+      APP_ENV: string;
       SUPABASE_URL: string;
       SUPABASE_KEY: string;
       SUPABASE_SERVICE_KEY: string;

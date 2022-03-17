@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import invariant from "tiny-invariant";
 const prod = "https://bookworm-rho.vercel.app/oauth/callback";
 const local = "http://localhost:3000/oauth/callback/";
-const redirectUrl = process.env.NODE_ENV === "production" ? prod : local;
+const redirectUrl = window.ENV.APP_ENV === "production" ? prod : local;
 
 declare global {
   interface Window {
@@ -11,7 +11,7 @@ declare global {
       SUPABASE_URL: string;
       SUPABASE_KEY: string;
       SESSION_SECRET: string;
-      VERCEL_URL: string;
+      APP_ENV: string;
     };
   }
 }
