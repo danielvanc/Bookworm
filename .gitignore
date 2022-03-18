@@ -9,3 +9,9 @@ public/build
 api/_build
 /app/tailwind.css
 .env
+
+
+/cypress/screenshots
+/cypress/videos
+/cypress/integration/1-getting-started
+/cypress/integration/2-advanced-examples
