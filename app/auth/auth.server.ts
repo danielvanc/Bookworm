@@ -47,6 +47,7 @@ export const supabaseStrategy = new SupabaseStrategy(
     const { _action } = Object.fromEntries(form);
     const isSignUp = _action === "signup";
 
+    // TODO: #2 Add user signup/in post verfiication checks
     if (!email) throw new AuthorizationError("Email is required");
     if (typeof email !== "string")
       throw new AuthorizationError("Email must be a string");
@@ -81,16 +82,15 @@ export const supabaseStrategy = new SupabaseStrategy(
   }
 );
 
-export const oAuthAuthenticator = new Authenticator<Session>(sessionStorage, {
-  sessionKey: oAuthStrategy.sessionKey,
-  sessionErrorKey: oAuthStrategy.sessionErrorKey,
-});
-
-oAuthAuthenticator.use(oAuthStrategy, "BKW-oauth");
-
 export const authenticator = new Authenticator<Session>(sessionStorage, {
   sessionKey: supabaseStrategy.sessionKey,
   sessionErrorKey: supabaseStrategy.sessionErrorKey,
 });
 
+export const oAuthAuthenticator = new Authenticator<Session>(sessionStorage, {
+  sessionKey: oAuthStrategy.sessionKey,
+  sessionErrorKey: oAuthStrategy.sessionErrorKey,
+});
+
 authenticator.use(supabaseStrategy);
+oAuthAuthenticator.use(oAuthStrategy, "BKW-oauth");

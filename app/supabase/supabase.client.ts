@@ -1,9 +1,8 @@
 import type { Provider } from "@supabase/supabase-js";
 import { createClient } from "@supabase/supabase-js";
 import invariant from "tiny-invariant";
-const prod = "https://bookworm-rho.vercel.app/oauth/callback";
-const local = "http://localhost:3000/oauth/callback/";
-const redirectUrl = window.ENV.APP_ENV === "production" ? prod : local;
+
+const redirectUrl = `${window.location.origin}/oauth/callback/`;
 
 declare global {
   interface Window {

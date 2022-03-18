@@ -26,16 +26,12 @@ export default function Index() {
   const { email } = useLoaderData<LoaderData>();
   return (
     <>
-      {/* <h1>Home</h1>
-      <BookList /> */}
-
       <h1>Hello {email}</h1>
+      <BookList />
 
       <Form method="post">
         <button>Log Out</button>
       </Form>
-
-      {/* <button onClick={logout}>Logout</button> */}
     </>
   );
 }

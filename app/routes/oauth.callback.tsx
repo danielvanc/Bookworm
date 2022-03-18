@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { ActionFunction } from "remix";
-import { useSubmit } from "remix";
+import { useFetcher } from "remix";
 import { oAuthAuthenticator } from "~/auth/auth.server";
 import { supabaseClient } from "~/supabase/supabase.client";
 
@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function OAuth() {
-  const submit = useSubmit();
+  const fetcher = useFetcher();
 
   useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
@@ -24,7 +24,7 @@ export default function OAuth() {
           const formData = new FormData();
           formData.append("session", JSON.stringify(session));
 
-          submit(formData, { method: "post" });
+          fetcher.submit(formData, { method: "post" });
         }
       }
     );
@@ -32,7 +32,7 @@ export default function OAuth() {
     return () => {
       authListener?.unsubscribe();
     };
-  }, [submit]);
+  }, [fetcher]);
 
   return null;
 }
