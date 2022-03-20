@@ -1,8 +1,16 @@
 {
   "private": true,
-  "name": "remix-app-template",
-  "description": "",
-  "license": "",
+  "name": "bookworm",
+  "description": "A useful book web app for book lovers written in Remix",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielvanc/bookworm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danielvanc/bookworm/issues"
+  },
+  "homepage": "https://github.com/danielvanc/bookworm#readme",
   "scripts": {
     "build": "npm run build:css && remix build",
     "build:css": "tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css --minify",
@@ -10,6 +18,7 @@
     "dev": "concurrently \"npm run dev:css\" \"node -r dotenv/config node_modules/.bin/remix dev\"",
     "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css --watch",
     "test": "vitest",
+    "prepare": "husky install",
     "postinstall": "remix setup node",
     "start": "remix-serve build",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
@@ -70,7 +79,8 @@
     "vitest": "^0.7.6"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=14",
+    "npm": "8"
   },
   "sideEffects": false
 }
