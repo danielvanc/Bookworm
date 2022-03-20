@@ -15,3 +15,5 @@ Proudly made with:
 - ViTest
 - React Icons
 - Framer Motion
+
+and others...
