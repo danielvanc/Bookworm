@@ -1,10 +1,9 @@
 # Welcome to BK Worm!
 
-A useful book web app for book lovers
+A useful book web app for book lovers , written in Remix!
 
-Proudly made with:
+And with the help of:
 
-- Remix
 - Tailwind CSS
 - Tailwind Headless U.I
 - Prisma
@@ -15,5 +14,3 @@ Proudly made with:
 - ViTest
 - React Icons
 - Framer Motion
-
-and others...

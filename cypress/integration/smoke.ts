@@ -1,3 +1,5 @@
+// <reference types="cypress" />
+
 describe("smoke tests", () => {
   // afterEach(() => {})
   it("initial ", () => {
@@ -5,3 +7,5 @@ describe("smoke tests", () => {
     // cy.findByRole("button", { name: "Login" }).click();
   });
 });
+
+export {};
