@@ -1,6 +1,7 @@
 import React from "react";
 import { Form } from "remix";
 import { signInWithProvider } from "~/supabase/supabase.client";
+import { FAILURE_REDIRECT } from "~/auth/auth.server";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
@@ -12,14 +13,14 @@ export default function AuthenticateForm({ error }: LoaderData) {
   const [showSignIn, setShowSignIn] = React.useState(true);
 
   return (
-    <div className="border-[1px] rounded-lg bg-white shadow-lg p-5 xl:mr-10 mb-10 xl:mt-10">
-      <h2 className="text-center text-2xl font-fred uppercase tracking-widest mb-5">
+    <div className="mb-10 rounded-lg border-[1px] bg-white p-5 shadow-lg xl:mr-10 xl:mt-10">
+      <h2 className="mb-5 text-center font-fred text-2xl uppercase tracking-widest">
         Sign in
       </h2>
       <div>
         {/* TODO: #1 Add better U.I styling for error response */}
         {error && <div>{error.message}</div>}
-        <ul className="flex justify-between max-w-[300px] mx-auto social-logins">
+        <ul className="social-logins mx-auto flex max-w-[300px] justify-between">
           <li>
             <button
               aria-label="Google"
@@ -55,24 +56,24 @@ export default function AuthenticateForm({ error }: LoaderData) {
         </ul>
         <Form
           method="post"
-          action="/welcome"
-          className="my-5 py-5 max-w-[450px] mx-auto"
+          action={FAILURE_REDIRECT}
+          className="my-5 mx-auto max-w-[450px] py-5"
         >
           {showSignIn ? (
             <>
-              <h3 className="relative text-xs uppercase tracking-widest text-center mb-5 before:border-t-[1px] before:border-gray-200 before:block before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1]">
+              <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
                 <span className="bg-white px-3">Sign in with email</span>
               </h3>
-              <div className="flex flex-col xl:flex-row w-full xl:justify-between">
+              <div className="flex w-full flex-col xl:flex-row xl:justify-between">
                 <input
-                  className="input xl:max-w-[38%] mb-3 xl:mb-0 focus:outline-none focus:shadow-outline"
+                  className="input focus:shadow-outline mb-3 focus:outline-none xl:mb-0 xl:max-w-[38%]"
                   type="email"
                   name="email"
                   id="email"
                   placeholder="Add your email"
                 />
                 <input
-                  className="input xl:max-w-[38%] mb-3 xl:mb-0"
+                  className="input mb-3 xl:mb-0 xl:max-w-[38%]"
                   type="password"
                   name="password"
                   id="password"
@@ -89,21 +90,21 @@ export default function AuthenticateForm({ error }: LoaderData) {
             </>
           ) : (
             <>
-              <h3 className="relative text-xs uppercase tracking-widest text-center mb-5 before:border-t-[1px] before:border-gray-200 before:block before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1]">
+              <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
                 <span className="bg-white px-3">
                   Sign {showSignIn ? "in" : "up"} with email
                 </span>
               </h3>
-              <div className="flex flex-col xl:flex-row w-full xl:justify-between">
+              <div className="flex w-full flex-col xl:flex-row xl:justify-between">
                 <input
-                  className="input xl:max-w-[38%] mb-3 xl:mb-0 focus:outline-none focus:shadow-outline"
+                  className="input focus:shadow-outline mb-3 focus:outline-none xl:mb-0 xl:max-w-[38%]"
                   type="email"
                   name="email"
                   id="email"
                   placeholder="Add your email"
                 />
                 <input
-                  className="input xl:max-w-[38%] mb-3 xl:mb-0"
+                  className="input mb-3 xl:mb-0 xl:max-w-[38%]"
                   type="password"
                   name="password"
                   id="password"
@@ -121,7 +122,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
           )}
         </Form>
 
-        <p className="font-bold text-center text-sm">
+        <p className="text-center text-sm font-bold">
           {showSignIn ? (
             <>
               Don't have an account yet?{" "}
