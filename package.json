@@ -73,6 +73,7 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "happy-dom": "^2.49.0",
+    "husky": "^7.0.4",
     "msw": "^0.39.2",
     "postcss": "^8.4.12",
     "prettier": "^2.6.0",
