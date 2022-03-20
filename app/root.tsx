@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
 } from "remix";
 import type { MetaFunction } from "remix";
@@ -65,4 +66,23 @@ export default function App() {
   );
 }
 
-// TODO: Add a catchboundary to the SupabaseProvider so that if the SupabaseClient is not available, the app will not crash.
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  if (caught.status === 404) {
+    return (
+      <html lang="en" className="dark">
+        <head>
+          <title>You 404'd</title>
+          <Links />
+        </head>
+        <body className="bg-gray">
+          {/* TODO: Add a custom 404 component */}
+          <p>You came to the wrong place, dude!</p>
+          <Scripts />
+        </body>
+      </html>
+    );
+  }
+  throw new Error(`Unhandled error: ${caught.status}`);
+}
