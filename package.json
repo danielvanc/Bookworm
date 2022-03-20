@@ -12,11 +12,14 @@
     "test": "vitest",
     "postinstall": "remix setup node",
     "start": "remix-serve build",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "start:mocks": "cross-env NODE_ENV=production node --require ./mocks",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test:e2e:dev": "cross-env RUNNING_E2E=true ENABLE_TEST_ROUTES=true start-server-and-test dev http-get://localhost:3000 cy:open",
-    "test:e2e:run": "cross-env RUNNING_E2E=true PORT=8811 start-server-and-test start:mocks http-get://localhost:8811/build/info.json cy:run"
+    "test:e2e:run": "cross-env RUNNING_E2E=true PORT=8811 start-server-and-test start:mocks http-get://localhost:8811/build/info.json cy:run",
+    "typecheck": "tsc -b",
+    "validate": "./other/validate"
   },
   "prettier": {},
   "eslintIgnore": [
