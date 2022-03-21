@@ -1,13 +1,26 @@
-import type { LoaderFunction } from "remix";
+import { LoaderFunction } from "remix";
+import DiscoverBooks from "~/components/DiscoverBooks";
 
 export const loader: LoaderFunction = async () => {
   return {};
 };
 
-export default function Index() {
+export default function HomeOverview() {
   return (
-    <div className="bg-slate-700">
-      <p>In the main section</p>
-    </div>
+    <>
+      <DiscoverBooks />
+
+      <div className="md:p-sectionMedium">
+        <div>
+          <h3>Bookmarked to read</h3>
+        </div>
+        <div>
+          <h3>Got my eye on</h3>
+        </div>
+        <div>
+          <h3>Read</h3>
+        </div>
+      </div>
+    </>
   );
 }

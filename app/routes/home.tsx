@@ -1,9 +1,8 @@
 import type { ActionFunction, LoaderFunction } from "remix";
 import { Form, json, Outlet, useLoaderData } from "remix";
 import { authenticator, oAuthStrategy } from "~/auth/auth.server";
+import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
-import BookList from "~/components/BookLIst";
-// import { PrismaClient } from "@prisma/client";
 
 type LoaderData = { email?: string };
 
@@ -12,9 +11,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // const prisma = new PrismaClient();
-  // const allUsers = await prisma.profile.findMany();
-  // return { allUsers };
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
@@ -22,22 +18,26 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<LoaderData>({ email: session.user?.email });
 };
 
-export default function Index() {
-  // const { allUsers } = useLoaderData();
+export default function Home() {
   const { email } = useLoaderData<LoaderData>();
   return (
-    <div className="skeleton">
-      <header>
+    <div className="root-frame h-[100vh] bg-grayWorm-100">
+      <header className="bg-rosyWorm px-8 py-4 text-white">
         <h1>Hello {email}</h1>
         <Form method="post">
           <button>Log Out</button>
         </Form>
       </header>
-      <BookList />
 
-      <main>
-        <Outlet />
-      </main>
+      <div className="flex h-[100vh] flex-row-reverse flex-wrap">
+        <main className="md:w-3/4">
+          <Outlet />
+        </main>
+
+        <aside className="bg-grayWorm-800 md:w-1/4">
+          <SideBar />
+        </aside>
+      </div>
     </div>
   );
 }
