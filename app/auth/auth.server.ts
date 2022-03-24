@@ -4,7 +4,7 @@ import { SupabaseStrategy } from "remix-auth-supabase";
 import { supabaseServer } from "~/supabase/supabase.server";
 import type { Session } from "~/supabase/supabase.server";
 
-export const SUCCESS_REDIRECT = "/home";
+export const SUCCESS_REDIRECT = "/home/overview";
 export const FAILURE_REDIRECT = "/";
 
 export const sessionStorage = createCookieSessionStorage({

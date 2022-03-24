@@ -1,26 +1,13 @@
-import { LoaderFunction } from "remix";
-import DiscoverBooks from "~/components/DiscoverBooks";
+import { Outlet, redirect } from "remix";
 
-export const loader: LoaderFunction = async () => {
-  return {};
-};
+export function loader() {
+  return redirect("/home/overview");
+}
 
 export default function HomeOverview() {
   return (
     <>
-      <DiscoverBooks />
-
-      <div className="md:p-sectionMedium">
-        <div>
-          <h3>Bookmarked to read</h3>
-        </div>
-        <div>
-          <h3>Got my eye on</h3>
-        </div>
-        <div>
-          <h3>Read</h3>
-        </div>
-      </div>
+      <Outlet />
     </>
   );
 }

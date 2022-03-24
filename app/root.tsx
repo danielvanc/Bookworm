@@ -12,9 +12,11 @@ import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
 
-export const meta: MetaFunction = () => {
-  return { ...getMetaInfo({ title: "Welcome to BKWorm!" }) };
-};
+export const meta: MetaFunction = () => ({
+  charset: "utf-8",
+  viewport: "width=device-width,initial-scale=1",
+  ...getMetaInfo({ title: "Welcome to BKWorm!" }),
+});
 
 export function links() {
   return [
@@ -46,8 +48,6 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>

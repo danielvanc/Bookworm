@@ -1,7 +1,6 @@
 import React from "react";
 import { Form } from "remix";
 import { signInWithProvider } from "~/supabase/supabase.client";
-import { FAILURE_REDIRECT } from "~/auth/auth.server";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
@@ -56,7 +55,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
         </ul>
         <Form
           method="post"
-          action={FAILURE_REDIRECT}
+          action="/"
           className="my-5 mx-auto max-w-[450px] py-5"
         >
           {showSignIn ? (
