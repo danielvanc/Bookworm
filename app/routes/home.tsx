@@ -29,7 +29,7 @@ export default function Home() {
         </Form>
       </header>
 
-      <div className="flex h-[100vh] flex-row-reverse flex-wrap">
+      <div className="flex h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">
         <main className="md:w-3/4">
           <Outlet />
         </main>

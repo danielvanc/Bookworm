@@ -1,46 +1,32 @@
 /// <reference types="@remix-run/dev" />
 /// <reference types="@remix-run/node/globals" />
 
-export interface DefaultBookFields {
-  id: number;
+export interface BooksFeed {
+  items: Array<{
+    id: string;
+    volumeInfo: {
+      title: string;
+      description: string;
+      imageLinks: {
+        thumbnail: string;
+      };
+      canonicalVolumeLink: string;
+    };
+  }>;
+}
+
+export interface Book {
+  id: string;
   title: string;
-  image: string;
   description: string;
-  volumeInfo: {
-    title: string;
-  };
-  isIdle: boolean;
-  isLoading: boolean;
-  isError: boolean;
-  isSuccess: boolean;
+  image: string;
+  link: string;
 }
 
-// export interface BookFields extends DefaultBookFields {
-//   description: string;
-// }
+export type BookPreviewDetails = Pick<Book, "id", "title" | "link" | "image">;
 
-// export interface IRender {
-//   route?: string;
-//   user?: any;
-//   books?: IBooks;
-//   renderOptions?: object;
-// }
+export type BookPreviewList = BookPreviewDetails[];
 
-export interface IError extends Error {
-  status?: number;
+export interface BookPreview {
+  book: BookPreviewDetails;
 }
-
-// Reusables
-// export interface BookList {
-//   books?: IBooks | BookPlaceholder;
-// }
-
-// export type BookPlaceholder = DefaultBookFields[];
-
-// export type IBooks = BookFields[];
-
-export type Action =
-  | { type: "idle"; payload?: boolean; data?: []; error?: boolean }
-  | { type: "pending"; payload?: boolean; data?: []; error?: boolean }
-  | { type: "resolved"; payload?: boolean; data?: []; error?: boolean }
-  | { type: "rejected"; payload?: boolean; data?: []; error?: boolean };

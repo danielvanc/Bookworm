@@ -36,7 +36,6 @@ export function loader() {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
       SESSION_SECRET: process.env.SESSION_SECRET,
-      ALL_BOOKS_API: process.env.ALL_BOOKS_API,
       APP_ENV: process.env.NODE_ENV,
     },
   };
