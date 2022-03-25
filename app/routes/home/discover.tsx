@@ -1,3 +1,7 @@
+export async function loader() {
+  return {};
+}
+
 export default function Discover() {
   // const books = data?.items || [];
   return (

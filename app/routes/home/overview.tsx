@@ -1,8 +1,8 @@
 import type { LoaderFunction } from "remix";
 import type { BookPreviewList, BooksFeed } from "remix.env";
 import { Link, useCatch, json, useLoaderData, Outlet } from "remix";
-import HorizontalScroll from "react-scroll-horizontal";
 import PreviewBook from "~/components/PreviewBook";
+import React from "react";
 
 export const loader: LoaderFunction = async () => {
   const api = `${process.env.ALL_BOOKS_API}""&maxResults=20` || "";
@@ -35,29 +35,38 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Overview() {
+  const containerRef = React.useRef<HTMLElement>(null);
   const books: BookPreviewList = useLoaderData();
+
+  // TODO: Create a custom hook to handle this
+  function handleScroll(evt: React.WheelEvent<HTMLElement>) {
+    if (!containerRef.current) return;
+
+    containerRef.current.scrollLeft += evt.deltaY;
+  }
 
   return (
     <>
-      <section className="flex h-[60vh] items-center overflow-x-auto bg-grayWorm-200 md:p-sectionMedium">
-        <HorizontalScroll reverseScroll={true}>
-          {/* TODO: Improve scrolling height area */}
-          <div className="flex items-center justify-center">
-            <div>
-              <h1 className="font-monty text-xl">Discover - latest!</h1>
-              <ul className="relative my-3 flex w-full gap-6">
-                {books.map((book) => (
-                  <li key={book.id} className="flex">
-                    <PreviewBook book={book} />
-                  </li>
-                ))}
-              </ul>
-              <p>
-                <Link to="/home/discover">View all</Link>
-              </p>
-            </div>
+      <section
+        className="flex h-[60vh] items-center overflow-x-auto overscroll-none bg-grayWorm-200 md:p-sectionMedium"
+        ref={containerRef}
+        onWheel={handleScroll}
+      >
+        <div className="flex items-center justify-center">
+          <div>
+            <h1 className="font-monty text-xl">Discover - latest!</h1>
+            <ul className="relative my-3 flex w-full gap-6">
+              {books.map((book) => (
+                <li key={book.id} className="flex">
+                  <PreviewBook book={book} />
+                </li>
+              ))}
+            </ul>
+            <p>
+              <Link to="/home/discover">View all</Link>
+            </p>
           </div>
-        </HorizontalScroll>
+        </div>
       </section>
       <Outlet />
     </>

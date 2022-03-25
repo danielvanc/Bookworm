@@ -10,6 +10,17 @@ datasource db {
 model profile {
   id            String    @id @db.Uuid
   created_at    DateTime? @default(now()) @db.Timestamptz(6)
-  is_registered Boolean?  @default(false)
   email         String?   @db.VarChar
+}
+
+
+model books {
+  id            String    @id @db.Uuid
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  user_id       String    @db.VarChar
+  book_id       String    @db.VarChar
+  read          Boolean   @db.Boolean
+  reading       Boolean   @db.Boolean
+  watching      Boolean   @db.Boolean
+  bookmarked    Boolean   @db.Boolean
 }
