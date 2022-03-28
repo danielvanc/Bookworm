@@ -53,11 +53,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
             </button>
           </li>
         </ul>
-        <Form
-          method="post"
-          action="/"
-          className="my-5 mx-auto max-w-[450px] py-5"
-        >
+        <Form method="post" className="my-5 mx-auto max-w-[450px] py-5">
           {showSignIn ? (
             <>
               <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
