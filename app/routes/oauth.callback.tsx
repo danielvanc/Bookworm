@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import type { ActionFunction } from "remix";
+import { useEffect } from "react";
 import { useFetcher } from "remix";
 import { oAuthAuthenticator } from "~/auth/auth.server";
 import { supabaseClient } from "~/supabase/supabase.client";
@@ -18,6 +18,8 @@ export default function OAuth() {
   useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
+        // Remove identities as we don't need them
+        // and it makes the session obj to large.
         delete session?.user?.identities;
         localStorage.removeItem("supabase.auth.token");
 

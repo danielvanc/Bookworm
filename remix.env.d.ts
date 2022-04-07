@@ -23,6 +23,12 @@ export interface Book {
   link: string;
 }
 
+export interface BookMarkItem {
+  book: Book;
+  usersBookmarks: any;
+  userId: string;
+}
+
 export type BookPreviewDetails = Pick<Book, "id", "title" | "link" | "image">;
 
 export type BookPreviewList = BookPreviewDetails[];
