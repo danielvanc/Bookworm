@@ -1,18 +1,11 @@
 import type { Book, BookMarkItem, BooksFeed } from "remix.env";
 import { ActionFunction, LoaderFunction } from "remix";
 import React from "react";
-import {
-  Link,
-  json,
-  Outlet,
-  useLoaderData,
-  useFetcher,
-  useCatch,
-  useMatches,
-} from "remix";
+import { Link, json, Outlet, useLoaderData, useFetcher, useCatch } from "remix";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
 import { createBookmark, getUsersBookmarks } from "~/models/books.server";
 import PreviewBook from "~/components/PreviewBook";
+import { useUser } from "~/utils/user";
 
 export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
@@ -38,11 +31,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
-
-  const { id } = session?.user || {};
+  const { id } = session?.user!;
   const api = `${process.env.ALL_BOOKS_API}""&maxResults=20` || "";
-
-  if (!id) throw new Error("User is not logged in");
 
   // TODO: Add this as a util function
   // Get all users current books
@@ -81,9 +71,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Overview() {
   const containerRef = React.useRef<HTMLElement>(null);
 
-  const {
-    data: { id: userId },
-  } = useMatches()[1];
+  const { id: userId } = useUser();
 
   const { books, usersBookmarks } = useLoaderData();
 
@@ -111,7 +99,7 @@ export default function Overview() {
                     key={book.id}
                     book={book}
                     usersBookmarks={usersBookmarks}
-                    userId={userId}
+                    userId={String(userId)}
                   />
                 );
               })}

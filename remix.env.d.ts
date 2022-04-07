@@ -1,6 +1,13 @@
 /// <reference types="@remix-run/dev" />
 /// <reference types="@remix-run/node/globals" />
 
+export interface User {
+  id?: string;
+  email?: string;
+  full_name?: string;
+  user_metadata?: { [key: string]: any };
+}
+
 export interface BooksFeed {
   items: Array<{
     id: string;
