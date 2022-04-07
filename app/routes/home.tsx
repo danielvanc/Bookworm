@@ -4,7 +4,12 @@ import { authenticator, oAuthStrategy } from "~/auth/auth.server";
 import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
 
-type LoaderData = { email?: string };
+interface LoaderData {
+  id?: string;
+  email?: string;
+  full_name?: string;
+  user_metadata?: { [key: string]: any };
+}
 
 export const action: ActionFunction = async ({ request }) => {
   await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
@@ -15,15 +20,20 @@ export const loader: LoaderFunction = async ({ request }) => {
     failureRedirect: FAILURE_REDIRECT,
   });
 
-  return json<LoaderData>({ email: session.user?.email });
+  const { id, email, user_metadata } = session?.user || {};
+
+  return json<LoaderData>({ id, email, user_metadata });
 };
 
 export default function Home() {
-  const { email } = useLoaderData<LoaderData>();
+  const { email, user_metadata } = useLoaderData<LoaderData>();
+
   return (
     <div className="root-frame h-[100vh] bg-grayWorm-100">
       <header className="bg-rosyWorm px-8 py-4 text-white">
-        <h1>Hello {email}</h1>
+        <h1>
+          Hello {user_metadata?.full_name} of {email}
+        </h1>
         <Form method="post">
           <button>Log Out</button>
         </Form>
