@@ -1,6 +1,7 @@
 import {
   Links,
   LiveReload,
+  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
@@ -11,6 +12,7 @@ import {
 import type { MetaFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
+import { oAuthStrategy } from "./auth/auth.server";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -30,8 +32,11 @@ export function links() {
   ];
 }
 
-export function loader() {
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await oAuthStrategy.checkSession(request);
+
   return {
+    user: session?.user || {},
     ENV: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
@@ -39,7 +44,7 @@ export function loader() {
       APP_ENV: process.env.NODE_ENV,
     },
   };
-}
+};
 
 export default function App() {
   const { ENV } = useLoaderData();

@@ -1,32 +1,16 @@
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, Outlet, useLoaderData } from "remix";
-import { authenticator, oAuthStrategy } from "~/auth/auth.server";
+import { ActionFunction, Outlet } from "remix";
+import { Form } from "remix";
+import { authenticator } from "~/auth/auth.server";
 import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
-
-interface LoaderData {
-  id?: string;
-  email?: string;
-  full_name?: string;
-  user_metadata?: { [key: string]: any };
-}
+import { useUser } from "~/utils/user";
 
 export const action: ActionFunction = async ({ request }) => {
   await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const session = await oAuthStrategy.checkSession(request, {
-    failureRedirect: FAILURE_REDIRECT,
-  });
-
-  const { id, email, user_metadata } = session?.user || {};
-
-  return json<LoaderData>({ id, email, user_metadata });
-};
-
 export default function Home() {
-  const { email, user_metadata } = useLoaderData<LoaderData>();
+  const { email, user_metadata } = useUser();
 
   return (
     <div className="root-frame h-[100vh] bg-grayWorm-100">
