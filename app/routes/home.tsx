@@ -1,5 +1,5 @@
-import { ActionFunction, Outlet } from "remix";
-import { Form } from "remix";
+import type { ActionFunction } from "@remix-run/node";
+import { Form, Outlet } from "@remix-run/react";
 import { authenticator } from "~/auth/auth.server";
 import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";

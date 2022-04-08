@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "remix";
+import { Form } from "@remix-run/react";
 import { signInWithProvider } from "~/supabase/supabase.client";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
