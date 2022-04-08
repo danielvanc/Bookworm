@@ -1,63 +1,38 @@
 import { PrismaClient } from "@prisma/client";
-// import chalk from "chalk";
+import invariant from "tiny-invariant";
 
-// TODO: Look into below implementation and why we don't have connection issues. Refer to blue stack
 let prisma: PrismaClient;
 declare global {
-  var prisma: PrismaClient | undefined;
+  var __db__: PrismaClient;
 }
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-  prisma.$connect();
+  prisma = getDbClient();
 } else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
-    global.prisma.$connect();
+  if (!global.__db__) {
+    global.__db__ = getDbClient();
   }
-  prisma = global.prisma;
+  prisma = global.__db__;
 }
 
 export { prisma };
 
-// declare global {
-//   var prisma: ReturnType<typeof getClient> | undefined;
-// }
+function getDbClient() {
+  const { DATABASE_URL } = process.env;
+  invariant(typeof DATABASE_URL === "string", "DATABASE_URL env var not set");
 
-// const prisma = global.prisma ?? (global.prisma = getClient());
+  const databaseUrl = new URL(DATABASE_URL);
 
-// const logThreshold = 50;
+  const client = new PrismaClient({
+    datasources: {
+      db: {
+        url: databaseUrl.toString(),
+      },
+    },
+  });
 
-// function getClient() {
-//   const client = new PrismaClient({
-//     log: [
-//       { level: "query", emit: "event" },
-//       { level: "error", emit: "stdout" },
-//       { level: "info", emit: "stdout" },
-//       { level: "warn", emit: "stdout" },
-//     ],
-//   });
+  // connect eagerly
+  client.$connect();
 
-//   client.$on("query", (e) => {
-//     if (e.duration < logThreshold) return;
-
-//     const color =
-//       e.duration < 30
-//         ? "green"
-//         : e.duration < 50
-//         ? "blue"
-//         : e.duration < 80
-//         ? "yellow"
-//         : e.duration < 100
-//         ? "redBright"
-//         : "red";
-//     const dur = chalk[color](`${e.duration}ms`);
-//     console.log(`prisma:query - ${dur} - ${e.query}`);
-//   });
-
-//   void client.$connect();
-
-//   return client;
-// }
-
-// export { prisma };
+  return client;
+}
