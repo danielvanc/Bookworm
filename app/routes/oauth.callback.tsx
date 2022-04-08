@@ -1,6 +1,6 @@
-import type { ActionFunction } from "remix";
+import type { ActionFunction } from "@remix-run/node";
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher } from "@remix-run/react";
 import { oAuthAuthenticator } from "~/auth/auth.server";
 import { supabaseClient } from "~/supabase/supabase.client";
 import { SUCCESS_REDIRECT, FAILURE_REDIRECT } from "~/auth/auth.server";

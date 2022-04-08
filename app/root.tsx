@@ -1,15 +1,15 @@
+import type { LoaderFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
-  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useCatch,
   useLoaderData,
-} from "remix";
-import type { MetaFunction } from "remix";
+} from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react/routeModules";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
 import { oAuthStrategy } from "./auth/auth.server";
@@ -34,7 +34,6 @@ export function links() {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await oAuthStrategy.checkSession(request);
-
   return {
     user: session?.user || {},
     ENV: {
@@ -89,4 +88,17 @@ export function CatchBoundary() {
     );
   }
   throw new Error(`Unhandled error: ${caught.status}`);
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <>
+      <h1>App Error</h1>
+      <pre>{error.message}</pre>
+      <p>
+        Replace this UI with what you want users to see when your app throws
+        uncaught errors.
+      </p>
+    </>
+  );
 }
