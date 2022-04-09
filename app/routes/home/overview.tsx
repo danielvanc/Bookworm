@@ -1,18 +1,12 @@
-import type { Book, BookMarkItem, BooksFeed } from "remix.env";
+import type { Book } from "remix.env";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useCatch,
-  useFetcher,
-  useLoaderData,
-} from "@remix-run/react";
-import React from "react";
+import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
+import { useRef } from "react";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
-import { createBookmark, getUsersBookmarks } from "~/models/books.server";
-import PreviewBook from "~/components/PreviewBook";
+import { createBookmark, displayLatestBooks } from "~/models/books.server";
 import { useUser } from "~/utils/user";
+import PreviewListBookItem from "~/components/PreviewListBookItem";
 
 export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
@@ -38,29 +32,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
-
   const { id } = session?.user!;
-  const api = `${process.env.ALL_BOOKS_API}""&maxResults=20` || "";
-
-  // TODO: Add this as a util function
-  // Get all users current books
-  const usersBookmarks = await getUsersBookmarks(id);
 
   try {
-    const result = await fetch(api);
-    const data: BooksFeed = await result.json();
+    const data = await displayLatestBooks(id, 10);
 
-    const books: Book[] = data?.items.map((book) => ({
-      id: book.id,
-      description: book.volumeInfo.description,
-      title: book.volumeInfo.title,
-      image: book.volumeInfo.imageLinks?.thumbnail,
-      link: book.volumeInfo.canonicalVolumeLink,
-    }));
-
-    const returnData = { books, usersBookmarks };
-
-    return json(returnData, {
+    return json(data, {
       headers: {
         "Cache-Control": "private, max-age=3600",
         Vary: "Cookie",
@@ -77,13 +54,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Overview() {
-  const containerRef = React.useRef<HTMLElement>(null);
-
-  const { id: userId } = useUser();
-
   const { books, usersBookmarks } = useLoaderData();
+  const { id: userId } = useUser();
+  const containerRef = useRef<HTMLElement>(null);
 
-  // TODO: Create a custom hook to handle this
+  // TODO: Create a custom hook to handle this, if we use hScrolling
   function handleScroll(evt: React.WheelEvent<HTMLElement>) {
     if (!containerRef.current) return;
 
@@ -103,7 +78,7 @@ export default function Overview() {
             <ul className="relative my-3 flex w-full gap-6">
               {books.map((book: Book) => {
                 return (
-                  <BookItem
+                  <PreviewListBookItem
                     key={book.id}
                     book={book}
                     usersBookmarks={usersBookmarks}
@@ -123,39 +98,6 @@ export default function Overview() {
   );
 }
 
-// TODO: Move this to a PreviewListBookItem component
-function BookItem({ book, usersBookmarks, userId }: BookMarkItem) {
-  const fetcher = useFetcher();
-  const errorSavingBookmark = fetcher.data?.error;
-  const itemIsBookmarked = usersBookmarks.includes(book.id);
-  const isSavingBookmark =
-    fetcher.submission?.formData.get("book_id") === book.id;
-  const noErrorsSavingBookmark = isSavingBookmark && !errorSavingBookmark;
-
-  return (
-    <li key={book.id} className="flex">
-      <PreviewBook book={book} />
-
-      <fetcher.Form method="post">
-        <input type="hidden" name="book_id" value={book.id} />
-        <input type="hidden" name="user_id" value={userId} />
-        {itemIsBookmarked || noErrorsSavingBookmark ? (
-          <button type="submit" name="bookmark">
-            Remove Bookmark
-          </button>
-        ) : (
-          <button type="submit" name="bookmark">
-            Bookmark book
-            {errorSavingBookmark ? (
-              <p>There was an error adding this bookmark</p>
-            ) : null}
-          </button>
-        )}
-      </fetcher.Form>
-    </li>
-  );
-}
-
 export function CatchBoundary() {
   const caught = useCatch();
 
@@ -167,4 +109,14 @@ export function CatchBoundary() {
       </>
     );
   }
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <>
+      <h1>Something went wrong here!</h1>
+      <pre>{error.message}</pre>
+      <p>Houston, we have a problem!</p>
+    </>
+  );
 }
