@@ -90,15 +90,13 @@ export function CatchBoundary() {
   throw new Error(`Unhandled error: ${caught.status}`);
 }
 
+// TODO: Add a better U.I component for main Error Boundary
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
-      <h1>App Error</h1>
+      <h1>Boom!</h1>
       <pre>{error.message}</pre>
-      <p>
-        Replace this UI with what you want users to see when your app throws
-        uncaught errors.
-      </p>
+      <p>Houston we have a problem with the mainframe</p>
     </>
   );
 }
