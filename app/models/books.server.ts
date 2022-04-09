@@ -1,7 +1,6 @@
 import { prisma } from "~/utils/prisma.server";
 import type { Book, BooksFeed } from "remix.env";
 
-// Add record to database table: books
 export function createBookmark(bookId: string, userId: string) {
   return prisma.books.create({
     data: {
@@ -22,24 +21,17 @@ export function markAsRead() {}
 export function markAsReading() {}
 
 export async function getUsersBookmarks(user_id: string) {
-  // Instead of this, use findUnique()
-  // const getAuthor = await prisma.user.findUnique({
-  //     where: {
-  //       id: "20",
-  //     },
-  //     include: {
-  //   |    posts: true, // All posts where authorId == 20
-  //     },
-  //   });
-  const allBookIds = await prisma.books.findMany({
-    where: { user_id },
-    select: {
-      book_id: true,
+  const allBookIds = await prisma.profile.findUnique({
+    where: {
+      id: user_id,
+    },
+    include: {
+      books: true,
     },
   });
-  const usersBookmarks = allBookIds.map((book) => book.book_id);
+  const usersBookmarks = allBookIds?.books?.map((book) => book.book_id) || [];
 
-  return usersBookmarks || [];
+  return usersBookmarks;
 }
 
 export async function displayLatestBooks(userId: string, total: number) {

@@ -98,6 +98,7 @@ export default function Overview() {
   );
 }
 
+// TODO: Add a better U.I component for Overview CatchBoundary
 export function CatchBoundary() {
   const caught = useCatch();
 
@@ -111,6 +112,7 @@ export function CatchBoundary() {
   }
 }
 
+// TODO: Add a better U.I component for Overview Errorboundary
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
