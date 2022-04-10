@@ -17,11 +17,11 @@ model profile {
 model books {
   id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
-  user_id    String    @db.Uuid
-  book_id    String    @db.VarChar
+  book_id    String    @unique @db.VarChar
   read       Boolean
   reading    Boolean
   watching   Boolean
   bookmarked Boolean
+  user_id    String    @db.Uuid
   profile    profile   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
