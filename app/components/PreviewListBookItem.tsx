@@ -10,9 +10,14 @@ export default function PreviewListBookItem({
   const fetcher = useFetcher();
   const errorSavingBookmark = fetcher.data?.error;
   const itemIsBookmarked = usersBookmarks.includes(book.id);
-  const isSavingBookmark =
+  const isProcessingBookmark =
     fetcher.submission?.formData.get("book_id") === book.id;
-  const noErrorsSavingBookmark = isSavingBookmark && !errorSavingBookmark;
+
+  const isCreatingBookmark =
+    fetcher.submission?.formData.get("bookmark") === "create";
+
+  const isRemovingBookmark =
+    fetcher.submission?.formData.get("bookmark") === "delete";
 
   return (
     <li key={book.id} className="flex">
@@ -21,26 +26,30 @@ export default function PreviewListBookItem({
       <fetcher.Form method="post">
         <input type="hidden" name="book_id" value={book.id} />
         <input type="hidden" name="user_id" value={userId} />
-        {itemIsBookmarked || noErrorsSavingBookmark ? (
+
+        {itemIsBookmarked || isCreatingBookmark ? (
           <button
             type="submit"
             name="bookmark"
             disabled={fetcher.type === "actionSubmission"}
+            value="delete"
           >
             Remove Bookmark
           </button>
-        ) : (
+        ) : !itemIsBookmarked || (itemIsBookmarked && isRemovingBookmark) ? (
           <button
             type="submit"
             name="bookmark"
             disabled={fetcher.type === "actionSubmission"}
+            value="create"
           >
             Bookmark book
-            {errorSavingBookmark ? (
-              <p>There was an error adding this bookmark</p>
-            ) : null}
           </button>
-        )}
+        ) : null}
+
+        {!isProcessingBookmark && errorSavingBookmark ? (
+          <p>There was an error adding this bookmark</p>
+        ) : null}
       </fetcher.Form>
     </li>
   );

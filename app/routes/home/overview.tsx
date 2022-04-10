@@ -4,7 +4,11 @@ import { json } from "@remix-run/node";
 import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
-import { createBookmark, displayLatestBooks } from "~/models/books.server";
+import {
+  createBookmark,
+  displayLatestBooks,
+  removeBookmark,
+} from "~/models/books.server";
 import { useUser } from "~/utils/user";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 
@@ -12,21 +16,39 @@ import PreviewListBookItem from "~/components/PreviewListBookItem";
 
 export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
+  const bookmark = formData.get("bookmark");
+
   let userId = formData.get("user_id") as string;
   let bookId = formData.get("book_id") as string;
 
-  // TODO: Detect if action is of type create / remove of bookmark
-  try {
-    if (Math.random() > 0.5) {
-      throw new Error(
-        "Something went wrong with saving bookmark. Please try again"
-      );
-    }
+  if (bookmark === "create") {
+    try {
+      if (Math.random() > 0.5) {
+        throw new Error(
+          "Something went wrong with saving bookmark. Please try again"
+        );
+      }
 
-    await createBookmark(bookId, userId);
-    return json({ status: 200 });
-  } catch (e) {
-    return { error: true };
+      await createBookmark(bookId, userId);
+      return json({ status: 200 });
+    } catch (e) {
+      return { error: true };
+    }
+  } else {
+    // Delete Bookmark
+    try {
+      if (Math.random() > 0.5) {
+        throw new Error(
+          "Something went wrong with removing bookmark. Please try again"
+        );
+      }
+
+      await removeBookmark(bookId, userId);
+
+      return json({ status: 200 });
+    } catch (e) {
+      return { error: true };
+    }
   }
 };
 

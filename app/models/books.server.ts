@@ -1,5 +1,6 @@
-import { prisma } from "~/utils/prisma.server";
+import type { books } from "@prisma/client";
 import type { Book, BooksFeed } from "remix.env";
+import { prisma } from "~/utils/prisma.server";
 
 export function createBookmark(bookId: string, userId: string) {
   return prisma.books.create({
@@ -14,7 +15,17 @@ export function createBookmark(bookId: string, userId: string) {
   });
 }
 
-export function removeBookmark() {}
+export function removeBookmark(
+  bookId: books["book_id"],
+  userId: books["user_id"]
+) {
+  return prisma.books.deleteMany({
+    where: {
+      user_id: userId,
+      book_id: bookId,
+    },
+  });
+}
 
 export function markAsRead() {}
 
@@ -29,6 +40,8 @@ export async function getUsersBookmarks(user_id: string) {
       books: true,
     },
   });
+
+  // const usersBookmarks = [];
   const usersBookmarks = allBookIds?.books?.map((book) => book.book_id) || [];
 
   return usersBookmarks;
@@ -40,7 +53,7 @@ export async function displayLatestBooks(userId: string, total: number) {
   const data: BooksFeed = await result.json();
   const usersBookmarks = await getUsersBookmarks(userId);
 
-  const books: Book[] = data?.items.map((book) => ({
+  const books: Book[] = data?.items?.map((book) => ({
     id: book.id,
     description: book.volumeInfo.description,
     title: book.volumeInfo.title,
