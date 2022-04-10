@@ -22,11 +22,19 @@ export default function PreviewListBookItem({
         <input type="hidden" name="book_id" value={book.id} />
         <input type="hidden" name="user_id" value={userId} />
         {itemIsBookmarked || noErrorsSavingBookmark ? (
-          <button type="submit" name="bookmark">
+          <button
+            type="submit"
+            name="bookmark"
+            disabled={fetcher.type === "actionSubmission"}
+          >
             Remove Bookmark
           </button>
         ) : (
-          <button type="submit" name="bookmark">
+          <button
+            type="submit"
+            name="bookmark"
+            disabled={fetcher.type === "actionSubmission"}
+          >
             Bookmark book
             {errorSavingBookmark ? (
               <p>There was an error adding this bookmark</p>

@@ -8,29 +8,29 @@
   }
 
   .btn {
-    @apply bg-slate-300 rounded-lg text-slate-800;
+    @apply rounded-lg bg-slate-300 text-slate-800;
   }
 
   .input {
-    @apply border-[1px] border-slate-300 rounded-lg pt-2 pb-1 px-2;
+    @apply rounded-lg border-[1px] border-slate-300 px-2 pt-2 pb-1;
   }
 
   .unauthed-wrapper {
-    @apply grid grid-cols-8 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-main-desktop xl:h-[100vh] bg-fixed bg-loggedOutMobile xl:bg-loggedOut bg-loggedOutPosSmMobile lm:bg-loggedOutPosMobile md:bg-loggedOutPosTablet xl:bg-left bg-no-repeat bg-loggedOutSizeSmMobile lm:bg-loggedOutSizeMobile md:bg-loggedOutSizeTablet xl:bg-loggedOutSize;
+    @apply grid grid-cols-8 gap-3 bg-loggedOutMobile bg-loggedOutSizeSmMobile bg-fixed bg-loggedOutPosSmMobile bg-no-repeat lm:grid-cols-12 lm:gap-2 lm:bg-loggedOutSizeMobile lm:bg-loggedOutPosMobile md:gap-4 md:bg-loggedOutSizeTablet md:bg-loggedOutPosTablet xl:h-[100vh] xl:grid-cols-main-desktop xl:bg-loggedOut xl:bg-loggedOutSize xl:bg-left;
   }
   .unauthed-header {
-    @apply uppercase text-grayWorm-300 grid grid-cols-8 col-span-full row-start-2 row-end-4 gap-3 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:grid-cols-header-desktop xl:col-start-1 xl:col-end-2;
+    @apply col-span-full row-start-2 row-end-4 grid grid-cols-8 gap-3 uppercase text-grayWorm-300 lm:grid-cols-12 lm:gap-2 md:gap-4 xl:col-start-1 xl:col-end-2 xl:grid-cols-header-desktop;
   }
 
   .main-heading {
     font-size: calc(14px + (405 - 14) * ((100vw - 100px) / (2600 - 300)));
 
-    @apply opacity-5 leading-10 lm:leading-[0.8] desktop:leading-none lm:opacity-100 font-fred bg-white pt-5;
+    @apply bg-white pt-5 font-fred leading-10 opacity-5 lm:leading-[0.8] lm:opacity-100 desktop:leading-none;
   }
   .sub-heading {
     font-size: calc(14px + (120 - 14) * ((100vw - 340px) / (3800 - 300)));
 
-    @apply font-fred text-grayWorm-300 leading-none desktop:leading-3 col-start-2 col-end-6 row-start-1 row-end-2 self-center lm:row-start-2 lm:row-end-3 lm:col-span-full lm:self-start xl:col-start-1 md:pt-0 pb-5 pl-1 xl:pl-2 bg-white xl:pb-8;
+    @apply col-start-2 col-end-6 row-start-1 row-end-2 self-center bg-white pb-5 pl-1 font-fred leading-none text-grayWorm-300 lm:col-span-full lm:row-start-2 lm:row-end-3 lm:self-start desktop:leading-3 md:pt-0 xl:col-start-1 xl:pl-2 xl:pb-8;
   }
 
   @screen md {
@@ -57,6 +57,10 @@
   }
 
   .social-logins li {
-    @apply bg-slate-200 rounded-md px-2 pt-2;
+    @apply rounded-md bg-slate-200 px-2 pt-2;
   }
+}
+
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
 }

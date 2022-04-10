@@ -8,6 +8,8 @@ import { createBookmark, displayLatestBooks } from "~/models/books.server";
 import { useUser } from "~/utils/user";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 
+// TODO: Next, remove bookmark
+
 export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
   let userId = formData.get("user_id") as string;
