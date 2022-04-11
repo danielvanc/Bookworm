@@ -1,5 +1,6 @@
 import type { BookMarkItem } from "remix.env";
 import { useFetcher } from "@remix-run/react";
+import { FaRegStar, FaStar } from "react-icons/fa";
 import PreviewBook from "./PreviewBook";
 
 export default function PreviewListBookItem({
@@ -7,13 +8,14 @@ export default function PreviewListBookItem({
   usersBookmarks,
   userId,
 }: BookMarkItem) {
+  const bookId = book.id;
   const fetcher = useFetcher();
   const isBusy = fetcher.state === "submitting";
   const isIdle = fetcher.state === "idle";
-  const hasErrors = fetcher.data?.error;
-  const isBookmarked = usersBookmarks.includes(book.id);
+  const hasErrors = fetcher.data?.error ? fetcher.data : false;
   const isBookToBookmark =
-    fetcher.submission?.formData.get("book_id") === book.id;
+    fetcher.submission?.formData.get("book_id") === bookId;
+  const isBookmarked = usersBookmarks.includes(bookId);
   const isCreatingBookmark =
     isBookToBookmark &&
     fetcher.submission?.formData.get("bookmark") === "create";
@@ -22,11 +24,14 @@ export default function PreviewListBookItem({
     fetcher.submission?.formData.get("bookmark") === "delete";
 
   return (
-    <li key={book.id} className="flex">
-      <PreviewBook book={book} />
+    <li key={bookId} className="relative flex">
+      <PreviewBook
+        book={book}
+        errors={isIdle && hasErrors ? hasErrors : undefined}
+      />
 
       <fetcher.Form method="post">
-        <input type="hidden" name="book_id" value={book.id} />
+        <input type="hidden" name="book_id" value={bookId} />
         <input type="hidden" name="user_id" value={userId} />
 
         {isCreatingBookmark || (isIdle && isBookmarked) ? (
@@ -37,7 +42,7 @@ export default function PreviewListBookItem({
             value="delete"
             aria-label="Remove Bookmark"
           >
-            Remove Bookmark
+            <FaStar className="absolute left-4 text-2xl text-yellow-500 hover:text-yellow-200" />
           </button>
         ) : null}
 
@@ -49,12 +54,8 @@ export default function PreviewListBookItem({
             value="create"
             aria-label="Add Bookmark"
           >
-            Bookmark book
+            <FaRegStar className="absolute left-4 text-2xl hover:text-yellow-500" />
           </button>
-        ) : null}
-
-        {isIdle && hasErrors ? (
-          <p>There was an error adding this bookmark</p>
         ) : null}
       </fetcher.Form>
     </li>

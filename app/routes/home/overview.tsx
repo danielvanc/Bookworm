@@ -15,20 +15,26 @@ import PreviewListBookItem from "~/components/PreviewListBookItem";
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const bookmark = formData.get("bookmark");
+  const isCreating = bookmark === "create";
   const userId = formData.get("user_id") as string;
   const bookId = formData.get("book_id") as string;
+  let errors = { error: true };
 
   try {
+    // This is here just to test possible errors
     if (Math.random() > 0.5) throw new Error("Something went wrong");
 
-    if (bookmark === "create") {
+    if (isCreating) {
       await createBookmark(bookId, userId);
     } else if (bookmark === "delete") {
       await removeBookmark(bookId, userId);
     }
     return json({ status: 200 });
   } catch (e) {
-    return { error: true };
+    return {
+      ...errors,
+      message: isCreating ? "Error adding bookmark" : "Error removing bookmark",
+    };
   }
 };
 
