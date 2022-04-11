@@ -24,7 +24,7 @@ function getDbClient() {
   const databaseUrl = new URL(DATABASE_URL);
 
   const client = new PrismaClient({
-    log: ["query", "info", "warn", "error"],
+    // log: ["query", "info", "warn", "error"],
     datasources: {
       db: {
         url: databaseUrl.toString(),
