@@ -63,3 +63,32 @@ export async function displayLatestBooks(userId: string, total: number) {
 
   return { books, usersBookmarks };
 }
+
+export async function getUsersLatestBookmarks(userId: string, total: number) {
+  const api = `https://www.googleapis.com/books/v1/volumes/`;
+  const allBookmarkIds = await getUsersBookmarks(userId);
+
+  if (!allBookmarkIds.length) return [];
+
+  async function fetchBookInfo(bookId: string): Promise<Book> {
+    const result = await fetch(`${api}${bookId}`);
+    const data = await result.json();
+
+    return {
+      id: data.id,
+      title: data.volumeInfo.title,
+      description: data.volumeInfo.description,
+      image: data.volumeInfo.imageLinks?.thumbnail,
+      link: data.volumeInfo.canonicalVolumeLink,
+    };
+  }
+
+  const bookmarks = await Promise.all(
+    allBookmarkIds.map(async (book: string) => {
+      const data = await fetchBookInfo(book);
+      return data;
+    })
+  );
+
+  return bookmarks || [];
+}
