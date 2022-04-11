@@ -1,6 +1,6 @@
 # Welcome to BK Worm!
 
-A useful book web app for book lovers , written in Remix!
+A useful, modern app for book lovers, written in Remix!
 
 And with the help of:
 
