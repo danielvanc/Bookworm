@@ -1,7 +1,7 @@
 import type { BookPreview } from "../../remix.env";
 import { Link } from "@remix-run/react";
 
-export default function PreviewBook({ book }: BookPreview) {
+export default function PreviewBook({ book, errors }: BookPreview) {
   const { id, image, title } = book;
 
   return (
@@ -14,6 +14,7 @@ export default function PreviewBook({ book }: BookPreview) {
         <div className="max-w-[130px]">
           <img src={image} alt={title} className="mb-3 rounded-lg" />
           <h3 className="font-monty">{title}</h3>
+          {errors && <p className="text-red-600">{errors?.message}</p>}
         </div>
       </div>
     </Link>

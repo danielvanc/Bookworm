@@ -7,6 +7,10 @@ export interface User {
   full_name?: string;
   user_metadata?: { [key: string]: any };
 }
+export interface Errors {
+  error: Boolean;
+  message: string;
+}
 
 export interface BooksFeed {
   items: Array<{
@@ -42,4 +46,5 @@ export type BookPreviewList = BookPreviewDetails[];
 
 export interface BookPreview {
   book: BookPreviewDetails;
+  errors?: Errors;
 }
