@@ -19,6 +19,8 @@ export const action: ActionFunction = async ({ request }) => {
   const bookId = formData.get("book_id") as string;
 
   try {
+    if (Math.random() > 0.5) throw new Error("Something went wrong");
+
     if (bookmark === "create") {
       await createBookmark(bookId, userId);
     } else if (bookmark === "delete") {

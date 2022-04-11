@@ -9,6 +9,7 @@ export default function PreviewListBookItem({
 }: BookMarkItem) {
   const fetcher = useFetcher();
   const isBusy = fetcher.state === "submitting";
+  const isIdle = fetcher.state === "idle";
   const hasErrors = fetcher.data?.error;
   const isBookmarked = usersBookmarks.includes(book.id);
   const isBookToBookmark =
@@ -28,27 +29,33 @@ export default function PreviewListBookItem({
         <input type="hidden" name="book_id" value={book.id} />
         <input type="hidden" name="user_id" value={userId} />
 
-        {isBookmarked || isCreatingBookmark ? (
+        {isCreatingBookmark || (isIdle && isBookmarked) ? (
           <button
             type="submit"
             name="bookmark"
             disabled={isBusy}
             value="delete"
+            aria-label="Remove Bookmark"
           >
             Remove Bookmark
           </button>
-        ) : !isBookmarked || (isBookmarked && isRemovingBookmark) ? (
+        ) : null}
+
+        {isRemovingBookmark || (isIdle && !isBookmarked) ? (
           <button
             type="submit"
             name="bookmark"
             disabled={isBusy}
             value="create"
+            aria-label="Add Bookmark"
           >
             Bookmark book
           </button>
         ) : null}
 
-        {hasErrors ? <p>There was an error adding this bookmark</p> : null}
+        {isIdle && hasErrors ? (
+          <p>There was an error adding this bookmark</p>
+        ) : null}
       </fetcher.Form>
     </li>
   );
