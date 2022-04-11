@@ -34,6 +34,18 @@ export interface Book {
   link: string;
 }
 
+export interface initialBook {
+  id: string;
+  volumeInfo: {
+    title: string;
+    description: string;
+    imageLinks: {
+      thumbnail: string;
+    };
+    canonicalVolumeLink: string;
+  };
+}
+
 export interface BookMarkItem {
   book: Book;
   usersBookmarks: any;

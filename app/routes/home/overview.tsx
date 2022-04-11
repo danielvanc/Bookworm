@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
 import {
   createBookmark,
-  displayLatestBooks,
+  getLatestBooks,
   removeBookmark,
 } from "~/models/books.server";
 import { useUser } from "~/utils/user";
@@ -45,7 +45,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { id } = session?.user!;
 
   try {
-    const data = await displayLatestBooks(id, 10);
+    const data = await getLatestBooks(id, 10);
 
     return json(data, {
       headers: {

@@ -1,6 +1,14 @@
 import type { books } from "@prisma/client";
-import type { Book, BooksFeed } from "remix.env";
+import type { Book, BooksFeed, initialBook } from "remix.env";
 import { prisma } from "~/utils/prisma.server";
+
+const initialBookData = (data: initialBook) => ({
+  id: data.id,
+  title: data.volumeInfo.title,
+  description: data.volumeInfo.description,
+  image: data.volumeInfo.imageLinks?.thumbnail,
+  link: data.volumeInfo.canonicalVolumeLink,
+});
 
 export function createBookmark(bookId: string, userId: string) {
   return prisma.books.create({
@@ -32,7 +40,7 @@ export function markAsRead() {}
 export function markAsReading() {}
 
 export async function getUsersBookmarks(user_id: string) {
-  const allBookIds = await prisma.profile.findUnique({
+  const bookIds = await prisma.profile.findUnique({
     where: {
       id: user_id,
     },
@@ -41,50 +49,37 @@ export async function getUsersBookmarks(user_id: string) {
     },
   });
 
-  // const usersBookmarks = [];
-  const usersBookmarks = allBookIds?.books?.map((book) => book.book_id) || [];
+  const usersBookmarks = bookIds?.books?.map((book) => book.book_id) || [];
 
   return usersBookmarks;
 }
 
-export async function displayLatestBooks(userId: string, total: number) {
+export async function getLatestBooks(userId: string, total: number) {
   const api = `${process.env.ALL_BOOKS_API}""&maxResults=${total}` || "";
   const result = await fetch(api);
   const data: BooksFeed = await result.json();
   const usersBookmarks = await getUsersBookmarks(userId);
 
-  const books: Book[] = data?.items?.map((book) => ({
-    id: book.id,
-    description: book.volumeInfo.description,
-    title: book.volumeInfo.title,
-    image: book.volumeInfo.imageLinks?.thumbnail,
-    link: book.volumeInfo.canonicalVolumeLink,
-  }));
+  const books: Book[] = data?.items?.map((book) => initialBookData(book));
 
   return { books, usersBookmarks };
 }
 
 export async function getUsersLatestBookmarks(userId: string, total: number) {
   const api = `https://www.googleapis.com/books/v1/volumes/`;
-  const allBookmarkIds = await getUsersBookmarks(userId);
+  const bookmarkIds = await getUsersBookmarks(userId);
 
-  if (!allBookmarkIds.length) return [];
+  if (!bookmarkIds.length) return [];
 
   async function fetchBookInfo(bookId: string): Promise<Book> {
     const result = await fetch(`${api}${bookId}`);
-    const data = await result.json();
+    const book = await result.json();
 
-    return {
-      id: data.id,
-      title: data.volumeInfo.title,
-      description: data.volumeInfo.description,
-      image: data.volumeInfo.imageLinks?.thumbnail,
-      link: data.volumeInfo.canonicalVolumeLink,
-    };
+    return initialBookData(book);
   }
 
   const bookmarks = await Promise.all(
-    allBookmarkIds.map(async (book: string) => {
+    bookmarkIds.map(async (book: string) => {
       const data = await fetchBookInfo(book);
       return data;
     })
