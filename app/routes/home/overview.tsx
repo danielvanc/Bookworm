@@ -12,43 +12,21 @@ import {
 import { useUser } from "~/utils/user";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 
-// TODO: Next, remove bookmark
-
 export const action: ActionFunction = async ({ request }) => {
-  let formData = await request.formData();
+  const formData = await request.formData();
   const bookmark = formData.get("bookmark");
+  const userId = formData.get("user_id") as string;
+  const bookId = formData.get("book_id") as string;
 
-  let userId = formData.get("user_id") as string;
-  let bookId = formData.get("book_id") as string;
-
-  if (bookmark === "create") {
-    try {
-      if (Math.random() > 0.5) {
-        throw new Error(
-          "Something went wrong with saving bookmark. Please try again"
-        );
-      }
-
+  try {
+    if (bookmark === "create") {
       await createBookmark(bookId, userId);
-      return json({ status: 200 });
-    } catch (e) {
-      return { error: true };
-    }
-  } else {
-    // Delete Bookmark
-    try {
-      if (Math.random() > 0.5) {
-        throw new Error(
-          "Something went wrong with removing bookmark. Please try again"
-        );
-      }
-
+    } else if (bookmark === "delete") {
       await removeBookmark(bookId, userId);
-
-      return json({ status: 200 });
-    } catch (e) {
-      return { error: true };
     }
+    return json({ status: 200 });
+  } catch (e) {
+    return { error: true };
   }
 };
 
@@ -68,6 +46,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     });
   } catch (error) {
+    // TODO: handle error for fetching latest books
     throw new Response(
       `Ugh oh, houston we had a problem fetching the data! Error was: ${error}`,
       {
