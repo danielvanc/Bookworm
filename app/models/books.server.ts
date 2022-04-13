@@ -72,10 +72,11 @@ export async function getUsersLatestBookmarks(userId: string, total: number) {
   if (!bookmarkIds.length) return [];
 
   async function fetchBookInfo(bookId: string): Promise<Book> {
-    const result = await fetch(`${api}${bookId}`);
-    const book: initialBook = await result.json();
+    const result = await fetch(`${api}${bookId}`).then(
+      (res) => res.json() as Promise<initialBook>
+    );
 
-    return initialBookData(book);
+    return initialBookData(result);
   }
 
   const bookmarks = await Promise.all(
