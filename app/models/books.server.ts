@@ -1,6 +1,7 @@
 import type { books } from "@prisma/client";
 import type { Book, BooksFeed, initialBook } from "remix.env";
 import { prisma } from "~/utils/prisma.server";
+import config from "~/config";
 
 const initialBookData = (data: initialBook) => ({
   id: data.id,
@@ -55,7 +56,7 @@ export async function getUsersBookmarks(user_id: string) {
 }
 
 export async function getLatestBooks(userId: string, total: number) {
-  const api = `${process.env.ALL_BOOKS_API}""&maxResults=${total}` || "";
+  const api = `${config.API.ALL_BOOKS}""&maxResults=${total}` || "";
   const result = await fetch(api);
   const data: BooksFeed = await result.json();
   const usersBookmarks = await getUsersBookmarks(userId);
@@ -66,13 +67,12 @@ export async function getLatestBooks(userId: string, total: number) {
 }
 
 export async function getUsersLatestBookmarks(userId: string, total: number) {
-  const api = `https://www.googleapis.com/books/v1/volumes/`;
   const bookmarkIds = await getUsersBookmarks(userId);
 
   if (!bookmarkIds.length) return [];
 
   async function fetchBookInfo(bookId: string): Promise<Book> {
-    const result = await fetch(`${api}${bookId}`).then(
+    const result = await fetch(`${config.API.BOOK}${bookId}`).then(
       (res) => res.json() as Promise<initialBook>
     );
 
