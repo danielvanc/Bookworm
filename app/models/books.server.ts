@@ -73,14 +73,15 @@ export async function getUsersLatestBookmarks(userId: string, total: number) {
 
   async function fetchBookInfo(bookId: string): Promise<Book> {
     const result = await fetch(`${api}${bookId}`);
-    const book = await result.json();
+    const book: initialBook = await result.json();
 
     return initialBookData(book);
   }
 
   const bookmarks = await Promise.all(
-    bookmarkIds.map(async (book: string) => {
-      const data = await fetchBookInfo(book);
+    bookmarkIds.map((book: string) => {
+      const data = fetchBookInfo(book);
+
       return data;
     })
   );

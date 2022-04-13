@@ -1,4 +1,4 @@
-import type { Book } from "remix.env";
+import type { Book, BooksAndBookmarks } from "remix.env";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
@@ -65,7 +65,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Overview() {
-  const { books, usersBookmarks } = useLoaderData();
+  const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
   const { id: userId } = useUser();
   const containerRef = useRef<HTMLElement>(null);
 
