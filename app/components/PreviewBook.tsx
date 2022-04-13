@@ -6,8 +6,9 @@ export default function PreviewBook({ book, errors }: BookPreview) {
 
   return (
     <Link
-      to={`/home/discover/${id}`}
+      to={`/home/book/${id}`}
       className="relative flex min-w-[350px] items-center justify-center rounded-lg bg-grayWorm-100 py-5 hover:bg-grayWorm-800"
+      prefetch="intent"
     >
       <div>
         {/* TODO: Provide fallback image if no image provided */}
