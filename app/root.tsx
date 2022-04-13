@@ -1,4 +1,5 @@
 import type { LoaderFunction } from "@remix-run/node";
+import type { EnvVars } from "remix.env";
 import {
   Links,
   LiveReload,
@@ -46,7 +47,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
-  const { ENV } = useLoaderData();
+  const { ENV } = useLoaderData<EnvVars>();
 
   return (
     <html lang="en">

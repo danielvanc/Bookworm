@@ -16,7 +16,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function OverviewIndex() {
-  const data: Book[] = useLoaderData();
+  const data = useLoaderData<Book[]>();
+
   return (
     <div className="md:flex md:w-full md:justify-between md:gap-4 md:p-sectionMedium">
       <div className="md:w-1/3">

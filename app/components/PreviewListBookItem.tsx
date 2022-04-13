@@ -8,8 +8,8 @@ export default function PreviewListBookItem({
   usersBookmarks,
   userId,
 }: BookMarkItem) {
-  const bookId = book.id;
   const fetcher = useFetcher();
+  const bookId = book.id;
   const isBusy = fetcher.state === "submitting";
   const isIdle = fetcher.state === "idle";
   const hasErrors = fetcher.data?.error ? fetcher.data : false;
