@@ -2,7 +2,7 @@ import { useMatches } from "@remix-run/react";
 import type { User } from "../../remix.env";
 import { useMemo } from "react";
 
-function useMatchesData(id: string) {
+export function useMatchesData(id: string) {
   const matchingRoutes = useMatches();
   const route = useMemo(
     () => matchingRoutes.find((route) => route.id === id),

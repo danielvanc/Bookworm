@@ -1,9 +1,10 @@
 # Welcome to BK Worm!
 
-A useful, modern app for book lovers, written in Remix!
+A handy, modern web app for book lovers!
 
-And with the help of:
+Built with:
 
+- Remix
 - Tailwind CSS
 - Tailwind Headless U.I
 - Prisma
