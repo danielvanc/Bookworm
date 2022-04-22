@@ -1,5 +1,4 @@
 import type { books } from "@prisma/client";
-import type { Book, BooksFeed, initialBook } from "remix.env";
 import { prisma } from "~/utils/prisma.server";
 import config from "~/config";
 
@@ -9,9 +8,14 @@ const initialBookData = (data: initialBook) => ({
   description: data.volumeInfo.description,
   image: data.volumeInfo.imageLinks?.thumbnail,
   link: data.volumeInfo.canonicalVolumeLink,
+  reading: false,
+  read: false,
 });
 
-export function createBookmark(bookId: string, userId: string) {
+export function createBookmark(
+  bookId: books["book_id"],
+  userId: books["user_id"]
+) {
   return prisma.books.create({
     data: {
       user_id: userId,
@@ -36,11 +40,52 @@ export function removeBookmark(
   });
 }
 
-export function markAsRead() {}
+export function markAsRead(bookId: books["book_id"], userId: books["user_id"]) {
+  return prisma.books.updateMany({
+    where: {
+      user_id: userId,
+      book_id: bookId,
+    },
+    data: {
+      reading: false,
+      read: true,
+    },
+  });
+}
 
-export function markAsReading() {}
+export function markAsReading(
+  bookId: books["book_id"],
+  userId: books["user_id"]
+) {
+  return prisma.books.updateMany({
+    where: {
+      user_id: userId,
+      book_id: bookId,
+    },
+    data: {
+      reading: true,
+      read: false,
+    },
+  });
+}
 
-export async function getUsersBookmarks(user_id: string) {
+export function markAsNotReading(
+  bookId: books["book_id"],
+  userId: books["user_id"]
+) {
+  return prisma.books.updateMany({
+    where: {
+      user_id: userId,
+      book_id: bookId,
+    },
+    data: {
+      reading: false,
+      read: false,
+    },
+  });
+}
+
+export async function getUsersBookmarks(user_id: books["user_id"]) {
   const bookIds = await prisma.profile.findUnique({
     where: {
       id: user_id,
@@ -50,28 +95,31 @@ export async function getUsersBookmarks(user_id: string) {
     },
   });
 
-  const usersBookmarks = bookIds?.books?.map((book) => book.book_id) || [];
+  const usersBookmarks =
+    bookIds?.books?.map((book) => {
+      const { book_id: id, reading, read } = book;
+      return { id, reading, read };
+    }) || [];
 
   return usersBookmarks;
 }
 
 export async function getLatestBooks(userId: string, total: number) {
   const api = `${config.API.ALL_BOOKS}""&maxResults=${total}` || "";
-  const result = await fetch(api);
-  const data: BooksFeed = await result.json();
+  const data: BooksFeed = await fetch(api).then((res) => res.json());
   const usersBookmarks = await getUsersBookmarks(userId);
-
   const books: Book[] = data?.items?.map((book) => initialBookData(book));
 
   return { books, usersBookmarks };
 }
 
 export async function getUsersLatestBookmarks(userId: string, total: number) {
-  const bookmarkIds = await getUsersBookmarks(userId);
+  const bookmarks = await getUsersBookmarks(userId);
 
-  if (!bookmarkIds.length) return [];
+  if (!bookmarks.length) return [];
 
   async function fetchBookInfo(bookId: string): Promise<Book> {
+    // TODO: Add error handling component for api requests
     const result = await fetch(`${config.API.BOOK}${bookId}`).then(
       (res) => res.json() as Promise<initialBook>
     );
@@ -79,13 +127,16 @@ export async function getUsersLatestBookmarks(userId: string, total: number) {
     return initialBookData(result);
   }
 
-  const bookmarks = await Promise.all(
-    bookmarkIds.map((book: string) => {
-      const data = fetchBookInfo(book);
+  const bookmarksData = await Promise.all(
+    // TODO: Add correct type for bookmarks
+    bookmarks.map(async (book: any) => {
+      const data = await fetchBookInfo(book.id);
+      data.read = book.read;
+      data.reading = book.reading;
 
       return data;
     })
   );
 
-  return bookmarks || [];
+  return bookmarksData;
 }

@@ -1,5 +1,4 @@
 import type { LoaderFunction } from "@remix-run/node";
-import type { EnvVars } from "remix.env";
 import {
   Links,
   LiveReload,
