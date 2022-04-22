@@ -1,4 +1,3 @@
-import type { BookPreview } from "../../remix.env";
 import { Link } from "@remix-run/react";
 
 export default function PreviewBook({ book, errors }: BookPreview) {

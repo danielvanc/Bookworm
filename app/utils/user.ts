@@ -1,5 +1,4 @@
 import { useMatches } from "@remix-run/react";
-import type { User } from "../../remix.env";
 import { useMemo } from "react";
 
 export function useMatchesData(id: string) {

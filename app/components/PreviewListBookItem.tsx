@@ -1,6 +1,5 @@
-import type { BookMarkItem } from "remix.env";
 import { useFetcher } from "@remix-run/react";
-import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import PreviewBook from "./PreviewBook";
 
 export default function PreviewListBookItem({
@@ -15,13 +14,17 @@ export default function PreviewListBookItem({
   const hasErrors = fetcher.data?.error ? fetcher.data : false;
   const isBookToBookmark =
     fetcher.submission?.formData.get("book_id") === bookId;
-  const isBookmarked = usersBookmarks.includes(bookId);
+  const isBookmarked = usersBookmarks.map((book) => book.id).includes(bookId);
+
   const isCreatingBookmark =
     isBookToBookmark &&
     fetcher.submission?.formData.get("bookmark") === "create";
   const isRemovingBookmark =
     isBookToBookmark &&
     fetcher.submission?.formData.get("bookmark") === "delete";
+
+  const showAddBookmark = isRemovingBookmark || (isIdle && !isBookmarked);
+  const showRemoveBookmark = isCreatingBookmark || (isIdle && isBookmarked);
 
   return (
     <li key={bookId} className="relative flex">
@@ -34,7 +37,7 @@ export default function PreviewListBookItem({
         <input type="hidden" name="book_id" value={bookId} />
         <input type="hidden" name="user_id" value={userId} />
 
-        {isCreatingBookmark || (isIdle && isBookmarked) ? (
+        {showRemoveBookmark ? (
           <button
             type="submit"
             name="bookmark"
@@ -42,11 +45,11 @@ export default function PreviewListBookItem({
             value="delete"
             aria-label="Remove Bookmark"
           >
-            <FaStar className="absolute left-4 text-2xl text-yellow-500 hover:text-yellow-200" />
+            <FaBookmark className="absolute left-4 text-2xl text-yellow-500 hover:text-yellow-200" />
           </button>
         ) : null}
 
-        {isRemovingBookmark || (isIdle && !isBookmarked) ? (
+        {showAddBookmark ? (
           <button
             type="submit"
             name="bookmark"
@@ -54,7 +57,7 @@ export default function PreviewListBookItem({
             value="create"
             aria-label="Add Bookmark"
           >
-            <FaRegStar className="absolute left-4 text-2xl hover:text-yellow-500" />
+            <FaRegBookmark className="absolute left-4 text-2xl hover:text-yellow-500" />
           </button>
         ) : null}
       </fetcher.Form>

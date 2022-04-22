@@ -1,4 +1,3 @@
-import type { Book, BooksAndBookmarks } from "remix.env";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
@@ -14,16 +13,14 @@ import PreviewListBookItem from "~/components/PreviewListBookItem";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const bookmark = formData.get("bookmark");
-  const isCreating = bookmark === "create";
   const userId = formData.get("user_id") as string;
   const bookId = formData.get("book_id") as string;
+  const bookmark = formData.get("bookmark");
   let errors = { error: true };
 
-  try {
-    // This is here just to test possible errors
-    if (Math.random() > 0.5) throw new Error("Something went wrong");
+  const isCreating = bookmark === "create";
 
+  try {
     if (isCreating) {
       await createBookmark(bookId, userId);
     } else if (bookmark === "delete") {
@@ -54,7 +51,6 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     });
   } catch (error) {
-    // TODO: handle error for fetching latest books
     throw new Response(
       `Ugh oh, houston we had a problem fetching the data! Error was: ${error}`,
       {
