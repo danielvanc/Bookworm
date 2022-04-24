@@ -2,7 +2,7 @@ import { useFetcher } from "@remix-run/react";
 import { IoGlassesOutline, IoGlasses } from "react-icons/io5";
 import { MdDoneOutline, MdDone } from "react-icons/md";
 import { useUser } from "~/utils/user";
-import PreviewBook from "./PreviewBook";
+import PreviewBookSmall from "./PreviewBookSmall";
 
 interface OverviewListProps {
   data: Book[];
@@ -44,6 +44,7 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
                     name="action"
                     value="reading"
                     aria-label="Mark book as reading"
+                    className="absolute right-14 bottom-3 z-10"
                   >
                     <IoGlassesOutline className=" text-2xl hover:text-yellow-500" />
                   </button>
@@ -52,8 +53,9 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
                     name="action"
                     value="read"
                     aria-label="Mark book as read"
+                    className="absolute right-4 bottom-3 z-10"
                   >
-                    <MdDoneOutline className=" text-2xl hover:text-yellow-500" />
+                    <MdDoneOutline className="text-2xl hover:text-yellow-500" />
                   </button>
                 </>
               ) : null}
@@ -64,6 +66,7 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
                     name="action"
                     value="not-reading"
                     aria-label="Mark book as not reading"
+                    className="absolute right-14 bottom-3 z-10"
                   >
                     <IoGlasses className="text-2xl text-yellow-500 hover:text-yellow-200" />
                   </button>
@@ -72,6 +75,7 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
                     name="action"
                     value="read"
                     aria-label="Mark book as read"
+                    className="absolute right-4 bottom-3 z-10"
                   >
                     <MdDoneOutline className=" text-2xl hover:text-yellow-500" />
                   </button>
@@ -84,13 +88,14 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
                     name="action"
                     value="reading"
                     aria-label="Mark book as reading"
+                    className="absolute right-14 bottom-3 z-10"
                   >
                     <IoGlassesOutline className=" text-2xl hover:text-yellow-500" />
                   </button>
-                  <MdDone className=" text-2xl" />
+                  <MdDone className="absolute right-4 bottom-3 z-10 text-2xl" />
                 </>
               ) : null}
-              <PreviewBook book={book} />
+              <PreviewBookSmall book={book} />
             </fetcher.Form>
           </li>
         );

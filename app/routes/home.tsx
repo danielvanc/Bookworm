@@ -13,7 +13,7 @@ export default function Home() {
   const { email, user_metadata } = useUser();
 
   return (
-    <div className="root-frame h-[100vh] bg-grayWorm-100">
+    <div className="root-frame min-h-[100vh] overflow-y-hidden bg-grayWorm-100">
       <header className="bg-rosyWorm px-8 py-4 text-white">
         <h1>
           Hello {user_metadata?.full_name} of {email}
@@ -23,7 +23,7 @@ export default function Home() {
         </Form>
       </header>
 
-      <div className="flex h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">
+      <div className="flex min-h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">
         <main className="md:w-3/4">
           <Outlet />
         </main>

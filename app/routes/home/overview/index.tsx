@@ -51,7 +51,7 @@ export default function OverviewIndex() {
   const data = useLoaderData<Book[]>();
 
   return (
-    <div className="md:flex md:w-full md:justify-between md:gap-4 md:p-sectionMedium">
+    <div className="bg-grayWorm-100 md:flex md:w-full md:justify-between md:gap-10 md:p-sectionMedium">
       <div className="md:w-1/3">
         <h3>Bookmarked to read</h3>
         <OverviewList data={data} listType="bookmarked" />
@@ -61,7 +61,7 @@ export default function OverviewIndex() {
         <OverviewList data={data} listType="reading" />
       </div>
       <div className="md:w-1/3">
-        <h3>Read</h3>
+        <h3>Recently read</h3>
         <OverviewList data={data} listType="read" />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useFetcher } from "@remix-run/react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import PreviewBook from "./PreviewBook";
+import PreviewBook from "./PreviewBookLarge";
 
 export default function PreviewListBookItem({
   book,

@@ -75,7 +75,7 @@ export default function Overview() {
   return (
     <>
       <section
-        className="flex h-[60vh] items-center overflow-x-auto overscroll-none bg-grayWorm-200 md:p-sectionMedium"
+        className="flex items-center overflow-x-auto overscroll-none bg-grayWorm-200 md:p-sectionMedium"
         ref={containerRef}
         onWheel={handleScroll}
       >
