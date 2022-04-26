@@ -111,6 +111,7 @@ function LoggedIn({
             <img
               src="/images/logo_header.svg"
               alt="BKWorm - Book app for book lovers!"
+              className="inline-block"
             />
           </Link>
         </div>
@@ -120,7 +121,7 @@ function LoggedIn({
             name="search"
             id="search"
             placeholder="Search for books"
-            className="w-full rounded-xl p-3 font-monty text-slate-500"
+            className="w-full rounded-xl py-3 px-5 font-monty text-slate-500"
           />
         </Form>
         <div className="align-center flex w-[20vw] items-center justify-end gap-x-3 font-monty">
