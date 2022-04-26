@@ -1,6 +1,6 @@
 import { useFetcher } from "@remix-run/react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import PreviewBook from "./PreviewBookLarge";
+import PreviewBookLarge from "./PreviewBookLarge";
 
 export default function PreviewListBookItem({
   book,
@@ -28,7 +28,7 @@ export default function PreviewListBookItem({
 
   return (
     <li key={bookId} className="relative flex">
-      <PreviewBook
+      <PreviewBookLarge
         book={book}
         errors={isIdle && hasErrors ? hasErrors : undefined}
       />

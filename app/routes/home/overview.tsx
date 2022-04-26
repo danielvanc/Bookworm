@@ -1,69 +1,83 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useRef } from "react";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
 import {
   createBookmark,
-  getLatestBooks,
+  markAsNotReading,
+  markAsRead,
+  markAsReading,
   removeBookmark,
 } from "~/models/books.server";
-import { useUser } from "~/utils/user";
+import { useMatchesData, useUser } from "~/utils/user";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
+import OverviewList from "~/components/OverviewList";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const userId = formData.get("user_id") as string;
   const bookId = formData.get("book_id") as string;
   const bookmark = formData.get("bookmark");
+  const action = formData.get("action");
   let errors = { error: true };
 
-  const isCreating = bookmark === "create";
+  if (bookmark) {
+    const isCreating = bookmark === "create";
 
-  try {
-    if (isCreating) {
-      await createBookmark(bookId, userId);
-    } else if (bookmark === "delete") {
-      await removeBookmark(bookId, userId);
+    try {
+      if (isCreating) {
+        await createBookmark(bookId, userId);
+      } else if (bookmark === "delete") {
+        await removeBookmark(bookId, userId);
+      }
+      return json({ status: 200 });
+    } catch (e) {
+      return {
+        ...errors,
+        message: isCreating
+          ? "Error adding bookmark"
+          : "Error removing bookmark",
+      };
     }
-    return json({ status: 200 });
-  } catch (e) {
-    return {
-      ...errors,
-      message: isCreating ? "Error adding bookmark" : "Error removing bookmark",
-    };
+  }
+
+  if (action) {
+    const isReading = action === "reading";
+    const isRead = action === "read";
+    const isNotReading = action === "not-reading";
+
+    try {
+      if (isReading) await markAsReading(bookId, userId);
+      if (isNotReading) await markAsNotReading(bookId, userId);
+      if (isRead) await markAsRead(bookId, userId);
+
+      return json({ status: 200 });
+    } catch (e) {
+      return {
+        ...errors,
+        message: isRead
+          ? "Error marking book status to read"
+          : "Error marking book status to not read",
+      };
+    }
   }
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await oAuthStrategy.checkSession(request, {
+  await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
-  const { id } = session?.user!;
 
-  try {
-    const data = await getLatestBooks(id, 10);
-
-    return json(data, {
-      headers: {
-        "Cache-Control": "private, max-age=3600",
-        Vary: "Cookie",
-      },
-    });
-  } catch (error) {
-    throw new Response(
-      `Ugh oh, houston we had a problem fetching the data! Error was: ${error}`,
-      {
-        status: 500,
-      }
-    );
-  }
+  return null;
 };
 
 export default function Overview() {
-  const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
-  const { id: userId } = useUser();
   const containerRef = useRef<HTMLElement>(null);
+  const { id: userId } = useUser();
+  const { books, usersBookmarks } = useMatchesData(
+    "routes/home"
+  ) as BooksAndBookmarks;
 
   // TODO: Create a custom hook to handle this, if we use hScrolling
   function handleScroll(evt: React.WheelEvent<HTMLElement>) {
@@ -100,32 +114,19 @@ export default function Overview() {
           </div>
         </div>
       </section>
-      <Outlet />
-    </>
-  );
-}
 
-// TODO: Add a better U.I component for Overview CatchBoundary
-export function CatchBoundary() {
-  const caught = useCatch();
-
-  if (caught.status === 500) {
-    return (
-      <>
-        <p>{caught.data}</p>
-        <Outlet />
-      </>
-    );
-  }
-}
-
-// TODO: Add a better U.I component for Overview Errorboundary
-export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <>
-      <h1>Something went wrong here!</h1>
-      <pre>{error.message}</pre>
-      <p>Houston, we have a problem!</p>
+      {usersBookmarks.length > 0 ? (
+        <div className="bg-grayWorm-100 md:p-sectionMedium">
+          <div className="mb-10">
+            <h2 className="font-monty text-xl">Recently bookmarked to read</h2>
+            <OverviewList data={usersBookmarks} listType="bookmarked" />
+          </div>
+          <div>
+            <h2 className="font-monty text-xl">Recently read</h2>
+            <OverviewList data={usersBookmarks} listType="read" />
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

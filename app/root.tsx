@@ -1,5 +1,6 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import {
+  Form,
   Links,
   LiveReload,
   Meta,
@@ -12,7 +13,11 @@ import {
 import type { MetaFunction } from "@remix-run/react/routeModules";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
-import { oAuthStrategy } from "./auth/auth.server";
+import {
+  authenticator,
+  FAILURE_REDIRECT,
+  oAuthStrategy,
+} from "./auth/auth.server";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -32,6 +37,10 @@ export function links() {
   ];
 }
 
+export const action: ActionFunction = async ({ request }) => {
+  await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
+};
+
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await oAuthStrategy.checkSession(request);
   return {
@@ -45,8 +54,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   };
 };
 
+interface LoaderData {
+  user: User;
+  ENV: EnvVars;
+}
+
 export default function App() {
-  const { ENV } = useLoaderData<EnvVars>();
+  const { user, ENV } = useLoaderData<LoaderData>();
 
   return (
     <html lang="en">
@@ -55,8 +69,17 @@ export default function App() {
         <Links />
       </head>
       <body className="font-serifPro">
-        <Outlet />
-        <ScrollRestoration />
+        {user?.email ? (
+          <LoggedIn user={user}>
+            <Outlet />
+            <ScrollRestoration />
+          </LoggedIn>
+        ) : (
+          <>
+            <Outlet />
+            <ScrollRestoration />
+          </>
+        )}
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
@@ -66,6 +89,29 @@ export default function App() {
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
+  );
+}
+
+function LoggedIn({
+  user,
+  children,
+}: {
+  user: User;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="root-frame min-h-[100vh] overflow-y-hidden bg-grayWorm-100">
+      <header className="bg-rosyWorm px-8 py-4 text-white">
+        <h1>
+          Hello {user.user_metadata?.full_name} of {user.email}
+        </h1>
+        <Form method="post">
+          <button>Log Out</button>
+        </Form>
+      </header>
+
+      {children}
+    </div>
   );
 }
 
