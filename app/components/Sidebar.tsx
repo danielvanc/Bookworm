@@ -1,4 +1,5 @@
-import PreviewBookLarge from "./PreviewBookLarge";
+import { Link } from "@remix-run/react";
+import PreviewBook from "./PreviewBook";
 
 interface BookProps {
   data: usersBookmarks[];
@@ -10,8 +11,27 @@ export default function Sidebar({ data }: BookProps) {
 
   return (
     <div className="md:p-sectionMedium">
-      <h2 className="font-monty text-xl">Recently set as reading</h2>
-      <PreviewBookLarge book={readingLatest} />
+      <ul>
+        <li className="mb-8 font-monty">
+          <h2 className="text-xl">Reading</h2>
+          <PreviewBook book={readingLatest} />
+        </li>
+        <li className="mb-8 font-monty">
+          <Link to="/home/overview">Overview</Link>
+        </li>
+        <li className="mb-8 font-monty">
+          <Link to="/home/discover">Discover</Link>
+        </li>
+        <li className="mb-8 font-monty">
+          <Link to="/home/bookmarks">Bookmarked</Link>
+        </li>
+        <li className="mb-8 font-monty">
+          <Link to="/home/reading">Reading</Link>
+        </li>
+        <li className="font-monty">
+          <Link to="/home/read">Read</Link>
+        </li>
+      </ul>
     </div>
   );
 }
