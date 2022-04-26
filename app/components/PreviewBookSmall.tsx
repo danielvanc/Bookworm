@@ -16,7 +16,7 @@ export default function PreviewBookSmall({ book, errors }: BookPreview) {
           className="max-h-[172px]"
         />
         <div className="py-5 pr-5">
-          <h3 className="font-monty">{title}</h3>
+          <h3>{title}</h3>
           {errors && <p className="text-red-600">{errors?.message}</p>}
         </div>
       </div>
