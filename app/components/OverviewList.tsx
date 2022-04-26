@@ -5,7 +5,7 @@ import { useUser } from "~/utils/user";
 import PreviewBookSmall from "./PreviewBookSmall";
 
 interface OverviewListProps {
-  data: Book[];
+  data: usersBookmarks[];
   listType: "bookmarked" | "reading" | "read";
 }
 
@@ -15,8 +15,8 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
   const { id } = useUser();
 
   return (
-    <ul>
-      {data.map((book: Book) => {
+    <ul className="flex flex-wrap gap-x-5">
+      {data.map((book) => {
         const isReading = book.reading;
         const isRead = book.read;
         let criteria = !isReading && !isRead;
@@ -33,7 +33,7 @@ export default function OverviewList({ data, listType }: OverviewListProps) {
         if (!criteria) return null;
 
         return (
-          <li key={book.id} className="relative">
+          <li key={book.id} className="relative md:w-[32%]">
             <fetcher.Form method="post">
               <input type="hidden" name="user_id" value={id} />
               <input type="hidden" name="book_id" value={book.id} />

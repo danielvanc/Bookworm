@@ -1,37 +1,46 @@
-import type { ActionFunction } from "@remix-run/node";
-import { Form, Outlet } from "@remix-run/react";
-import { authenticator } from "~/auth/auth.server";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
+import { authenticator, oAuthStrategy } from "~/auth/auth.server";
 import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
-import { useUser } from "~/utils/user";
+import { getLatestBooks } from "~/models/books.server";
 
 export const action: ActionFunction = async ({ request }) => {
   await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
 };
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await oAuthStrategy.checkSession(request, {
+    failureRedirect: FAILURE_REDIRECT,
+  });
+  const { id } = session?.user!;
+  const data = await getLatestBooks(id, 10);
+
+  return data;
+};
+
 export default function Home() {
-  const { email, user_metadata } = useUser();
+  const { usersBookmarks } = useLoaderData<BooksAndBookmarks>();
 
   return (
-    <div className="root-frame min-h-[100vh] overflow-y-hidden bg-grayWorm-100">
-      <header className="bg-rosyWorm px-8 py-4 text-white">
-        <h1>
-          Hello {user_metadata?.full_name} of {email}
-        </h1>
-        <Form method="post">
-          <button>Log Out</button>
-        </Form>
-      </header>
+    <div className="flex min-h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">
+      <main className="md:w-3/4">
+        <Outlet />
+      </main>
 
-      <div className="flex min-h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">
-        <main className="md:w-3/4">
-          <Outlet />
-        </main>
-
-        <aside className="bg-grayWorm-800 md:w-1/4">
-          <SideBar />
-        </aside>
-      </div>
+      <aside className="bg-grayWorm-800 md:w-1/4">
+        <SideBar data={usersBookmarks} />
+      </aside>
     </div>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <>
+      <h1>Oh no!</h1>
+      <pre>{error.message}</pre>
+      <p>There was an error in the home route!</p>
+    </>
   );
 }

@@ -104,32 +104,33 @@ export async function getUsersBookmarks(user_id: books["user_id"]) {
   return usersBookmarks;
 }
 
-export async function getLatestBooks(userId: string, total: number) {
+export async function getLatestBooks(userId: books["user_id"], total: number) {
   const api = `${config.API.ALL_BOOKS}""&maxResults=${total}` || "";
   const data: BooksFeed = await fetch(api).then((res) => res.json());
-  const usersBookmarks = await getUsersBookmarks(userId);
+  const bookmarkIds = await getUsersBookmarks(userId);
   const books: Book[] = data?.items?.map((book) => initialBookData(book));
+  let usersBookmarks: Book[] = [];
+
+  if (bookmarkIds.length) {
+    usersBookmarks = await getAllBooksmarkData(bookmarkIds);
+  }
 
   return { books, usersBookmarks };
 }
 
-export async function getUsersLatestBookmarks(userId: string, total: number) {
-  const bookmarks = await getUsersBookmarks(userId);
+async function fetchBookInfo(bookId: string): Promise<Book> {
+  // TODO: Add error handling component for api requests
+  const result = await fetch(`${config.API.BOOK}${bookId}`).then(
+    (res) => res.json() as Promise<initialBook>
+  );
 
-  if (!bookmarks.length) return [];
+  return initialBookData(result);
+}
 
-  async function fetchBookInfo(bookId: string): Promise<Book> {
-    // TODO: Add error handling component for api requests
-    const result = await fetch(`${config.API.BOOK}${bookId}`).then(
-      (res) => res.json() as Promise<initialBook>
-    );
-
-    return initialBookData(result);
-  }
-
-  const bookmarksData = await Promise.all(
+async function getAllBooksmarkData(bookmarkIds: usersBookmarks[]) {
+  return Promise.all(
     // TODO: Add correct type for bookmarks
-    bookmarks.map(async (book: any) => {
+    bookmarkIds.map(async (book: any) => {
       const data = await fetchBookInfo(book.id);
       data.read = book.read;
       data.reading = book.reading;
@@ -137,6 +138,14 @@ export async function getUsersLatestBookmarks(userId: string, total: number) {
       return data;
     })
   );
+}
+
+export async function getUsersLatestBookmarks(userId: string, total: number) {
+  const bookmarkIds = await getUsersBookmarks(userId);
+
+  if (!bookmarkIds.length) return [];
+
+  const bookmarksData = await getAllBooksmarkData(bookmarkIds);
 
   return bookmarksData;
 }

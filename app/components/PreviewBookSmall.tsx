@@ -10,8 +10,11 @@ export default function PreviewBookSmall({ book, errors }: BookPreview) {
       prefetch="intent"
     >
       <div className="flex gap-3">
-        {/* TODO: Provide fallback image if no image provided */}
-        <img src={image} alt={title} className="max-h-[172px]" />
+        <img
+          src={image ? image : "/images/book-cover.png"}
+          alt={title}
+          className="max-h-[172px]"
+        />
         <div className="py-5 pr-5">
           <h3 className="font-monty">{title}</h3>
           {errors && <p className="text-red-600">{errors?.message}</p>}
