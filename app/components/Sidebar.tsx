@@ -20,7 +20,9 @@ export default function Sidebar({ data }: BookProps) {
           <Link to="/home/overview">Overview</Link>
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/discover">Discover</Link>
+          <Link to="/home/discover" prefetch="intent">
+            Discover
+          </Link>
         </li>
         <li className="mb-8 font-monty">
           <Link to="/home/bookmarks">Bookmarked</Link>
