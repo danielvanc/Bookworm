@@ -1,27 +1,43 @@
-export async function loader() {
-  return {};
-}
+import type { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
+import { getLatestBooks } from "~/models/books.server";
+import { useUser } from "~/utils/user";
+import PreviewListBookItem from "~/components/PreviewListBookItem";
+
+// TODO: Add paginated results
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await oAuthStrategy.checkSession(request, {
+    failureRedirect: FAILURE_REDIRECT,
+  });
+  const { id } = session?.user!;
+  const data = await getLatestBooks(id, 25);
+
+  return data;
+};
 
 export default function Discover() {
-  // const books = data?.items || [];
+  const { id: userId } = useUser();
+  const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
+
   return (
     <div className="md:p-sectionMedium">
       <hr />
-      <h1>Discover!</h1>
+      <h1 className="font-monty text-2xl md:mb-10">Discover!</h1>
 
-      {/* <ul className="relative mt-10 flex w-full items-end justify-around overflow-x-auto">
-        {books.map((book) => (
-          <li key={book.id} className="pr-20">
-            <a href={book.volumeInfo.infoLink}>
-              {book.volumeInfo.title}
-              <img
-                src={book.volumeInfo?.imageLinks?.smallThumbnail}
-                alt={book.volumeInfo.title}
-              />
-            </a>
-          </li>
-        ))}
-      </ul> */}
+      <ul className="relative my-3 flex flex-wrap gap-6">
+        {books.map((book) => {
+          return (
+            <PreviewListBookItem
+              key={book.id}
+              book={book}
+              usersBookmarks={usersBookmarks}
+              userId={String(userId)}
+            />
+          );
+        })}
+      </ul>
     </div>
   );
 }
