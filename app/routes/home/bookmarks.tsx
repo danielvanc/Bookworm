@@ -1,5 +1,15 @@
-import PreviewListBookItem from "~/components/PreviewListBookItem";
+import type { LoaderFunction } from "@remix-run/node";
 import { useMatchesData, useUser } from "~/utils/user";
+import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
+import PreviewListBookItem from "~/components/PreviewListBookItem";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await oAuthStrategy.checkSession(request, {
+    failureRedirect: FAILURE_REDIRECT,
+  });
+
+  return null;
+};
 
 export default function Bookmarks() {
   const { id: userId } = useUser();
