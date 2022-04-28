@@ -17,7 +17,9 @@ export default function Sidebar({ data }: BookProps) {
           <PreviewBook book={readingLatest} />
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/overview">Overview</Link>
+          <Link to="/home/overview" prefetch="intent">
+            Overview
+          </Link>
         </li>
         <li className="mb-8 font-monty">
           <Link to="/home/discover" prefetch="intent">
