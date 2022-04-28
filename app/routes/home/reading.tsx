@@ -17,7 +17,6 @@ export default function Reading() {
     usersBookmarks: Book[];
   };
   const booksReading = usersBookmarks.filter((book) => book.reading);
-  console.log("booksReading", booksReading);
 
   return (
     <div className="md:p-sectionMedium">
