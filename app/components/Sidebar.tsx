@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
 import PreviewBook from "./PreviewBook";
 
 interface BookProps {
@@ -8,34 +8,42 @@ interface BookProps {
 export default function Sidebar({ data }: BookProps) {
   const currentlyReading = data.filter((book) => book.reading);
   const readingLatest = [...currentlyReading].reverse()[0];
+  const activeStyles = ({ isActive }: { isActive: Boolean }) =>
+    isActive ? "border-b-2 border-b-rosyWorm-900 text-rosyWorm" : undefined;
 
   return (
-    <div className="md:p-sectionMedium">
+    <nav className="md:p-sectionMedium">
       <ul>
         <li className="mb-8 font-monty">
           <h2 className="text-xl">Reading</h2>
           <PreviewBook book={readingLatest} />
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/overview" prefetch="intent">
+          <NavLink to="overview" prefetch="intent" className={activeStyles}>
             Overview
-          </Link>
+          </NavLink>
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/discover" prefetch="intent">
+          <NavLink to="discover" prefetch="intent" className={activeStyles}>
             Discover
-          </Link>
+          </NavLink>
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/bookmarks">Bookmarked</Link>
+          <NavLink to="bookmarks" className={activeStyles}>
+            Bookmarked
+          </NavLink>
         </li>
         <li className="mb-8 font-monty">
-          <Link to="/home/reading">Reading</Link>
+          <NavLink to="/home/reading" className={activeStyles}>
+            Reading
+          </NavLink>
         </li>
         <li className="font-monty">
-          <Link to="/home/read">Read</Link>
+          <NavLink to="/home/read" className={activeStyles}>
+            Read
+          </NavLink>
         </li>
       </ul>
-    </div>
+    </nav>
   );
 }

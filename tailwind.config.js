@@ -1,5 +1,5 @@
 const plugin = require("tailwindcss/plugin");
-const { backgroundPosition } = require("tailwindcss/defaultTheme");
+// const { backgroundPosition } = require("tailwindcss/defaultTheme");
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}"],
