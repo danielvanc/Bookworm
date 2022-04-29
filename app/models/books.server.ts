@@ -118,7 +118,7 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
   return { books, usersBookmarks };
 }
 
-async function fetchBookInfo(bookId: string): Promise<Book> {
+export async function fetchBookInfo(bookId: string): Promise<Book> {
   // TODO: Add error handling component for api requests
   const result = await fetch(`${config.API.BOOK}${bookId}`).then(
     (res) => res.json() as Promise<initialBook>
