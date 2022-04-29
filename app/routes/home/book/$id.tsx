@@ -18,9 +18,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 export default function Book() {
-  const data = useLoaderData<Book>();
-  console.log("data", data);
-  const { description, id, image, link, title } = data;
+  const { description, image, link, title } = useLoaderData<Book>();
 
   return (
     <div>
