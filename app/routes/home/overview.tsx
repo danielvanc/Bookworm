@@ -1,7 +1,7 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { useRef } from "react";
+import * as React from "react";
 import { FAILURE_REDIRECT, oAuthStrategy } from "~/auth/auth.server";
 import {
   createBookmark,
@@ -14,7 +14,7 @@ import { useMatchesData, useUser } from "~/utils/user";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 import OverviewList from "~/components/OverviewList";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const userId = formData.get("user_id") as string;
   const bookId = formData.get("book_id") as string;
@@ -64,7 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
@@ -73,7 +73,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Overview() {
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = React.useRef<HTMLElement>(null);
   const { id: userId } = useUser();
   const { books, usersBookmarks } = useMatchesData(
     "routes/home"

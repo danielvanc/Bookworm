@@ -1,9 +1,9 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { useMatchesData, useUser } from "~/utils/user";
 import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });

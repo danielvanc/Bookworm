@@ -1,4 +1,9 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import {
+  json,
+  type MetaFunction,
+  type ActionArgs,
+  type LoaderArgs,
+} from "@remix-run/node";
 import {
   Form,
   Link,
@@ -11,7 +16,6 @@ import {
   useCatch,
   useLoaderData,
 } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/node";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
 import {
@@ -38,30 +42,26 @@ export function links() {
   ];
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const session = await oAuthStrategy.checkSession(request);
-  return {
-    user: session?.user || {},
+
+  return json({
+    user: session?.user,
     ENV: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
       SESSION_SECRET: process.env.SESSION_SECRET,
       APP_ENV: process.env.NODE_ENV,
     },
-  };
+  });
 };
 
-interface LoaderData {
-  user: User;
-  ENV: EnvVars;
-}
-
 export default function App() {
-  const { user, ENV } = useLoaderData<LoaderData>();
+  const { user, ENV } = useLoaderData<typeof loader>();
 
   return (
     <html lang="en">
