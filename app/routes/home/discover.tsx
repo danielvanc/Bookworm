@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
 import { getLatestBooks } from "~/models/books.server";
@@ -7,19 +7,19 @@ import PreviewListBookItem from "~/components/PreviewListBookItem";
 
 // TODO: Add paginated results
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
   const { id } = session?.user!;
   const data = await getLatestBooks(id, 25);
 
-  return data;
+  return json(data);
 };
 
 export default function Discover() {
   const { id: userId } = useUser();
-  const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
+  const { books, usersBookmarks } = useLoaderData<typeof loader>();
 
   return (
     <div className="md:p-sectionMedium">

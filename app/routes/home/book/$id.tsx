@@ -1,10 +1,10 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
 import { fetchBookInfo } from "~/models/books.server";
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
@@ -12,13 +12,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   invariant(id, "id is required");
 
-  const data = fetchBookInfo(id);
+  const data = await fetchBookInfo(id);
 
-  return data;
+  return json(data);
 };
 
 export default function Book() {
-  const { description, image, link, title } = useLoaderData<Book>();
+  const { description, image, link, title } = useLoaderData<typeof loader>();
 
   return (
     <div>

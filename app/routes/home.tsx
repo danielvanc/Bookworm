@@ -1,26 +1,26 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { json, type ActionArgs, type LoaderArgs } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { authenticator, oAuthStrategy } from "~/auth/auth.server";
 import SideBar from "~/components/Sidebar";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
 import { getLatestBooks } from "~/models/books.server";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
   const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
 
-  return data;
+  return json(data);
 };
 
 export default function Home() {
-  const { usersBookmarks } = useLoaderData<BooksAndBookmarks>();
+  const { usersBookmarks } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex min-h-[100vh] flex-row-reverse flex-wrap bg-grayWorm-100">

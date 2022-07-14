@@ -1,11 +1,11 @@
-import type { ActionFunction } from "@remix-run/node";
-import { useEffect } from "react";
+import type { ActionArgs } from "@remix-run/node";
+import * as React from "react";
 import { useFetcher } from "@remix-run/react";
 import { oAuthAuthenticator } from "~/auth/auth.server";
 import { supabaseClient } from "~/supabase/supabase.client";
 import { SUCCESS_REDIRECT, FAILURE_REDIRECT } from "~/auth/auth.server";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   await oAuthAuthenticator.authenticate("BKW-oauth", request, {
     successRedirect: SUCCESS_REDIRECT,
     failureRedirect: FAILURE_REDIRECT,
@@ -15,7 +15,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function OAuth() {
   const fetcher = useFetcher();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
         // Remove identities as we don't need them

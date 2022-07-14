@@ -1,5 +1,4 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, type LoaderArgs, type ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import {
   authenticator,
@@ -9,18 +8,14 @@ import {
 import { SUCCESS_REDIRECT, FAILURE_REDIRECT } from "~/auth/auth.server";
 import AuthenticateForm from "~/components/AuthenticateForm";
 
-type LoaderData = {
-  error: { message: string } | null;
-};
-
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   await authenticator.authenticate("sb", request, {
     successRedirect: SUCCESS_REDIRECT,
     failureRedirect: FAILURE_REDIRECT,
   });
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   await supabaseStrategy.checkSession(request, {
     successRedirect: SUCCESS_REDIRECT,
   });
@@ -29,15 +24,15 @@ export const loader: LoaderFunction = async ({ request }) => {
     request.headers.get("Cookie")
   );
 
-  const error = session.get(
-    authenticator.sessionErrorKey
-  ) as LoaderData["error"];
+  const error = session.get(authenticator.sessionErrorKey) as {
+    message: string;
+  } | null;
 
-  return json<LoaderData>({ error });
+  return json({ error });
 };
 
 export default function Welcome() {
-  const { error } = useLoaderData<LoaderData>();
+  const { error } = useLoaderData<typeof loader>();
 
   return (
     <div className="unauthed-wrapper">
