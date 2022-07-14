@@ -95,5 +95,8 @@ export const oAuthAuthenticator = new Authenticator<Session>(sessionStorage, {
   sessionErrorKey: oAuthStrategy.sessionErrorKey,
 });
 
+// TODO: fix these errors
+// @ts-ignore
 authenticator.use(supabaseStrategy);
+// @ts-ignore
 oAuthAuthenticator.use(oAuthStrategy, "BKW-oauth");

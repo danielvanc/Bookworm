@@ -11,7 +11,7 @@ import {
   useCatch,
   useLoaderData,
 } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/react/routeModules";
+import type { MetaFunction } from "@remix-run/node";
 import tailwindStyles from "./tailwind.css";
 import { getMetaInfo } from "./utils/seo";
 import {
