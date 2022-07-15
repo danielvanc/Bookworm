@@ -17,6 +17,7 @@
     "run-remix": "node -r dotenv/config node_modules/.bin/remix dev",
     "dev": "concurrently \"npm run dev:css\" \"node -r dotenv/config node_modules/.bin/remix dev\"",
     "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css --watch",
+    "commit": "cz",
     "test": "jest --watch",
     "coverage": "jest run --coverage",
     "prepare": "husky install",
@@ -89,6 +90,11 @@
   "engines": {
     "node": ">=14",
     "npm": "8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "sideEffects": false
 }
