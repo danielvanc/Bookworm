@@ -7,6 +7,7 @@ export function useMatchesData(id: string) {
     () => matchingRoutes.find((route) => route.id === id),
     [matchingRoutes, id]
   );
+
   return route?.data;
 }
 

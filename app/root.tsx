@@ -21,7 +21,7 @@ import { getMetaInfo } from "./utils/seo";
 import {
   authenticator,
   FAILURE_REDIRECT,
-  oAuthStrategy,
+  getSession,
 } from "./auth/auth.server";
 
 export const meta: MetaFunction = () => ({
@@ -47,10 +47,11 @@ export const action = async ({ request }: ActionArgs) => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const session = await oAuthStrategy.checkSession(request);
+  const session = await getSession(request);
+  const user = session?.user;
 
   return json({
-    user: session?.user,
+    user,
     ENV: {
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_KEY: process.env.SUPABASE_KEY,
@@ -81,6 +82,7 @@ export default function App() {
             <ScrollRestoration />
           </>
         )}
+
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
@@ -103,6 +105,7 @@ function LoggedIn({
   const userData = user.user_metadata || {};
   const name = userData.full_name.split(" ")[0];
   const avatar = userData.avatar_url || "";
+
   return (
     <div className="root-frame min-h-[100vh] overflow-y-hidden bg-grayWorm-100">
       <header className="flex items-center justify-around bg-rosyWorm px-8 py-4 text-white">
@@ -136,9 +139,9 @@ function LoggedIn({
         </div>
 
         {/* TODO: Add menu dropdown */}
-        {/* <Form method="post">
+        <Form method="post">
           <button>Log Out</button>
-        </Form> */}
+        </Form>
       </header>
 
       {children}

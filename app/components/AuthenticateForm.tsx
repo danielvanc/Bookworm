@@ -7,8 +7,8 @@ import { signInWithProvider } from "~/supabase/supabase.client";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 
-type LoaderData = {
-  error: { message: string } | null;
+export type LoaderData = {
+  error: { message?: string } | null;
 };
 
 export default function AuthenticateForm({ error }: LoaderData) {
@@ -21,14 +21,14 @@ export default function AuthenticateForm({ error }: LoaderData) {
       </h2>
       <div>
         {/* TODO: #1 Add better U.I styling for error response */}
-        {error && <div>{error.message}</div>}
+        {error?.message && <div>{error.message}</div>}
         <ul className="social-logins mx-auto flex max-w-[300px] justify-between">
           <li>
             <button
               aria-label="Google"
               onClick={() => signInWithProvider("google")}
             >
-              <AiOutlineGoogle classNames="text-lg lm:text-xl md:text-2xl" />
+              <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
             </button>
           </li>
           <li>
