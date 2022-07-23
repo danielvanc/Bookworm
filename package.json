@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "@headlessui/react": "^1.5.0",
-    "@prisma/client": "^3.12.0",
+    "@prisma/client": "^4.1.0",
     "@remix-run/node": "^1.6.5",
     "@remix-run/react": "^1.6.5",
     "@remix-run/serve": "^1.6.5",
@@ -82,7 +82,7 @@
     "postcss": "^8.4.12",
     "prettier": "^2.6.0",
     "prettier-plugin-tailwindcss": "^0.1.8",
-    "prisma": "^3.11.1",
+    "prisma": "^4.1.0",
     "start-server-and-test": "^1.14.0",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.6.2"
