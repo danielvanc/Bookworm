@@ -13,6 +13,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const session = await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
   });
+
   const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
 

@@ -18,11 +18,6 @@ export default function OAuth() {
   React.useEffect(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
-        // Remove identities as we don't need them
-        // and it makes the session obj to large.
-        delete session?.user?.identities;
-        localStorage.removeItem("supabase.auth.token");
-
         if (event === "SIGNED_IN") {
           const formData = new FormData();
           formData.append("session", JSON.stringify(session));

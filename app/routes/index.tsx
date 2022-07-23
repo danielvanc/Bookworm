@@ -1,38 +1,28 @@
 import { json, type LoaderArgs, type ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import {
-  authenticator,
-  supabaseStrategy,
-  sessionStorage,
-} from "~/auth/auth.server";
+import { oAuthAuthenticator, checkSession } from "~/auth/auth.server";
 import { SUCCESS_REDIRECT, FAILURE_REDIRECT } from "~/auth/auth.server";
-import AuthenticateForm from "~/components/AuthenticateForm";
+import AuthenticateForm, {
+  type LoaderData,
+} from "~/components/AuthenticateForm";
+// import { useUser } from "~/utils/user";
 
 export const action = async ({ request }: ActionArgs) => {
-  await authenticator.authenticate("sb", request, {
+  await oAuthAuthenticator.authenticate("BKW-oauth", request, {
     successRedirect: SUCCESS_REDIRECT,
     failureRedirect: FAILURE_REDIRECT,
   });
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await supabaseStrategy.checkSession(request, {
-    successRedirect: SUCCESS_REDIRECT,
-  });
-
-  const session = await sessionStorage.getSession(
-    request.headers.get("Cookie")
-  );
-
-  const error = session.get(authenticator.sessionErrorKey) as {
-    message: string;
-  } | null;
+  const error = await checkSession(request);
 
   return json({ error });
 };
 
 export default function Welcome() {
-  const { error } = useLoaderData<typeof loader>();
+  const { error } = useLoaderData<LoaderData>();
+  // const user = useUser();
 
   return (
     <div className="unauthed-wrapper">
@@ -59,6 +49,7 @@ export default function Welcome() {
           ullamcorper maecenas condimentum nunc sed.
         </p>
         <AuthenticateForm error={error} />
+        {/* <AuthenticateForm /> */}
         <div className="xl:pl-8 xl:pr-14 xl:text-xl">
           <p className="xl:mb-5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.

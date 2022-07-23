@@ -9,7 +9,7 @@ export const FAILURE_REDIRECT = "/";
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "BKW_SESSION",
+    name: "BKW",
     httpOnly: true,
     path: "/",
     sameSite: "lax",
@@ -95,8 +95,29 @@ export const oAuthAuthenticator = new Authenticator<Session>(sessionStorage, {
   sessionErrorKey: oAuthStrategy.sessionErrorKey,
 });
 
-// TODO: fix these errors
-// @ts-ignore
-authenticator.use(supabaseStrategy);
+export async function getSession(request: Request) {
+  const session = await oAuthStrategy.checkSession(request);
+
+  if (!session) return null;
+
+  return supabaseServer.auth.api.getUser(session?.access_token || ``);
+}
+
+export async function checkSession(request: Request) {
+  const session = await oAuthStrategy.checkSession(request, {
+    successRedirect: SUCCESS_REDIRECT,
+  });
+
+  if (!session) {
+    const session = await sessionStorage.getSession(
+      request.headers.get("Cookie")
+    );
+    const error = session?.get(authenticator.sessionErrorKey);
+
+    return error;
+  }
+}
+
+// TODO: fix this TS error - issue with the package?
 // @ts-ignore
 oAuthAuthenticator.use(oAuthStrategy, "BKW-oauth");
