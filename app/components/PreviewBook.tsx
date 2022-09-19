@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function PreviewBook({ book, errors }: BookPreview) {
+export default function PreviewBook({ book }: BookPreview) {
   const { id, image, title } = book;
 
   return (

@@ -1,6 +1,6 @@
 import BookItemFooter from "./BookItemFooter";
 
-export default function PreviewListBookItem({
+export default function PreviewBookItem({
   book,
   usersBookmarks,
   userId,

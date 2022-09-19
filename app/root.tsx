@@ -5,8 +5,6 @@ import {
   type LoaderArgs,
 } from "@remix-run/node";
 import {
-  Form,
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -23,6 +21,7 @@ import {
   FAILURE_REDIRECT,
   getSession,
 } from "./auth/auth.server";
+import Dashboard from "./components/Dashboard";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -63,24 +62,22 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function App() {
   const { user, ENV } = useLoaderData<typeof loader>();
-
+  const isLoggedIn = user?.email;
+  const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : ``;
+  const bodyClasses = isLoggedIn ? `h-full` : ``;
   return (
-    <html lang="en">
+    <html lang="en" className={htmlClasses}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="font-serifPro">
-        {user?.email ? (
-          <LoggedIn user={user}>
+      <body className={`font-serifPro ${bodyClasses}`}>
+        {!isLoggedIn && <Outlet />}
+
+        {isLoggedIn && (
+          <Dashboard user={user || {}}>
             <Outlet />
-            <ScrollRestoration />
-          </LoggedIn>
-        ) : (
-          <>
-            <Outlet />
-            <ScrollRestoration />
-          </>
+          </Dashboard>
         )}
 
         <script
@@ -88,64 +85,11 @@ export default function App() {
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
           }}
         />
+        <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
-  );
-}
-
-function LoggedIn({
-  user,
-  children,
-}: {
-  user: User;
-  children: React.ReactNode;
-}) {
-  const userData = user.user_metadata || {};
-  const name = userData.full_name.split(" ")[0];
-  const avatar = userData.avatar_url || "";
-
-  return (
-    <div className="root-frame min-h-[100vh] overflow-y-hidden bg-grayWorm-100">
-      <header className="flex items-center justify-around bg-rosyWorm px-8 py-4 text-white">
-        <div className="w-[20vw]">
-          <Link to="/" title="back to overview">
-            <img
-              src="/images/logo_header.svg"
-              alt="BKWorm - Book app for book lovers!"
-              className="inline-block"
-            />
-          </Link>
-        </div>
-        <Form className="w-[60vw]">
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search for books"
-            className="w-full rounded-xl py-3 px-5 font-monty text-slate-500"
-          />
-        </Form>
-        <div className="align-center flex w-[20vw] items-center justify-end gap-x-3 font-monty">
-          <h1>Hey, {name}!</h1>
-          <img
-            src={avatar}
-            alt=""
-            width="46"
-            height="46"
-            className="rounded-full"
-          />
-        </div>
-
-        {/* TODO: Add menu dropdown */}
-        <Form method="post">
-          <button>Log Out</button>
-        </Form>
-      </header>
-
-      {children}
-    </div>
   );
 }
 

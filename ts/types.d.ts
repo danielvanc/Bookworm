@@ -73,9 +73,11 @@ interface initialBook {
 }
 
 interface usersBookmarks {
+  buid: string;
   id: string;
   reading: boolean;
   read: boolean;
+  bookmarked: boolean;
 }
 
 /**
@@ -105,4 +107,11 @@ type BookPreviewList = BookPreviewDetails[];
 interface BookPreview {
   book: BookPreviewDetails;
   errors?: Errors;
+}
+
+interface TextualDropdownProps {
+  title: string;
+  description: string;
+  type: string;
+  action: string;
 }
