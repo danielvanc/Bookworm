@@ -1,5 +1,7 @@
+/** @type {import('tailwindcss').Config} */
+
 const plugin = require("tailwindcss/plugin");
-// const { backgroundPosition } = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}"],
@@ -7,8 +9,10 @@ module.exports = {
     screens: {
       lm: "400px",
       desktop: "1200px",
+      desktopMax: "1900px",
       ...defaultTheme.screens,
     },
+
     extend: {
       backgroundImage: {
         loggedOut: `url('/images/book-stack-bg.png')`,
@@ -26,6 +30,7 @@ module.exports = {
         loggedOutPosTablet: "-1090% 0",
       },
       colors: {
+        rose: colors.rose,
         rosyWorm: {
           900: "#81334F",
           DEFAULT: "#610023",

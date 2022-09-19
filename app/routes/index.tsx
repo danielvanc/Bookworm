@@ -14,11 +14,11 @@ export const action = async ({ request }: ActionArgs) => {
   });
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
+export async function loader({ request }: LoaderArgs) {
   const error = await checkSession(request);
 
   return json({ error });
-};
+}
 
 export default function Welcome() {
   const { error } = useLoaderData<LoaderData>();
