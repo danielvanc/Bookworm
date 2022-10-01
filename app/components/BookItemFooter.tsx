@@ -1,6 +1,6 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { BookmarkIcon } from "@heroicons/react/solid";
-import Done from "./buttons/Done";
+import Done from "./icons/Done";
 
 // TODO: Tidy up / seperate out into components
 
@@ -26,26 +26,20 @@ export default function BookItemFooter({
   const hasErrors = statusFetcher.data?.error;
   const failedUpdate = hasErrors && isIdle;
   const action = statusFetcher.data?.action;
+  const subData = statusFetcher.submission && statusFetcher.submission.formData;
+  const ErrorMessage = "Error, please retry";
 
-  const isAddingBookmark =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "create";
-  const isRemovingBookmark =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "remove-bookmark";
-  const isReadingUpdate =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "reading";
-  const isNotReadingUpdate =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "remove-reading";
+  const isBookmarkAction = action === "create" || action === "remove-bookmark";
+  const isReadingAction = action === "remove-reading" || action === "reading";
+  const isReadAction = action === "remove-read" || action === "read";
 
-  const isReadUpdate =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "read";
-  const isNotReadUpdate =
-    statusFetcher.submission &&
-    statusFetcher.submission.formData.get("_action") === "remove-read";
+  const isAddingBookmark = subData?.get("_action") === "create";
+  const isRemovingBookmark = subData?.get("_action") === "remove-bookmark";
+  const isReadingUpdate = subData?.get("_action") === "reading";
+  const isNotReadingUpdate = subData?.get("_action") === "remove-reading";
+
+  const isReadUpdate = subData?.get("_action") === "read";
+  const isNotReadUpdate = subData?.get("_action") === "remove-read";
 
   const nonSelectedStyles =
     "text-gray-700 hover:bg-gray-50 focus:ring-gray-900 bg-white focus:border-x-rosyWorm-900 border-gray-300";
@@ -94,7 +88,9 @@ export default function BookItemFooter({
                   name="_action"
                   value={`${isBookmarked ? "remove-bookmark" : "create"}`}
                   type="submit"
-                  className={bookmarkButtonStyles}
+                  className={`${bookmarkButtonStyles} ${
+                    failedUpdate && isBookmarkAction ? "text-red-800" : ""
+                  }`}
                 >
                   <BookmarkIcon
                     className={`-ml-1 mr-2 h-5 w-5 ${
@@ -103,7 +99,7 @@ export default function BookItemFooter({
                     aria-hidden="true"
                   />
                   {failedUpdate && action === "create"
-                    ? statusFetcher.data.errorMessage
+                    ? ErrorMessage
                     : isBookmarked
                     ? "Bookmarked"
                     : "Bookmark"}
@@ -129,10 +125,12 @@ export default function BookItemFooter({
                     isReading && !isReadUpdate
                       ? "bg-gray-100 text-gray-500"
                       : "bg-white text-gray-700 hover:bg-gray-50"
-                  }   focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  }   focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
+                    failedUpdate && isReadingAction ? "text-red-800" : ""
+                  }`}
                 >
                   {failedUpdate && action === "reading"
-                    ? statusFetcher.data.errorMessage
+                    ? ErrorMessage
                     : isReading && !isReadUpdate
                     ? "Reading"
                     : "Not Reading"}
@@ -161,14 +159,16 @@ export default function BookItemFooter({
                     isRead && !isReadingUpdate
                       ? "bg-gray-100 text-gray-500"
                       : "bg-white text-gray-700 hover:bg-gray-50"
-                  }   focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500`}
+                  }   focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
+                    failedUpdate && isReadAction ? "text-red-800" : ""
+                  }`}
                 >
-                  {failedUpdate &&
-                  (action === "read" || action === "remove-read")
-                    ? statusFetcher.data.errorMessage
+                  {failedUpdate && isReadAction
+                    ? ErrorMessage
                     : isRead && !isReadingUpdate
                     ? "Read"
                     : "Not Finished"}
+
                   {isRead && !isReadingUpdate && (
                     <Done className="ml-2 -mr-2 h-5 w-5 text-gray-400" />
                   )}
