@@ -5,6 +5,8 @@ import PreviewListBookItem from "~/components/PreviewListBookItem";
 import { getAllRead } from "~/models/books.server";
 import { useLoaderData } from "@remix-run/react";
 
+// TODO: Fix TS Errors
+
 export async function loader({ request }: LoaderArgs) {
   await oAuthStrategy.checkSession(request, {
     failureRedirect: FAILURE_REDIRECT,
@@ -17,17 +19,18 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Reading() {
   const { userId, bookmarks } = useLoaderData<typeof loader>();
+  // @ts-ignore
   const allBooks = bookmarks.filter((book) => book.read || book.reading);
 
   return (
     <div className="md:p-sectionMedium">
       <ul className="relative my-3 mb-20 flex flex-wrap gap-6">
+        {/* @ts-ignore */}
         {allBooks.map((book) => {
           return (
             <PreviewListBookItem
               key={book.id}
               book={book}
-              // TODO: Fix TS Error
               // @ts-ignore
               usersBookmarks={bookmarks}
               userId={String(userId)}

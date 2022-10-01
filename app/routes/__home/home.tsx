@@ -50,45 +50,34 @@ export async function action({ request }: ActionArgs) {
     if (isAddingBookmark) {
       errorMessage = addingBookmarkError;
       successMessage = "Successfully added to your bookmarks!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
+
       await createBookmark(buid, bookId, userId);
     }
 
     if (isRemovingBookmark) {
       errorMessage = removingBookmarkError;
       successMessage = "Successfully removed from your bookmarks!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
+
       await removeBookmark(buid);
     }
 
     if (isReading) {
       errorMessage = isReadingError;
       successMessage = "Successfully marked as reading!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
+
       await markAsReading(buid, bookId, userId);
     }
 
     if (isNotReading) {
       errorMessage = isNotReadingError;
       successMessage = "Successfully marked as not reading!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
+
       await markAsNotReading(buid);
     }
 
     if (isRead) {
       errorMessage = isReadError;
       successMessage = "Successfully marked as read!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
 
       await markAsRead(buid, bookId, userId);
     }
@@ -96,9 +85,7 @@ export async function action({ request }: ActionArgs) {
     if (isNotRead) {
       errorMessage = isNotReadError;
       successMessage = "Successfully marked as not finished!";
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
+
       await markAsNotRead(buid);
     }
 
