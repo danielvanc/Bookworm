@@ -14,6 +14,8 @@ export default function PreviewBookItem({
   const isReading = userBookmark?.reading ?? false;
   const isRead = userBookmark?.read ?? false;
 
+  if (!book.image || !book.title) return null;
+
   return (
     <li
       key={book.id}
