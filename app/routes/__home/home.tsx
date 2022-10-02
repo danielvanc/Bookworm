@@ -120,8 +120,9 @@ export default function Home() {
     <div className="flex items-center justify-center">
       <div>
         <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
+
         <ul className="flex flex-col gap-6">
-          {books.map((book: Book) => {
+          {books?.map((book: Book) => {
             return (
               <PreviewBookItem
                 key={book.id}

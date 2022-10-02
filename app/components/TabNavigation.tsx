@@ -6,6 +6,7 @@ interface Props {
     href: string;
     current: boolean;
   }[];
+  optimisticPath?: string;
 }
 const defaultLinkStyles =
   "group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-center text-sm font-medium hover:bg-gray-50 focus:z-10";
@@ -13,7 +14,7 @@ const defaultSpanStyles = "absolute inset-x-0 bottom-0 h-0.5";
 const activeLinkStyles = `text-gray-900 ${defaultLinkStyles}`;
 const activeLinkSpanStyles = `bg-rose-500  ${defaultSpanStyles}`;
 
-export default function TabNavigation({ tabs }: Props) {
+export default function TabNavigation({ tabs, optimisticPath }: Props) {
   function appendBorders(isActive: boolean, idx: number): string {
     const borderLeftStyle = idx === 0 ? "rounded-l-lg" : "";
     const borderRightStyle = idx === tabs.length - 1 ? "rounded-r-lg" : "";
@@ -60,7 +61,8 @@ export default function TabNavigation({ tabs }: Props) {
                   <span
                     aria-hidden="true"
                     className={
-                      isActive
+                      (isActive && !optimisticPath) ||
+                      (optimisticPath && optimisticPath === `/${tab.href}`)
                         ? activeLinkSpanStyles
                         : `bg-transparent ${defaultSpanStyles}`
                     }

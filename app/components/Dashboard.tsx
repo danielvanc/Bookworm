@@ -2,7 +2,6 @@ import * as React from "react";
 import { classNames } from "~/utils";
 
 import { HomeIcon } from "@heroicons/react/outline";
-import TabNavigation from "./TabNavigation";
 import Header from "./Header";
 
 export default function Dashboard({
@@ -19,12 +18,6 @@ export default function Dashboard({
 
   const navigation = [
     { name: "Home", href: "/home", icon: HomeIcon, current: true },
-  ];
-
-  const tabs = [
-    { name: "Discover", href: "home", current: true },
-    { name: "Bookmarked", href: "bookmarks", current: false },
-    { name: "Read / Reading", href: "read", current: false },
   ];
 
   return (
@@ -66,10 +59,7 @@ export default function Dashboard({
               </div>
             </nav>
           </div>
-          <main className="lg:col-span-9 xl:col-span-7">
-            <TabNavigation tabs={tabs} />
-            <div className="mt-4">{children}</div>
-          </main>
+          <main className="lg:col-span-9 xl:col-span-7">{children}</main>
         </div>
       </div>
     </div>
