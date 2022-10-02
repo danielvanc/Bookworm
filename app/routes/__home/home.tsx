@@ -1,5 +1,5 @@
 import { json, type ActionArgs, type LoaderArgs } from "@remix-run/node";
-import { useFetchers, useLoaderData } from "@remix-run/react";
+import { useCatch, useFetchers, useLoaderData } from "@remix-run/react";
 import { oAuthStrategy } from "~/auth/auth.server";
 import { FAILURE_REDIRECT } from "~/auth/auth.server";
 import {
@@ -106,6 +106,11 @@ export async function loader({ request }: LoaderArgs) {
   const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
 
+  if (!data || !data.books || !data.books.length)
+    throw new Response("Problem fetching book list...", {
+      status: 403,
+    });
+
   return json(data);
 }
 
@@ -123,6 +128,8 @@ export default function Home() {
 
         <ul className="flex flex-col gap-6">
           {books?.map((book: Book) => {
+            if (!book.title || !book.image) return null;
+
             return (
               <PreviewBookItem
                 key={book.id}
@@ -138,6 +145,29 @@ export default function Home() {
       {status && status.type === "done" ? (
         <Notification status={status} />
       ) : null}
+    </div>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  if (caught.status === 403) {
+    return (
+      <div className="mt-10 text-center">
+        <h2 className="mb-4">{caught.data}</h2>
+        <button onClick={() => window.location.reload()}>Retry?</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>Caught</h1>
+      <p>Status: {caught.status}</p>
+      <pre>
+        <code>{JSON.stringify(caught.data, null, 2)}</code>
+      </pre>
     </div>
   );
 }
