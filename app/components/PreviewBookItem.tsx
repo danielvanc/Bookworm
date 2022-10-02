@@ -22,7 +22,7 @@ export default function PreviewBookItem({
       className="flex flex-col divide-y divide-gray-200 rounded-lg bg-white shadow"
     >
       <div className="flex flex-col items-start p-8 md:flex-row">
-        <div className="w-1/3">
+        <div className="w-1/5">
           <img
             className="mx-auto w-full flex-shrink-0 rounded-lg shadow-md md:object-cover"
             src={book.image}
@@ -30,7 +30,7 @@ export default function PreviewBookItem({
           />
         </div>
 
-        <div className="w-2/3 py-5 md:py-0 md:px-10">
+        <div className="w-4/5 py-5 md:py-0 md:px-10">
           <h3 className="text-xl font-black text-gray-700">{book.title}</h3>
           <dl className="mt-1 flex flex-grow flex-col justify-between">
             <dt className="sr-only">Title</dt>

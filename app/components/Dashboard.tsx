@@ -59,7 +59,7 @@ export default function Dashboard({
               </div>
             </nav>
           </div>
-          <main className="lg:col-span-9 xl:col-span-7">{children}</main>
+          <main className="lg:col-span-9">{children}</main>
         </div>
       </div>
     </div>

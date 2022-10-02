@@ -13,10 +13,10 @@ export default function PreviewBookItemSkeleton({
           className="relative mb-6 flex animate-pulse flex-col divide-y divide-gray-200 rounded-lg bg-white shadow"
         >
           <div className="flex flex-col items-start p-8 md:flex-row">
-            <div className="mx-auto h-60 w-1/3 flex-shrink-0 rounded-lg bg-gray-300 shadow-md">
+            <div className="mx-auto h-60 w-1/5 flex-shrink-0 rounded-lg bg-gray-300 shadow-md">
               &nbsp;
             </div>
-            <div className="w-2/3 py-5 md:py-0 md:pl-10 md:pr-2">
+            <div className="w-4/5 py-5 md:py-0 md:pl-10 md:pr-2">
               <div className="h-10 w-full animate-pulse rounded bg-gray-300">
                 &nbsp;
               </div>
