@@ -46,6 +46,7 @@
     "@remix-run/serve": "^1.7.2",
     "@remix-run/vercel": "^1.7.2",
     "@supabase/supabase-js": "^1.31.1",
+    "clsx": "^1.2.1",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "esbuild": "^0.14.27",

@@ -33,7 +33,7 @@ module.exports = {
         rose: colors.rose,
         rosyWorm: {
           900: "#81334F",
-          DEFAULT: "#610023",
+          DEFAULT: "#36003C",
         },
         grayWorm: {
           100: "#EEE7E1",
