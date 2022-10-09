@@ -4,12 +4,16 @@ import * as redis from "redis";
 
 // TODO: Add better caching functions
 
-const url =
+const options =
   process.env.NODE_ENV === "production"
-    ? process.env.REDIS_URL
-    : process.env.REDIS_URL_LOCAL;
+    ? {
+        url: process.env.REDIS_URL_PROD,
+        port: process.env.REDIS_PORT_PROD,
+        pass: process.env.REDIS_PASS_PROD,
+      }
+    : { url: process.env.REDIS_URL_LOCAL };
 
-const client = redis.createClient(url);
+const client = redis.createClient(options);
 
 client.on("error", (err) => console.log("Redis Client Error", err));
 
