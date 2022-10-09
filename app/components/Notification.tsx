@@ -32,7 +32,7 @@ export default function Notification({ status }: Props) {
     };
   }, []);
 
-  if (!show) return null;
+  if (!show || !status) return null;
 
   return (
     <div
@@ -54,7 +54,7 @@ export default function Notification({ status }: Props) {
             <div className="p-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  {status.data.error ? (
+                  {status?.data?.error ? (
                     <ExclamationCircleIcon
                       className="h-6 w-6 text-red-800"
                       aria-hidden="true"
@@ -68,7 +68,7 @@ export default function Notification({ status }: Props) {
                 </div>
                 <div className="ml-3 w-0 flex-1 pt-0.5">
                   <p className="mt-1 text-sm text-gray-500">
-                    {status.data.message || status.data.errorMessage}
+                    {status?.data?.message || status?.data?.errorMessage}
                   </p>
                 </div>
                 <div className="ml-4 flex flex-shrink-0">
