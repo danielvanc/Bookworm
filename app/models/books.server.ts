@@ -258,8 +258,6 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
     saveToRedis("home-latest-books", latestBooks);
   }
 
-  console.log("latestBooks", latestBooks);
-
   const bookmarkIds = await getUsersBookmarks(userId);
   if (bookmarkIds.length) {
     usersBookmarks = await getAllBooksmarkData(bookmarkIds);
