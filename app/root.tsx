@@ -63,8 +63,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function App() {
   const { user, ENV } = useLoaderData<typeof loader>();
   const isLoggedIn = user?.email;
-  const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : ``;
-  const bodyClasses = isLoggedIn ? `h-full` : ``;
+  const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
+  const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;
   return (
     <html lang="en" className={htmlClasses}>
       <head>

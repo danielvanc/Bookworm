@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import * as React from "react";
-import { Form } from "@remix-run/react";
+// import { Form } from "@remix-run/react";
 import { signInWithProvider } from "~/supabase/supabase.client";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
@@ -12,13 +12,11 @@ export type LoaderData = {
 };
 
 export default function AuthenticateForm({ error }: LoaderData) {
-  const [showSignIn, setShowSignIn] = React.useState(true);
+  // const [showSignIn, setShowSignIn] = React.useState(true);
 
   return (
-    <div className="mb-10 rounded-lg border-[1px] bg-white p-5 shadow-lg xl:mr-10 xl:mt-10">
-      <h2 className="mb-5 text-center font-fred text-2xl uppercase tracking-widest">
-        Sign in
-      </h2>
+    <div className="mb-10 rounded-t-md border-t-[1px]">
+      <h2 className="mb-5 mt-10 pb-3">Or sign in with:</h2>
       <div>
         {/* TODO: #1 Add better U.I styling for error response */}
         {error?.message && <div>{error.message}</div>}
@@ -56,7 +54,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
             </button>
           </li>
         </ul>
-        <Form method="post" className="my-5 mx-auto max-w-[450px] py-5">
+        {/* <Form method="post" className="my-5 mx-auto max-w-[450px] py-5">
           {showSignIn ? (
             <>
               <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
@@ -118,9 +116,9 @@ export default function AuthenticateForm({ error }: LoaderData) {
               </div>
             </>
           )}
-        </Form>
+        </Form> */}
 
-        <p className="text-center text-sm font-bold">
+        {/* <p className="text-center text-sm font-bold">
           {showSignIn ? (
             <>
               Don't have an account yet?{" "}
@@ -132,7 +130,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
               <button onClick={() => setShowSignIn(true)}>Sign in!</button>
             </>
           )}
-        </p>
+        </p> */}
       </div>
     </div>
   );
