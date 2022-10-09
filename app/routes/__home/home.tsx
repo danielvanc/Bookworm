@@ -106,7 +106,7 @@ export async function loader({ request }: LoaderArgs) {
   const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
 
-  if (!data || !data.books || !data.books.length)
+  if (!data || !data?.books || !data?.books.length)
     throw new Response("Problem fetching book list...", {
       status: 403,
     });
@@ -117,8 +117,8 @@ export async function loader({ request }: LoaderArgs) {
 export default function Home() {
   const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
   const { id: userId } = useUser();
-  const updates = useFetchers();
-  const orderByFirstUpdate = [...updates].reverse();
+  const updates = useFetchers() || [];
+  const orderByFirstUpdate = [...updates]?.reverse();
   const status = orderByFirstUpdate?.[0];
 
   return (
@@ -142,7 +142,7 @@ export default function Home() {
         </ul>
       </div>
 
-      {status && status.type === "done" ? (
+      {status && status?.type === "done" && status?.data?.message ? (
         <Notification status={status} />
       ) : null}
     </div>
