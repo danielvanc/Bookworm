@@ -1,6 +1,11 @@
 // TODO: Fix these type issues
 // @ts-nocheck
 import type { books } from "@prisma/client";
+import {
+  client as cacheClient,
+  saveToRedis,
+  getCacheData,
+} from "../utils/redis.server";
 import { getSession } from "~/auth/auth.server";
 import { prisma } from "~/utils/prisma.server";
 import config from "~/config";
@@ -224,16 +229,43 @@ export async function getUsersBookmarks(user_id: books["user_id"]) {
 
 export async function getLatestBooks(userId: books["user_id"], total: number) {
   const api = `${config.API.ALL_BOOKS}""&maxResults=${total}` || "";
-  const data: BooksFeed = await fetch(api).then((res) => res.json());
-  const bookmarkIds = await getUsersBookmarks(userId);
-  const books: Book[] = data?.items?.map((book) => initialBookData(book));
-  let usersBookmarks: Book[] = [];
 
+  let latestBooks;
+  let usersBookmarks: Book[] = [];
+  let cacheEntry = await getCacheData("home-latest-books");
+
+  if (cacheEntry) {
+    const c0 = new Date().getTime();
+    const parsedCache = JSON.parse(cacheEntry).filter(
+      (item) => !item.source && !item.responseTime
+    );
+
+    const c1 = new Date().getTime();
+    latestBooks = [
+      ...parsedCache,
+      { source: "cache" },
+      { responseTime: `${c1 - c0}ms` },
+    ];
+  } else {
+    const t0 = new Date().getTime();
+    const data: BooksFeed = await fetch(api).then((res) => res.json());
+    const t1 = new Date().getTime();
+    const books: Book[] = data?.items?.map((book) => initialBookData(book));
+
+    const allBooks = [...books];
+    allBooks.push({ source: "api" });
+    latestBooks = [...allBooks, { responseTime: `${t1 - t0}ms` }];
+    saveToRedis("home-latest-books", latestBooks);
+  }
+
+  console.log("latestBooks", latestBooks);
+
+  const bookmarkIds = await getUsersBookmarks(userId);
   if (bookmarkIds.length) {
     usersBookmarks = await getAllBooksmarkData(bookmarkIds);
   }
 
-  return { books, usersBookmarks };
+  return { books: latestBooks, usersBookmarks };
 }
 
 export async function fetchBookInfo(bookId: string): Promise<Book> {

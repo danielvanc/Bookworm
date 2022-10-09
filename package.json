@@ -55,6 +55,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "redis": "^4.3.1",
     "remix-auth": "^3.2.2",
     "remix-auth-supabase": "^4.0.0",
     "tiny-invariant": "^1.2.0"
@@ -70,6 +71,7 @@
     "@types/jest": "^27.5.0",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
+    "@types/redis": "^4.0.11",
     "autoprefixer": "^10.4.4",
     "concurrently": "^7.0.0",
     "cypress": "^9.5.2",
