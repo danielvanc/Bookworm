@@ -24,7 +24,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
           <li>
             <button
               aria-label="Google"
-              onClick={() => signInWithProvider("google")}
+              // onClick={() => signInWithProvider("google")}
             >
               <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
             </button>
@@ -32,7 +32,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
           <li>
             <button
               aria-label="Twitter"
-              onClick={() => signInWithProvider("twitter")}
+              // onClick={() => signInWithProvider("twitter")}
             >
               <FaTwitter className="text-lg lm:text-xl md:text-2xl" />
             </button>
@@ -40,7 +40,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
           <li>
             <button
               aria-label="Facebook"
-              onClick={() => signInWithProvider("facebook")}
+              // onClick={() => signInWithProvider("facebook")}
             >
               <FaFacebookF className="text-lg lm:text-xl md:text-2xl" />
             </button>
