@@ -1,6 +1,7 @@
 const path = require("path");
 
 const fromRoot = (d) => path.join(__dirname, d);
+
 module.exports = {
   roots: [fromRoot("app")],
   resetMocks: true,
@@ -12,7 +13,7 @@ module.exports = {
     "^.+\\.tsx?$": "esbuild-jest",
     "^.+\\.jsx?$": "esbuild-jest",
   },
-  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
   moduleDirectories: ["node_modules", fromRoot("tests")],
   moduleFileExtensions: ["js", "jsx", "json", "ts", "tsx"],
   moduleNameMapper: {
