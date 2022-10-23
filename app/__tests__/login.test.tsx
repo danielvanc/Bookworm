@@ -78,3 +78,6 @@ test("returns status of 200 if not logged in", async () => {
 
   expect(response.status).toBe(200);
 });
+
+test.todo("returns user object if users logged in");
+test.todo("logs user out");
