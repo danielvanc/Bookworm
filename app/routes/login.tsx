@@ -1,6 +1,8 @@
 // TODO: Fix ts errors
 // @ts-nocheck
-import { type LoaderArgs } from "@remix-run/node";
+import React from "react";
+
+import { type LoaderArgs, json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { oAuthStrategy, SUCCESS_REDIRECT } from "~/auth/auth.server";
 import AuthenticateForm from "~/components/AuthenticateForm";
@@ -13,7 +15,7 @@ export async function loader({ request }: LoaderArgs) {
     successRedirect: SUCCESS_REDIRECT,
   });
 
-  return {};
+  return json({}, { status: 200 });
 }
 
 export default function Login() {
