@@ -1,6 +1,5 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
-import { server } from "../../mocks/setup";
 import { createCookieSessionStorage } from "@remix-run/node";
 import { Request } from "@remix-run/node";
 import { loader } from "~/routes/login";
@@ -33,10 +32,6 @@ jest.mock("../auth/auth.server", () => {
     },
   };
 });
-
-beforeAll(() => server.listen());
-afterAll(() => server.close());
-afterEach(() => server.resetHandlers());
 
 test("renders loginWithEmail form with required fields", async () => {
   await render(<LoginWithEmail />);

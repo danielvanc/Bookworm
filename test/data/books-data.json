@@ -1,0 +1,746 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 5789,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "qhVGrHGK65IC",
+      "etag": "x59qozSFWeo",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/qhVGrHGK65IC",
+      "volumeInfo": {
+        "title": "The Comfort of Things",
+        "authors": ["Daniel Miller"],
+        "publisher": "John Wiley & Sons",
+        "publishedDate": "2013-04-24",
+        "description": "What do we know about ordinary people in our towns and cities, about what really matters to them and how they organize their lives today? This book visits an ordinary street and looks into thirty households. It reveals the aspirations and frustrations, the tragedies and accomplishments that are played out behind the doors. It focuses on the things that matter to these people, which quite often turn out to be material things – their house, the dog, their music, the Christmas decorations. These are the means by which they express who they have become, and relationships to objects turn out to be central to their relationships with other people – children, lovers, brothers and friends. If this is a typical street in a modern city like London, then what kind of society is this? It’s not a community, nor a neighbourhood, nor is it a collection of isolated individuals. It isn’t dominated by the family. We assume that social life is corrupted by materialism, made superficial and individualistic by a surfeit of consumer goods, but this is misleading. If the street isn’t any of these things, then what is it? This brilliant and revealing portrayal of a street in modern London, written by one the most prominent anthropologists, shows how much is to be gained when we stop lamenting what we think we used to be and focus instead on what we are now becoming. It reveals the forms by which ordinary people make sense of their lives, and the ways in which objects become our companions in the daily struggle to make life meaningful.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780745655369"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "074565536X"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 316,
+        "printType": "BOOK",
+        "categories": ["Social Science"],
+        "averageRating": 3,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "1.8.6.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=qhVGrHGK65IC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=qhVGrHGK65IC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=qhVGrHGK65IC&printsec=frontcover&dq=%27%27&hl=&cd=1&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=qhVGrHGK65IC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=qhVGrHGK65IC"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 14.99,
+          "currencyCode": "GBP"
+        },
+        "retailPrice": {
+          "amount": 14.99,
+          "currencyCode": "GBP"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=qhVGrHGK65IC&rdid=book-qhVGrHGK65IC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 14990000,
+              "currencyCode": "GBP"
+            },
+            "retailPrice": {
+              "amountInMicros": 14990000,
+              "currencyCode": "GBP"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/The_Comfort_of_Things-sample-epub.acsm?id=qhVGrHGK65IC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/The_Comfort_of_Things-sample-pdf.acsm?id=qhVGrHGK65IC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=qhVGrHGK65IC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "What do we know about ordinary people in our towns and cities, about what really matters to them and how they organize their lives today? This book visits an ordinary street and looks into thirty households."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "qAY4jgEACAAJ",
+      "etag": "+p+E9aslsC0",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/qAY4jgEACAAJ",
+      "volumeInfo": {
+        "title": "The Official DVSA Theory Test for Car Drivers",
+        "authors": ["Driver And Vehicle Standards Agency (Dvsa)"],
+        "publishedDate": "2015-10-26",
+        "description": "This publication is the official theory test book for car drivers, compiled by the Driver and Vehicle Standards Agency. It contains multiple choice questions from the whole theory test question bank, with answers and explanations, dealing with topics such as: alertness and attitude, vehicle safety and handling, safety margins, hazard awareness, vulnerable road users, motorway rules and rules of the road, road and traffic signs, documents, accidents, and vehicle loading.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0115534199"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780115534195"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 512,
+        "printType": "BOOK",
+        "averageRating": 3,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=qAY4jgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=qAY4jgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=qAY4jgEACAAJ&dq=%27%27&hl=&cd=2&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=qAY4jgEACAAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_Official_DVSA_Theory_Test_for_Car_Dr.html?hl=&id=qAY4jgEACAAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=qAY4jgEACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This publication is the official theory test book for car drivers, compiled by the Driver and Vehicle Standards Agency."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "N0RY-qAyiFIC",
+      "etag": "/2kgBcNfiOE",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/N0RY-qAyiFIC",
+      "volumeInfo": {
+        "title": "Immunisation against infectious diseases",
+        "authors": ["David Salisbury", "Mary Ramsay", "Karen Noakes"],
+        "publisher": "The Stationery Office",
+        "publishedDate": "2006-12-11",
+        "description": "This is the third edition of this publication which contains the latest information on vaccines and vaccination procedures for all the vaccine preventable infectious diseases that may occur in the UK or in travellers going outside of the UK, particularly those immunisations that comprise the routine immunisation programme for all children from birth to adolescence. It is divided into two sections: the first section covers principles, practices and procedures, including issues of consent, contraindications, storage, distribution and disposal of vaccines, surveillance and monitoring, and the Vaccine Damage Payment Scheme; the second section covers the range of different diseases and vaccines.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0113225288"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780113225286"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 486,
+        "printType": "BOOK",
+        "categories": ["Medical"],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.2.2.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=N0RY-qAyiFIC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=N0RY-qAyiFIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=N0RY-qAyiFIC&printsec=frontcover&dq=%27%27&hl=&cd=3&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=N0RY-qAyiFIC&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Immunisation_against_infectious_diseases.html?hl=&id=N0RY-qAyiFIC"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/Immunisation_against_infectious_diseases-sample-pdf.acsm?id=N0RY-qAyiFIC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=N0RY-qAyiFIC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This is the third edition of this publication which contains the latest information on vaccines and vaccination procedures for all the vaccine preventable infectious diseases that may occur in the UK or in travellers going outside of the UK ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "iaHuPwAACAAJ",
+      "etag": "e2vzxXMBq88",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/iaHuPwAACAAJ",
+      "volumeInfo": {
+        "title": "The Green Book",
+        "subtitle": "Appraisal and Evaluation in Central Government : Treasury Guidance",
+        "authors": ["Great Britain. Treasury"],
+        "publisher": "Stationery Office",
+        "publishedDate": "2003",
+        "description": "This new edition incorporates revised guidance from H.M Treasury which is designed to promote efficient policy development and resource allocation across government through the use of a thorough, long-term and analytically robust approach to the appraisal and evaluation of public service projects before significant funds are committed. It is the first edition to have been aided by a consultation process in order to ensure the guidance is clearer and more closely tailored to suit the needs of users.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0115601074"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780115601071"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 114,
+        "printType": "BOOK",
+        "categories": ["Business & Economics"],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=iaHuPwAACAAJ&dq=%27%27&hl=&cd=4&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=iaHuPwAACAAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_Green_Book.html?hl=&id=iaHuPwAACAAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=iaHuPwAACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This new edition incorporates revised guidance from H.M Treasury which is designed to promote efficient policy development and resource allocation across government through the use of a thorough, long-term and analytically robust approach ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "sWV0DwAAQBAJ",
+      "etag": "zkKe0Iz8A3Q",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/sWV0DwAAQBAJ",
+      "volumeInfo": {
+        "title": "Reinforcement Learning, second edition",
+        "subtitle": "An Introduction",
+        "authors": ["Richard S. Sutton", "Andrew G. Barto"],
+        "publisher": "MIT Press",
+        "publishedDate": "2018-11-13",
+        "description": "The significantly expanded and updated new edition of a widely used text on reinforcement learning, one of the most active research areas in artificial intelligence. Reinforcement learning, one of the most active research areas in artificial intelligence, is a computational approach to learning whereby an agent tries to maximize the total amount of reward it receives while interacting with a complex, uncertain environment. In Reinforcement Learning, Richard Sutton and Andrew Barto provide a clear and simple account of the field's key ideas and algorithms. This second edition has been significantly expanded and updated, presenting new topics and updating coverage of other topics. Like the first edition, this second edition focuses on core online learning algorithms, with the more mathematical material set off in shaded boxes. Part I covers as much of reinforcement learning as possible without going beyond the tabular case for which exact solutions can be found. Many algorithms presented in this part are new to the second edition, including UCB, Expected Sarsa, and Double Learning. Part II extends these ideas to function approximation, with new sections on such topics as artificial neural networks and the Fourier basis, and offers expanded treatment of off-policy learning and policy-gradient methods. Part III has new chapters on reinforcement learning's relationships to psychology and neuroscience, as well as an updated case-studies chapter including AlphaGo and AlphaGo Zero, Atari game playing, and IBM Watson's wagering strategy. The final chapter discusses the future societal impacts of reinforcement learning.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780262039246"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0262039249"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 549,
+        "printType": "BOOK",
+        "categories": ["Computers"],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.2.2.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=sWV0DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=sWV0DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=sWV0DwAAQBAJ&pg=PP1&dq=%27%27&hl=&cd=5&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=sWV0DwAAQBAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Reinforcement_Learning_second_edition.html?hl=&id=sWV0DwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/Reinforcement_Learning_second_edition-sample-pdf.acsm?id=sWV0DwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=sWV0DwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This second edition has been significantly expanded and updated, presenting new topics and updating coverage of other topics."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "_KnHIAAACAAJ",
+      "etag": "tTIyCOZej44",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/_KnHIAAACAAJ",
+      "volumeInfo": {
+        "title": "Causal Inference",
+        "authors": ["Miquel A. Hernan", "James M. Robins"],
+        "publisher": "CRC Press",
+        "publishedDate": "2019-07-07",
+        "description": "The application of causal inference methods is growing exponentially in fields that deal with observational data. Written by pioneers in the field, this practical book presents an authoritative yet accessible overview of the methods and applications of causal inference. With a wide range of detailed, worked examples using real epidemiologic data as well as software for replicating the analyses, the text provides a thorough introduction to the basics of the theory for non-time-varying treatments and the generalization to complex longitudinal data.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1420076167"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781420076165"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 352,
+        "printType": "BOOK",
+        "categories": ["Medical"],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=_KnHIAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=_KnHIAAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=_KnHIAAACAAJ&dq=%27%27&hl=&cd=6&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=_KnHIAAACAAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Causal_Inference.html?hl=&id=_KnHIAAACAAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=_KnHIAAACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Written by pioneers in the field, this practical book presents an authoritative yet accessible overview of the methods and applications of causal inference."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "QhlADwAAQBAJ",
+      "etag": "AW1jshcEy5c",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/QhlADwAAQBAJ",
+      "volumeInfo": {
+        "title": "Drawdown",
+        "subtitle": "The Most Comprehensive Plan Ever Proposed to Reverse Global Warming",
+        "authors": ["Paul Hawken"],
+        "publisher": "Penguin UK",
+        "publishedDate": "2018-02-22",
+        "description": "NEW YORK TIMES BESTSELLER For the first time ever, an international coalition of leading researchers, scientists and policymakers has come together to offer a set of realistic and bold solutions to climate change. All of the techniques described here - some well-known, some you may have never heard of - are economically viable, and communities throughout the world are already enacting them. From revolutionizing how we produce and consume food to educating girls in lower-income countries, these are all solutions which, if deployed collectively on a global scale over the next thirty years, could not just slow the earth's warming, but reach drawdown: the point when greenhouse gasses in the atmosphere peak and begin todecline. So what are we waiting for?",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780141988443"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0141988444"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": false
+        },
+        "pageCount": 256,
+        "printType": "BOOK",
+        "categories": ["Science"],
+        "averageRating": 3.5,
+        "ratingsCount": 5,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "1.3.4.0.preview.2",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=QhlADwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=QhlADwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=QhlADwAAQBAJ&printsec=frontcover&dq=%27%27&hl=&cd=7&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=QhlADwAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=QhlADwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 5.99,
+          "currencyCode": "GBP"
+        },
+        "retailPrice": {
+          "amount": 5.99,
+          "currencyCode": "GBP"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=QhlADwAAQBAJ&rdid=book-QhlADwAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 5990000,
+              "currencyCode": "GBP"
+            },
+            "retailPrice": {
+              "amountInMicros": 5990000,
+              "currencyCode": "GBP"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/Drawdown-sample-epub.acsm?id=QhlADwAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=QhlADwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "From revolutionizing how we produce and consume food to educating girls in lower-income countries, these are all solutions which, if deployed collectively on a global scale over the next thirty years, could not just slow the earth&#39;s warming ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "URFbEAAAQBAJ",
+      "etag": "a+e/F6i4MFQ",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/URFbEAAAQBAJ",
+      "volumeInfo": {
+        "title": "The Book of Hopes",
+        "subtitle": "Words and Pictures to Comfort, Inspire and Entertain",
+        "authors": ["Katherine Rundell"],
+        "publisher": "Bloomsbury Publishing",
+        "publishedDate": "2021-02-02",
+        "description": "First published online to comfort, inspire and entertain children during lockdown, Katherine Rundell’s collection of over 100 works from the best authors and illustrators of children’s books has been read by almost half a million people. A donation from the sale of each book will go to NHS Charities Together",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781526629883"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1526629887"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 401,
+        "printType": "BOOK",
+        "categories": ["Juvenile Fiction"],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.0.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=URFbEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=URFbEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=URFbEAAAQBAJ&printsec=frontcover&dq=%27%27&hl=&cd=8&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=URFbEAAAQBAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_Book_of_Hopes.html?hl=&id=URFbEAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/The_Book_of_Hopes-sample-pdf.acsm?id=URFbEAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=URFbEAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "First published online to comfort, inspire and entertain children during lockdown, Katherine Rundell’s collection of over 100 works from the best authors and illustrators of children’s books has been read by almost half a million people ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "jBm3DwAAQBAJ",
+      "etag": "w8l9Y66RSj4",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/jBm3DwAAQBAJ",
+      "volumeInfo": {
+        "title": "Interpretable Machine Learning",
+        "authors": ["Christoph Molnar"],
+        "publisher": "Lulu.com",
+        "publishedDate": "2020",
+        "description": "This book is about making machine learning models and their decisions interpretable. After exploring the concepts of interpretability, you will learn about simple, interpretable models such as decision trees, decision rules and linear regression. Later chapters focus on general model-agnostic methods for interpreting black box models like feature importance and accumulated local effects and explaining individual predictions with Shapley values and LIME. All interpretation methods are explained in depth and discussed critically. How do they work under the hood? What are their strengths and weaknesses? How can their outputs be interpreted? This book will enable you to select and correctly apply the interpretation method that is most suitable for your machine learning project.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780244768522"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0244768528"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 320,
+        "printType": "BOOK",
+        "categories": ["Artificial intelligence"],
+        "averageRating": 4.5,
+        "ratingsCount": 2,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.1.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=jBm3DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=jBm3DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=jBm3DwAAQBAJ&pg=PP1&dq=%27%27&hl=&cd=9&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=jBm3DwAAQBAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Interpretable_Machine_Learning.html?hl=&id=jBm3DwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.co.uk/books/download/Interpretable_Machine_Learning-sample-pdf.acsm?id=jBm3DwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=jBm3DwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This book is about making machine learning models and their decisions interpretable."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "vhQ1AAAAMAAJ",
+      "etag": "ybuaq81yECY",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/vhQ1AAAAMAAJ",
+      "volumeInfo": {
+        "title": "The World Book Encyclopedia",
+        "publishedDate": "2002",
+        "description": "An encyclopedia designed especially to meet the needs of elementary, junior high, and senior high school students.",
+        "industryIdentifiers": [
+          {
+            "type": "OTHER",
+            "identifier": "UOM:39015051610437"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "printType": "BOOK",
+        "categories": ["Encyclopedias and dictionaries"],
+        "averageRating": 3,
+        "ratingsCount": 10,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "2.4.1.0.preview.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=vhQ1AAAAMAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=vhQ1AAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.co.uk/books?id=vhQ1AAAAMAAJ&dq=%27%27&hl=&cd=10&source=gbs_api",
+        "infoLink": "http://books.google.co.uk/books?id=vhQ1AAAAMAAJ&dq=%27%27&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_World_Book_Encyclopedia.html?hl=&id=vhQ1AAAAMAAJ"
+      },
+      "saleInfo": {
+        "country": "GB",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "GB",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=vhQ1AAAAMAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "An encyclopedia designed especially to meet the needs of elementary, junior high, and senior high school students."
+      }
+    }
+  ]
+}

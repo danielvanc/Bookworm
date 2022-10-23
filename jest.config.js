@@ -14,7 +14,8 @@ module.exports = {
     "^.+\\.tsx?$": "esbuild-jest",
     "^.+\\.jsx?$": "esbuild-jest",
   },
-  setupFilesAfterEnv: ["@testing-library/jest-dom"],
+  setupFilesAfterEnv: ["./test/setup-test-env.ts"],
+
   moduleDirectories: ["node_modules", fromRoot("tests")],
   moduleFileExtensions: ["js", "jsx", "json", "ts", "tsx"],
   transformIgnorePatterns: [
