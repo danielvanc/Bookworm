@@ -21,6 +21,7 @@ import {
   FAILURE_REDIRECT,
   getSession,
 } from "./auth/auth.server";
+import { inject } from "@vercel/analytics";
 import Dashboard from "./components/Dashboard";
 
 export const meta: MetaFunction = () => ({
@@ -65,6 +66,9 @@ export default function App() {
   const isLoggedIn = user?.email;
   const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
   const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;
+
+  inject();
+
   return (
     <html lang="en" className={htmlClasses}>
       <head>
