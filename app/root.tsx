@@ -21,8 +21,10 @@ import {
   FAILURE_REDIRECT,
   getSession,
 } from "./auth/auth.server";
-import { Analytics } from "@vercel/analytics/react";
+import { inject } from "@vercel/analytics";
 import Dashboard from "./components/Dashboard";
+
+inject();
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -89,7 +91,6 @@ export default function App() {
         />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "production" && <Analytics />}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
