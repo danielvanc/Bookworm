@@ -21,7 +21,7 @@ import {
   FAILURE_REDIRECT,
   getSession,
 } from "./auth/auth.server";
-import { inject } from "@vercel/analytics";
+import { Analytics } from "@vercel/analytics/react";
 import Dashboard from "./components/Dashboard";
 
 export const meta: MetaFunction = () => ({
@@ -67,8 +67,6 @@ export default function App() {
   const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
   const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;
 
-  inject();
-
   return (
     <html lang="en" className={htmlClasses}>
       <head>
@@ -91,6 +89,7 @@ export default function App() {
         />
         <ScrollRestoration />
         <Scripts />
+        {process.env.NODE_ENV === "production" && <Analytics />}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
