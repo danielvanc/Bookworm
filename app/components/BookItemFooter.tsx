@@ -1,7 +1,7 @@
+import type { loader } from "~/routes/__home/home";
 import { Link, useFetcher } from "@remix-run/react";
 import { BookmarkIcon } from "@heroicons/react/solid";
 import Done from "./icons/Done";
-
 // TODO: Tidy up / seperate out into components
 
 interface Props {
@@ -21,7 +21,7 @@ export default function BookItemFooter({
   isReading,
   isRead,
 }: Props) {
-  const statusFetcher = useFetcher();
+  const statusFetcher = useFetcher<typeof loader>();
   const isIdle = statusFetcher.state === "idle";
   const hasErrors = statusFetcher.data?.error;
   const failedUpdate = hasErrors && isIdle;
