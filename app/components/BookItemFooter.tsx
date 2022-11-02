@@ -21,7 +21,7 @@ export default function BookItemFooter({
   isReading,
   isRead,
 }: Props) {
-  const statusFetcher = useFetcher<typeof loader>();
+  const statusFetcher = useFetcher();
   const isIdle = statusFetcher.state === "idle";
   const hasErrors = statusFetcher.data?.error;
   const failedUpdate = hasErrors && isIdle;
