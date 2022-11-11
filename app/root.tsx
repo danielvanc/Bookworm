@@ -1,9 +1,4 @@
-import {
-  json,
-  type MetaFunction,
-  type ActionArgs,
-  type LoaderArgs,
-} from "@remix-run/node";
+import { json, type MetaFunction, type LoaderArgs } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -14,17 +9,11 @@ import {
   useCatch,
   useLoaderData,
 } from "@remix-run/react";
-import tailwindStyles from "./tailwind.css";
-import { getMetaInfo } from "./utils/seo";
-import {
-  authenticator,
-  FAILURE_REDIRECT,
-  getSession,
-} from "./auth/auth.server";
-import { inject } from "@vercel/analytics";
-import Dashboard from "./components/Dashboard";
-
-inject();
+import tailwindStyles from "~/tailwind.css";
+import { getMetaInfo } from "~/utils/seo";
+import { getSession } from "./auth/auth.server";
+import Dashboard from "~/components/Dashboard";
+import { useWatchSession } from "./auth/client";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -44,28 +33,27 @@ export function links() {
   ];
 }
 
-export const action = async ({ request }: ActionArgs) => {
-  await authenticator.logout(request, { redirectTo: FAILURE_REDIRECT });
-};
-
 export const loader = async ({ request }: LoaderArgs) => {
-  const session = await getSession(request);
-  const user = session?.user;
+  const { SUPABASE_URL, SUPABASE_KEY, NODE_ENV } = process.env;
+  const { session, error, response } = await getSession(request);
 
   return json({
-    user,
-    ENV: {
-      SUPABASE_URL: process.env.SUPABASE_URL,
-      SUPABASE_KEY: process.env.SUPABASE_KEY,
-      SESSION_SECRET: process.env.SESSION_SECRET,
-      APP_ENV: process.env.NODE_ENV,
+    session: session,
+    error,
+    env: {
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      APP_ENV: NODE_ENV,
     },
+    headers: response.headers,
   });
 };
 
 export default function App() {
-  const { user, ENV } = useLoaderData<typeof loader>();
-  const isLoggedIn = user?.email;
+  const { env, session } = useLoaderData<typeof loader>();
+  const context = useWatchSession(session);
+  const isLoggedIn = session?.user;
+
   const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
   const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;
 
@@ -76,20 +64,20 @@ export default function App() {
         <Links />
       </head>
       <body className={`font-serifPro ${bodyClasses}`}>
-        {!isLoggedIn && <Outlet />}
-
-        {isLoggedIn && (
-          <Dashboard user={user || {}}>
-            <Outlet />
+        {isLoggedIn ? (
+          <Dashboard user={context.session?.user || {}}>
+            <Outlet context={context} />
           </Dashboard>
+        ) : (
+          <Outlet context={context} />
         )}
 
+        <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+            __html: `window.env = ${JSON.stringify(env)}`,
           }}
         />
-        <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>

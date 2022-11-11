@@ -1,24 +1,26 @@
-// TODO: Fix ts errors
-// @ts-nocheck
-import React from "react";
-
+import { redirect } from "@remix-run/node";
 import { type LoaderArgs, json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import { oAuthStrategy, SUCCESS_REDIRECT } from "~/auth/auth.server";
+import { Link, useLoaderData } from "@remix-run/react";
 import AuthenticateForm from "~/components/AuthenticateForm";
 import AuthLayout from "~/components/AuthLayout";
 import Logo from "~/components/Logo";
 import LoginWithEmail from "../components/LoginWithEmail";
+import { SUCCESS_REDIRECT, getSession } from "~/auth/auth.server";
 
 export async function loader({ request }: LoaderArgs) {
-  await oAuthStrategy.checkSession(request, {
-    successRedirect: SUCCESS_REDIRECT,
-  });
+  const { session, error, response } = await getSession(request);
+  if (session) return redirect(SUCCESS_REDIRECT, { headers: response.headers });
 
-  return json({}, { status: 200 });
+  return json(
+    { error },
+    {
+      headers: response.headers,
+    }
+  );
 }
 
 export default function Login() {
+  const { error } = useLoaderData<typeof loader>();
   return (
     <>
       <AuthLayout>
@@ -43,7 +45,7 @@ export default function Login() {
           </div>
         </div>
         <LoginWithEmail />
-        <AuthenticateForm />
+        <AuthenticateForm error={error} />
       </AuthLayout>
     </>
   );

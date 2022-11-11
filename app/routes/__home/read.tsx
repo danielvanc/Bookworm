@@ -1,38 +1,35 @@
 import type { LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
 import PreviewListBookItem from "~/components/PreviewListBookItem";
 import { getAllRead } from "~/models/books.server";
 import { useLoaderData } from "@remix-run/react";
-
-// TODO: Fix TS Errors
+import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 
 export async function loader({ request }: LoaderArgs) {
-  await oAuthStrategy.checkSession(request, {
-    failureRedirect: FAILURE_REDIRECT,
-  });
+  const { session } = await getSession(request);
+  if (!session) return redirect(FAILURE_REDIRECT);
 
-  const { userId, bookmarks } = await getAllRead(request);
+  const userId = session.user.id;
+  const { bookmarks } = await getAllRead(userId);
 
   return json({ userId, bookmarks });
 }
 
 export default function Reading() {
   const { userId, bookmarks } = useLoaderData<typeof loader>();
-  // @ts-ignore
   const allBooks = bookmarks.filter((book) => book.read || book.reading);
 
   return (
     <div className="md:p-sectionMedium">
       <ul className="relative my-3 mb-20 flex flex-wrap gap-6">
-        {/* @ts-ignore */}
-        {allBooks.map((book) => {
+        {allBooks.map((book, index) => {
           return (
             <PreviewListBookItem
-              key={book.id}
+              key={`${book.id}-${index}`}
               book={book}
-              // @ts-ignore
-              usersBookmarks={bookmarks}
+              // TODO: Fix with correct type
+              usersBookmarks={bookmarks as any}
               userId={String(userId)}
             />
           );

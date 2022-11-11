@@ -1,19 +1,16 @@
-import { json, type LoaderArgs } from "@remix-run/node";
+import { json, redirect, type LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
+import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import { fetchBookInfo } from "~/models/books.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  await oAuthStrategy.checkSession(request, {
-    failureRedirect: FAILURE_REDIRECT,
-  });
+  const { session } = await getSession(request);
+  if (!session) return redirect(FAILURE_REDIRECT);
+
   const { id } = params;
-
   invariant(id, "id is required");
-
   const data = await fetchBookInfo(id);
-
   return json(data);
 }
 
