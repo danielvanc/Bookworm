@@ -30,7 +30,12 @@ export default function AuthenticateForm({ error }: LoaderData) {
             <li>
               <button
                 aria-label="Google"
-                // onClick={() => signInWithProvider("google")}
+                onClick={() => {
+                  supabase?.auth.signInWithOAuth({
+                    provider: "google",
+                    options: { redirectTo },
+                  });
+                }}
               >
                 <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
               </button>
@@ -38,7 +43,12 @@ export default function AuthenticateForm({ error }: LoaderData) {
             <li>
               <button
                 aria-label="Twitter"
-                // onClick={() => signInWithProvider("twitter")}
+                onClick={() => {
+                  supabase?.auth.signInWithOAuth({
+                    provider: "twitter",
+                    options: { redirectTo },
+                  });
+                }}
               >
                 <FaTwitter className="text-lg lm:text-xl md:text-2xl" />
               </button>
@@ -46,7 +56,12 @@ export default function AuthenticateForm({ error }: LoaderData) {
             <li>
               <button
                 aria-label="Facebook"
-                // onClick={() => signInWithProvider("facebook")}
+                onClick={() => {
+                  supabase?.auth.signInWithOAuth({
+                    provider: "facebook",
+                    options: { redirectTo },
+                  });
+                }}
               >
                 <FaFacebookF className="text-lg lm:text-xl md:text-2xl" />
               </button>
@@ -66,83 +81,6 @@ export default function AuthenticateForm({ error }: LoaderData) {
             </li>
           </ul>
         ) : null}
-        {/* <Form method="post" className="my-5 mx-auto max-w-[450px] py-5">
-          {showSignIn ? (
-            <>
-              <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
-                <span className="bg-white px-3">Sign in with email</span>
-              </h3>
-              <div className="flex w-full flex-col xl:flex-row xl:justify-between">
-                <input
-                  className="input focus:shadow-outline mb-3 focus:outline-none xl:mb-0 xl:max-w-[38%]"
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Add your email"
-                />
-                <input
-                  className="input mb-3 xl:mb-0 xl:max-w-[38%]"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Add your Password"
-                />
-                <button
-                  name="_action"
-                  value="signin"
-                  className="btn px-4 pt-2 pb-1 xl:max-w-[35%]"
-                >
-                  Sign in
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h3 className="relative mb-5 text-center text-xs uppercase tracking-widest before:absolute before:left-0 before:right-0 before:bottom-[8px] before:z-[-1] before:block before:border-t-[1px] before:border-gray-200">
-                <span className="bg-white px-3">
-                  Sign {showSignIn ? "in" : "up"} with email
-                </span>
-              </h3>
-              <div className="flex w-full flex-col xl:flex-row xl:justify-between">
-                <input
-                  className="input focus:shadow-outline mb-3 focus:outline-none xl:mb-0 xl:max-w-[38%]"
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Add your email"
-                />
-                <input
-                  className="input mb-3 xl:mb-0 xl:max-w-[38%]"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Add your Password"
-                />
-                <button
-                  name="_action"
-                  value="signup"
-                  className="btn px-4 pt-2 pb-1 xl:max-w-[35%]"
-                >
-                  Sign up!
-                </button>
-              </div>
-            </>
-          )}
-        </Form> */}
-
-        {/* <p className="text-center text-sm font-bold">
-          {showSignIn ? (
-            <>
-              Don't have an account yet?{" "}
-              <button onClick={() => setShowSignIn(false)}>Sign up!</button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button onClick={() => setShowSignIn(true)}>Sign in!</button>
-            </>
-          )}
-        </p> */}
       </div>
     </div>
   );
