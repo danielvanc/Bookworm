@@ -1,18 +1,23 @@
-// TODO: Fix these type issues
-// @ts-nocheck
-
 import * as React from "react";
-// import { Form } from "@remix-run/react";
-import { signInWithProvider } from "~/supabase/supabase.client";
 import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
+import { useOutletContext } from "@remix-run/react";
 
 export type LoaderData = {
   error: { message?: string } | null;
 };
 
 export default function AuthenticateForm({ error }: LoaderData) {
-  // const [showSignIn, setShowSignIn] = React.useState(true);
+  // TODO: Fix these ts errors
+  // @ts-ignore
+  const { supabase } = useOutletContext();
+  const [redirectTo, setRedirectTo] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!window) return;
+
+    setRedirectTo(`${window?.location?.origin}/oauth/callback/`);
+  }, []);
 
   return (
     <div className="mb-10 rounded-t-md border-t-[1px]">
@@ -20,40 +25,47 @@ export default function AuthenticateForm({ error }: LoaderData) {
       <div>
         {/* TODO: #1 Add better U.I styling for error response */}
         {error?.message && <div>{error.message}</div>}
-        <ul className="social-logins mx-auto flex max-w-[300px] justify-between">
-          <li>
-            <button
-              aria-label="Google"
-              // onClick={() => signInWithProvider("google")}
-            >
-              <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
-            </button>
-          </li>
-          <li>
-            <button
-              aria-label="Twitter"
-              // onClick={() => signInWithProvider("twitter")}
-            >
-              <FaTwitter className="text-lg lm:text-xl md:text-2xl" />
-            </button>
-          </li>
-          <li>
-            <button
-              aria-label="Facebook"
-              // onClick={() => signInWithProvider("facebook")}
-            >
-              <FaFacebookF className="text-lg lm:text-xl md:text-2xl" />
-            </button>
-          </li>
-          <li>
-            <button
-              aria-label="Github"
-              onClick={() => signInWithProvider("github")}
-            >
-              <FaGithub className="text-lg lm:text-xl md:text-2xl" />
-            </button>
-          </li>
-        </ul>
+        {redirectTo ? (
+          <ul className="social-logins mx-auto flex max-w-[300px] justify-between">
+            <li>
+              <button
+                aria-label="Google"
+                // onClick={() => signInWithProvider("google")}
+              >
+                <AiOutlineGoogle className="text-lg lm:text-xl md:text-2xl" />
+              </button>
+            </li>
+            <li>
+              <button
+                aria-label="Twitter"
+                // onClick={() => signInWithProvider("twitter")}
+              >
+                <FaTwitter className="text-lg lm:text-xl md:text-2xl" />
+              </button>
+            </li>
+            <li>
+              <button
+                aria-label="Facebook"
+                // onClick={() => signInWithProvider("facebook")}
+              >
+                <FaFacebookF className="text-lg lm:text-xl md:text-2xl" />
+              </button>
+            </li>
+            <li>
+              <button
+                aria-label="Github"
+                onClick={() => {
+                  supabase?.auth.signInWithOAuth({
+                    provider: "github",
+                    options: { redirectTo },
+                  });
+                }}
+              >
+                <FaGithub className="text-lg lm:text-xl md:text-2xl" />
+              </button>
+            </li>
+          </ul>
+        ) : null}
         {/* <Form method="post" className="my-5 mx-auto max-w-[450px] py-5">
           {showSignIn ? (
             <>
