@@ -9,6 +9,7 @@ import {
 import { BellIcon, MenuIcon, XIcon, HomeIcon } from "@heroicons/react/outline";
 import { classNames } from "~/utils";
 import { Form } from "@remix-run/react";
+import BlankAvatar from "./BlankAvatar";
 
 interface Props {
   name: string;
@@ -105,11 +106,15 @@ export default function Header({ name, email, avatar }: Props) {
                   <div>
                     <Menu.Button className="ring-offset- to-blue-400focus:outline-none focus:white flex rounded-full bg-rosyWorm  ring-2 ring-pink-400 focus:ring-2 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-10 w-10 rounded-full p-1"
-                        src={avatar}
-                        alt=""
-                      />
+                      {avatar !== "" ? (
+                        <img
+                          className="h-10 w-10 rounded-full p-1"
+                          src={avatar}
+                          alt=""
+                        />
+                      ) : (
+                        <BlankAvatar />
+                      )}
                     </Menu.Button>
                   </div>
                   <Transition
@@ -171,7 +176,15 @@ export default function Header({ name, email, avatar }: Props) {
             <div className="border-t border-gray-200 pt-4">
               <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
                 <div className="flex-shrink-0">
-                  <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+                  {avatar != "" ? (
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src={avatar}
+                      alt=""
+                    />
+                  ) : (
+                    <BlankAvatar />
+                  )}
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">

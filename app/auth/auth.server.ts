@@ -27,10 +27,11 @@ export async function getSession(request: Request) {
     error,
   } = await supabaseClient.auth.getSession();
 
+  // console.log("session is", session);
   return { session, error, response };
 }
 
-// TODO: Re-factor so we can use use await requireAuth();
+// TODO: Re-factor so we can use use await requireAuth() in loaders;
 // export async function requireAuth(request: Request) {
 //   const { supabaseClient, response } = createSupabaseClient(request);
 
