@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaTwitter, FaFacebookF, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaFacebookF, FaGithub, FaSpotify } from "react-icons/fa";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { useOutletContext } from "@remix-run/react";
 
@@ -27,6 +27,19 @@ export default function AuthenticateForm({ error }: LoaderData) {
         {error?.message && <div>{error.message}</div>}
         {redirectTo ? (
           <ul className="social-logins mx-auto flex max-w-[300px] justify-between">
+            <li>
+              <button
+                aria-label="Sptofy"
+                onClick={() => {
+                  supabase?.auth.signInWithOAuth({
+                    provider: "spotify",
+                    options: { redirectTo },
+                  });
+                }}
+              >
+                <FaSpotify className="text-lg lm:text-xl md:text-2xl" />
+              </button>
+            </li>
             <li>
               <button
                 aria-label="Google"
