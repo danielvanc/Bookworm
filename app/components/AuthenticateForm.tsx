@@ -32,7 +32,7 @@ export default function AuthenticateForm({ error }: LoaderData) {
                 aria-label="Sptofy"
                 onClick={() => {
                   supabase?.auth.signInWithOAuth({
-                    provider: "spotify",
+                    provider: "Spotify",
                     options: { redirectTo },
                   });
                 }}
