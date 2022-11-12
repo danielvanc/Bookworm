@@ -9,6 +9,7 @@ import {
 import { BellIcon, MenuIcon, XIcon, HomeIcon } from "@heroicons/react/outline";
 import { classNames } from "~/utils";
 import { Form } from "@remix-run/react";
+import BlankAvatar from "./BlankAvatar";
 
 interface Props {
   name: string;
@@ -105,11 +106,15 @@ export default function Header({ name, email, avatar }: Props) {
                   <div>
                     <Menu.Button className="ring-offset- to-blue-400focus:outline-none focus:white flex rounded-full bg-rosyWorm  ring-2 ring-pink-400 focus:ring-2 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-10 w-10 rounded-full p-1"
-                        src={avatar}
-                        alt=""
-                      />
+                      {avatar !== "" ? (
+                        <img
+                          className="h-10 w-10 rounded-full p-1"
+                          src={avatar}
+                          alt=""
+                        />
+                      ) : (
+                        <BlankAvatar />
+                      )}
                     </Menu.Button>
                   </div>
                   <Transition
@@ -141,7 +146,7 @@ export default function Header({ name, email, avatar }: Props) {
                   </Transition>
                 </Menu>
 
-                <Form method="post">
+                <Form method="post" action="/logout">
                   <button className="ml-6 inline-flex items-center rounded-md border border-transparent bg-pink-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2">
                     Logout
                   </button>
@@ -171,7 +176,15 @@ export default function Header({ name, email, avatar }: Props) {
             <div className="border-t border-gray-200 pt-4">
               <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
                 <div className="flex-shrink-0">
-                  <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+                  {avatar != "" ? (
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src={avatar}
+                      alt=""
+                    />
+                  ) : (
+                    <BlankAvatar />
+                  )}
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">

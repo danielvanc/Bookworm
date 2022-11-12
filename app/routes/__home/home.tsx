@@ -1,7 +1,10 @@
-import { json, type ActionArgs, type LoaderArgs } from "@remix-run/node";
+import {
+  json,
+  redirect,
+  type ActionArgs,
+  type LoaderArgs,
+} from "@remix-run/node";
 import { useCatch, useFetchers, useLoaderData } from "@remix-run/react";
-import { oAuthStrategy } from "~/auth/auth.server";
-import { FAILURE_REDIRECT } from "~/auth/auth.server";
 import {
   createBookmark,
   getLatestBooks,
@@ -14,6 +17,7 @@ import {
 import { useUser } from "~/utils/user";
 import Notification from "~/components/Notification";
 import PreviewBookItem from "~/components/PreviewBookItem";
+import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 
 // TODO: Move messaging to a separate file
 
@@ -99,18 +103,15 @@ export async function action({ request }: ActionArgs) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  const session = await oAuthStrategy.checkSession(request, {
-    failureRedirect: FAILURE_REDIRECT,
-  });
-
+  const { session } = await getSession(request);
+  if (!session) return redirect(FAILURE_REDIRECT);
   const { id } = session?.user!;
-  const data = await getLatestBooks(id, 10);
 
+  const data = await getLatestBooks(id, 10);
   if (!data || !data?.books || !data?.books.length)
     throw new Response("Problem fetching book list...", {
       status: 403,
     });
-
   return json(data);
 }
 

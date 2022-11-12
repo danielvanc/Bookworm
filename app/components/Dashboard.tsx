@@ -12,9 +12,11 @@ export default function Dashboard({
   children: React.ReactNode;
 }) {
   const userData = user.user_metadata || {};
-  const name = userData.full_name.split(" ")[0];
+  const name = userData?.full_name
+    ? userData?.full_name.split(" ")[0]
+    : userData.email;
   const email = userData.email;
-  const avatar = userData.avatar_url || "";
+  const avatar = userData?.avatar_url || "";
 
   const navigation = [
     { name: "Home", href: "/home", icon: HomeIcon, current: true },

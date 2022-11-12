@@ -1,12 +1,7 @@
 // TODO: Fix these type issues
 // @ts-nocheck
 import type { books } from "@prisma/client";
-import {
-  client as cacheClient,
-  saveToRedis,
-  getCacheData,
-} from "../utils/redis.server";
-import { getSession } from "~/auth/auth.server";
+import { saveToRedis, getCacheData } from "../utils/redis.server";
 import { prisma } from "~/utils/prisma.server";
 import config from "~/config";
 
@@ -152,10 +147,7 @@ export function markAsNotReading(id: books["id"]) {
   });
 }
 
-export async function getAllRead(request: Request) {
-  const session = await getSession(request);
-  const { id } = session?.user;
-
+export async function getAllRead(id: string) {
   let bookmarks: Book[] = [];
   const bookIds = await prisma.profile.findUnique({
     where: {
@@ -165,7 +157,6 @@ export async function getAllRead(request: Request) {
       books: true,
     },
   });
-
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.read || book.reading)
@@ -173,18 +164,13 @@ export async function getAllRead(request: Request) {
         const { id: buid, book_id: id, reading, read, bookmarked } = book;
         return { buid, id, reading, read, bookmarked };
       }) || [];
-
   if (usersBookmarks.length) {
     bookmarks = await getAllBooksmarkData(usersBookmarks);
   }
-
   return { userId: id, bookmarks };
 }
 
-export async function getBookmarks(request: Request) {
-  const session = await getSession(request);
-  const { id } = session?.user;
-
+export async function getBookmarks(id: string) {
   let bookmarks: Book[] = [];
   const bookIds = await prisma.profile.findUnique({
     where: {
@@ -194,7 +180,6 @@ export async function getBookmarks(request: Request) {
       books: true,
     },
   });
-
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.bookmarked)
@@ -202,11 +187,9 @@ export async function getBookmarks(request: Request) {
         const { id: buid, book_id: id, reading, read, bookmarked } = book;
         return { buid, id, reading, read, bookmarked };
       }) || [];
-
   if (usersBookmarks.length) {
     bookmarks = await getAllBooksmarkData(usersBookmarks);
   }
-
   return { userId: id, bookmarks };
 }
 
@@ -216,30 +199,24 @@ export async function getUsersBookmarks(user_id: books["user_id"]) {
       user_id: user_id,
     },
   });
-
   const usersBookmarks =
     bookIds?.map((book) => {
       const { id: buid, book_id: id, reading, read, bookmarked } = book;
-
       return { buid, id, reading, read, bookmarked };
     }) || [];
-
   return usersBookmarks;
 }
 
 export async function getLatestBooks(userId: books["user_id"], total: number) {
   const api = `${config.API.ALL_BOOKS}""&maxResults=${total}` || "";
-
   let latestBooks;
   let usersBookmarks: Book[] = [];
   let cacheEntry = await getCacheData("home-latest-books");
-
   if (cacheEntry) {
     const c0 = new Date().getTime();
     const parsedCache = JSON.parse(cacheEntry).filter(
       (item) => !item.source && !item.responseTime
     );
-
     const c1 = new Date().getTime();
     latestBooks = [
       ...parsedCache,
@@ -251,18 +228,15 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
     const data: BooksFeed = await fetch(api).then((res) => res.json());
     const t1 = new Date().getTime();
     const books: Book[] = data?.items?.map((book) => initialBookData(book));
-
     const allBooks = [...books];
     allBooks.push({ source: "api" });
     latestBooks = [...allBooks, { responseTime: `${t1 - t0}ms` }];
     saveToRedis("home-latest-books", latestBooks);
   }
-
   const bookmarkIds = await getUsersBookmarks(userId);
   if (bookmarkIds.length) {
     usersBookmarks = await getAllBooksmarkData(bookmarkIds);
   }
-
   return { books: latestBooks, usersBookmarks };
 }
 
@@ -271,7 +245,6 @@ export async function fetchBookInfo(bookId: string): Promise<Book> {
   const result = await fetch(`${config.API.BOOK}${bookId}`).then(
     (res) => res.json() as Promise<initialBook>
   );
-
   return initialBookData(result);
 }
 
@@ -283,7 +256,6 @@ async function getAllBooksmarkData(bookmarkIds: usersBookmarks[]) {
       data.read = book.read;
       data.reading = book.reading;
       data.bookmarked = book.bookmarked;
-
       return data;
     })
   );
@@ -291,10 +263,7 @@ async function getAllBooksmarkData(bookmarkIds: usersBookmarks[]) {
 
 export async function getUsersLatestBookmarks(userId: string, total: number) {
   const bookmarkIds = await getUsersBookmarks(userId);
-
   if (!bookmarkIds.length) return [];
-
   const bookmarksData = await getAllBooksmarkData(bookmarkIds);
-
   return bookmarksData;
 }

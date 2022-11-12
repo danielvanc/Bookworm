@@ -1,24 +1,62 @@
-// TODO: Fix ts errors
-// @ts-nocheck
-import React from "react";
-
+import type { ActionArgs } from "@remix-run/node";
+import type { AuthError } from "@supabase/supabase-js";
+import { redirect } from "@remix-run/node";
 import { type LoaderArgs, json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import { oAuthStrategy, SUCCESS_REDIRECT } from "~/auth/auth.server";
+import { Link, useLoaderData } from "@remix-run/react";
 import AuthenticateForm from "~/components/AuthenticateForm";
 import AuthLayout from "~/components/AuthLayout";
 import Logo from "~/components/Logo";
 import LoginWithEmail from "../components/LoginWithEmail";
+import { SUCCESS_REDIRECT, getSession } from "~/auth/auth.server";
+import { createSupabaseClient } from "../auth/auth.server";
 
-export async function loader({ request }: LoaderArgs) {
-  await oAuthStrategy.checkSession(request, {
-    successRedirect: SUCCESS_REDIRECT,
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const errors: { email?: string; error?: AuthError | null } = {};
+
+  if (typeof email !== "string" || !email.includes("@")) {
+    errors.email = "That doesn't look like an email address";
+  }
+
+  if (Object.keys(errors).length) {
+    return json(errors, { status: 422 });
+  }
+
+  const { supabaseClient, response } = await createSupabaseClient(request);
+
+  const { data } = await supabaseClient.auth.signInWithOtp({
+    email: String(email),
+    options: {
+      emailRedirectTo: `http://${request.headers.get("host")}/oauth/callback/`,
+    },
   });
 
-  return json({}, { status: 200 });
+  // in order for the set-cookie header to be set,
+  // headers must be returned as part of the loader response
+  return json(
+    { data },
+    {
+      headers: response.headers,
+    }
+  );
+};
+
+export async function loader({ request }: LoaderArgs) {
+  const { session, error, response } = await getSession(request);
+  if (session) return redirect(SUCCESS_REDIRECT, { headers: response.headers });
+
+  return json(
+    { error },
+    {
+      headers: response.headers,
+    }
+  );
 }
 
 export default function Login() {
+  const { error } = useLoaderData<typeof loader>();
+
   return (
     <>
       <AuthLayout>
@@ -28,22 +66,12 @@ export default function Login() {
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
-              Sign in to your account
+              Sign in to get access
             </h2>
-            {/* <p className="mt-2 text-sm text-gray-700">
-              Don’t have an account?{" "}
-              <Link
-                to="/register"
-                className="font-medium text-blue-600 hover:underline"
-              >
-                Sign up
-              </Link>{" "}
-              for free.
-            </p> */}
           </div>
         </div>
         <LoginWithEmail />
-        <AuthenticateForm />
+        <AuthenticateForm error={error} />
       </AuthLayout>
     </>
   );
