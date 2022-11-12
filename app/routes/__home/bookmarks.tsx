@@ -1,16 +1,16 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { oAuthStrategy, FAILURE_REDIRECT } from "~/auth/auth.server";
-import PreviewListBookItem from "~/components/PreviewListBookItem";
-import { getBookmarks } from "~/models/books.server";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { getBookmarks } from "~/models/books.server";
+import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
+import PreviewListBookItem from "~/components/PreviewListBookItem";
 
 export async function loader({ request }: LoaderArgs) {
-  await oAuthStrategy.checkSession(request, {
-    failureRedirect: FAILURE_REDIRECT,
-  });
+  const { session } = await getSession(request);
+  if (!session) return redirect(FAILURE_REDIRECT);
 
-  const { userId, bookmarks } = await getBookmarks(request);
+  const userId = session.user.id;
+  const { bookmarks } = await getBookmarks(userId);
 
   return json({ userId, bookmarks });
 }
@@ -23,14 +23,13 @@ export default function Bookmarks() {
       <div>
         <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
         <ul className="flex flex-col gap-6">
-          {bookmarks.map((book: Book) => {
+          {bookmarks.map((book: Book, index) => {
             return (
               <PreviewListBookItem
-                key={book.id}
+                key={`${book.id}-${index}`}
                 book={book}
-                // TODO: Fix TS Error
-                // @ts-ignore
-                usersBookmarks={bookmarks}
+                // TODO: Fix with correct type
+                usersBookmarks={bookmarks as any}
                 userId={String(userId)}
               />
             );
