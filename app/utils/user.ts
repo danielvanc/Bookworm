@@ -17,13 +17,9 @@ function isUser(user: any) {
 
 export function useUser(): User {
   const data = useMatchesData("root");
-  if (!data?.user || !isUser(data.user)) {
-    return {};
-  }
+  if (!data?.session?.user || !isUser(data?.session?.user)) return {};
 
-  return {
-    id: data.user.id,
-    email: data.user.email,
-    user_metadata: data.user.user_metadata,
-  };
+  const { id, email, user_metadata } = data.session.user;
+
+  return { id, email, user_metadata };
 }
