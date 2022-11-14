@@ -1,12 +1,18 @@
 import React from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
+
 import {
   FireIcon,
-  SearchIcon,
-  TrendingUpIcon,
+  MagnifyingGlassIcon,
+  ArrowTrendingUpIcon,
   UserGroupIcon,
-} from "@heroicons/react/solid";
-import { BellIcon, MenuIcon, XIcon, HomeIcon } from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
+import {
+  BellIcon,
+  Bars3Icon,
+  XMarkIcon,
+  HomeIcon,
+} from "@heroicons/react/24/outline";
 import { classNames } from "~/utils";
 import { Form } from "@remix-run/react";
 import BlankAvatar from "./BlankAvatar";
@@ -23,7 +29,7 @@ const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
   { name: "Popular", href: "#", icon: FireIcon, current: false },
   { name: "Communities", href: "#", icon: UserGroupIcon, current: false },
-  { name: "Trending", href: "#", icon: TrendingUpIcon, current: false },
+  { name: "Trending", href: "#", icon: ArrowTrendingUpIcon, current: false },
 ];
 
 /* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */
@@ -65,7 +71,7 @@ export default function Header({ name, email, avatar }: Props) {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <SearchIcon
+                        <MagnifyingGlassIcon
                           className="h-5 w-5 text-gray-400"
                           aria-hidden="true"
                         />
@@ -86,9 +92,9 @@ export default function Header({ name, email, avatar }: Props) {
                 <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rose-500">
                   <span className="sr-only">Open menu</span>
                   {open ? (
-                    <XIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                   )}
                 </Popover.Button>
               </div>
