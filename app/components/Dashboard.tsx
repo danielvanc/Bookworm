@@ -1,7 +1,7 @@
 import * as React from "react";
 import { classNames } from "~/utils";
 
-import { HomeIcon } from "@heroicons/react/outline";
+import { HomeIcon } from "@heroicons/react/24/outline";
 import Header from "./Header";
 
 export default function Dashboard({

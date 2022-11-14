@@ -3,7 +3,7 @@ import { Transition } from "@headlessui/react";
 import {
   ExclamationCircleIcon,
   CheckCircleIcon,
-} from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
 import XMark from "./icons/XMark";
 
 interface Props {
