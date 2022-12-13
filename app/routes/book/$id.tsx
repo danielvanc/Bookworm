@@ -1,6 +1,7 @@
 import { json, redirect, type LoaderArgs } from "@remix-run/node";
 import { useFetchers, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { format } from "date-fns";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import { fetchBookInfo, getUsersBookmarks } from "~/models/books.server";
 import BookItemFooter from "~/components/BookItemFooter";
@@ -42,6 +43,13 @@ export default function Book() {
     image,
     link,
     title,
+    authors,
+    publisher,
+    publishedDate,
+    printedPageCount,
+    eBook,
+    price,
+    categories,
     buid,
     bookId,
     isBookmarked,
@@ -56,20 +64,21 @@ export default function Book() {
   return (
     <>
       <div className="flex flex-col-reverse gap-16 px-5 md:flex-row-reverse xl:px-0">
-        <article className="basis-3/5 pb-20 xl:pt-40">
+        <article className="basis-3/5 pb-20 xl:pt-20">
+          <div className="mb-10 max-w-[340px]">
+            <BookItemFooter
+              buid={buid}
+              bookId={bookId}
+              userId={userId}
+              isBookmarked={isBookmarked}
+              isReading={isReading}
+              isRead={isRead}
+              showReadMore={false}
+            />
+          </div>
           <h1 className="mb-10 text-2xl font-extrabold md:text-4xl xl:text-7xl">
             {title}
           </h1>
-
-          <BookItemFooter
-            buid={buid}
-            bookId={bookId}
-            userId={userId}
-            isBookmarked={isBookmarked}
-            isReading={isReading}
-            isRead={isRead}
-            showReadMore={false}
-          />
 
           <div
             className="mt-10 text-lg lg:text-lg [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl [&_li]:ml-6 [&_b]:text-2xl"
@@ -93,6 +102,56 @@ export default function Book() {
             alt={title}
             className="w-full rounded-md border-[1em] border-white drop-shadow-2xl lg:border-[2em] xl:border-[7em]"
           />
+
+          <div className="mx-auto mt-10 w-3/4 space-y-6 pb-16">
+            <div>
+              <h3 className="font-semibold text-gray-900">Information</h3>
+              <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Author(s)</dt>
+                  <dd className="whitespace-nowrap text-gray-900">
+                    {authors?.join(", ")}
+                  </dd>
+                </div>
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Publisher</dt>
+                  <dd className="whitespace-nowrap text-gray-900">
+                    {publisher}
+                  </dd>
+                </div>
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Published:</dt>
+                  <dd className="whitespace-nowrap text-gray-900">
+                    {format(new Date(publishedDate || ""), "do MMM, yyyy")}
+                  </dd>
+                </div>
+                {categories?.length ? (
+                  <div className="flex justify-between py-3 text-sm font-medium md:block xl:flex">
+                    <dt className="text-gray-500">Categories:</dt>
+                    <dd className="break-words text-gray-900 xl:pl-2">
+                      {categories?.[0]}
+                    </dd>
+                  </div>
+                ) : null}
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Pages</dt>
+                  <dd className="whitespace-nowrap text-gray-900">
+                    {printedPageCount}
+                  </dd>
+                </div>
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Available as eBook?</dt>
+                  <dd className="whitespace-nowrap text-gray-900">
+                    {eBook ? "Yes" : "No"}
+                  </dd>
+                </div>
+                <div className="flex justify-between py-3 text-sm font-medium">
+                  <dt className="text-gray-500">Price</dt>
+                  <dd className="whitespace-nowrap text-gray-900">£{price}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
       {status && status?.type === "done" && status?.data?.message ? (

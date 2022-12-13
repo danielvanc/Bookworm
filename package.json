@@ -49,6 +49,7 @@
     "@supabase/supabase-js": "^2.1.0",
     "clsx": "^1.2.1",
     "cross-env": "^7.0.3",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.0",
     "esbuild": "^0.15.12",
     "framer-motion": "^6.2.8",
