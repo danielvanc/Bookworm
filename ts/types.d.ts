@@ -55,6 +55,13 @@ interface Book {
   link: string;
   reading: boolean;
   read: boolean;
+  authors?: string[];
+  publisher?: string;
+  publishedDate?: string | number | Date;
+  printedPageCount?: number;
+  eBook?: boolean;
+  price?: number;
+  categories?: string[];
 }
 
 /**

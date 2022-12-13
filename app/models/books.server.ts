@@ -11,6 +11,13 @@ const initialBookData = (data: initialBook) => ({
   description: data.volumeInfo?.description,
   image: data.volumeInfo?.imageLinks?.thumbnail,
   link: data.volumeInfo?.canonicalVolumeLink,
+  authors: data.volumeInfo?.authors,
+  publisher: data.volumeInfo?.publisher,
+  publishedDate: data.volumeInfo?.publishedDate,
+  printedPageCount: data.volumeInfo?.printedPageCount,
+  categories: data.volumeInfo?.categories,
+  eBook: data.saleInfo?.isEbook,
+  price: data.saleInfo?.retailPrice?.amount,
 });
 
 export function createBookmark(
@@ -245,6 +252,7 @@ export async function fetchBookInfo(bookId: string): Promise<Book> {
   const result = await fetch(`${config.API.BOOK}${bookId}`).then(
     (res) => res.json() as Promise<initialBook>
   );
+
   return initialBookData(result);
 }
 
