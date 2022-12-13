@@ -122,7 +122,7 @@ export default function BookItemFooter({
                   name="_action"
                   value={`${isReading ? "remove-reading" : "reading"}`}
                   type="submit"
-                  className={`relative -ml-px inline-flex items-center border border-gray-300  px-4 py-2 text-sm font-medium ${
+                  className={`relative -ml-px inline-flex items-center border border-gray-300  px-2 py-2 text-sm font-medium sm:px-4 ${
                     isReading && !isReadUpdate
                       ? "bg-gray-100 text-gray-500"
                       : "bg-white text-gray-700 hover:bg-gray-50"
@@ -134,7 +134,7 @@ export default function BookItemFooter({
                     ? ErrorMessage
                     : isReading && !isReadUpdate
                     ? "Reading"
-                    : "Not Reading"}
+                    : "Not Started"}
                 </button>
               )}
 
@@ -156,7 +156,7 @@ export default function BookItemFooter({
                   name="_action"
                   value={`${isRead ? "remove-read" : "read"}`}
                   type="submit"
-                  className={`relative -ml-px inline-flex items-center rounded-r-md border border-gray-300  px-4 py-2 text-sm ${
+                  className={`relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 px-2 py-2 text-sm sm:px-4 ${
                     isRead && !isReadingUpdate
                       ? "bg-gray-100 text-gray-500"
                       : "bg-white text-gray-700 hover:bg-gray-50"
@@ -171,7 +171,7 @@ export default function BookItemFooter({
                     : "Not Finished"}
 
                   {isRead && !isReadingUpdate && (
-                    <Done className="ml-2 -mr-2 h-5 w-5 text-gray-400" />
+                    <Done className="ml-2 -mr-1 h-5 w-5 text-gray-400 sm:-mr-2" />
                   )}
                 </button>
               )}
