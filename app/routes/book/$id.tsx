@@ -63,20 +63,19 @@ export default function Book() {
 
   return (
     <>
-      <div className="flex flex-col-reverse gap-16 px-5 md:flex-row-reverse xl:px-0">
-        <article className="basis-3/5 pb-20 xl:pt-20">
-          <div className="mb-10 max-w-[340px]">
-            <BookItemFooter
-              buid={buid}
-              bookId={bookId}
-              userId={userId}
-              isBookmarked={isBookmarked}
-              isReading={isReading}
-              isRead={isRead}
-              showReadMore={false}
-            />
-          </div>
-          <h1 className="mb-10 text-2xl font-extrabold md:text-4xl xl:text-7xl">
+      <div className="flex flex-col gap-16 px-5 md:flex-row-reverse xl:px-0">
+        <article className="relative basis-3/5 pb-20 xl:pt-20">
+          <BookItemFooter
+            buid={buid}
+            bookId={bookId}
+            userId={userId}
+            isBookmarked={isBookmarked}
+            isReading={isReading}
+            isRead={isRead}
+            showReadMore={false}
+            classNames="flex-0 w-[340px] justify-start"
+          />
+          <h1 className="my-10 text-2xl font-extrabold md:text-4xl xl:text-7xl">
             {title}
           </h1>
 
@@ -84,7 +83,7 @@ export default function Book() {
             className="mt-10 text-lg lg:text-lg [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl [&_li]:ml-6 [&_b]:text-2xl"
             dangerouslySetInnerHTML={{ __html: description }}
           />
-          <p className="mt-14">
+          <p className="mt-14 hidden md:block">
             <a
               href={link}
               target="_blank"
@@ -109,7 +108,7 @@ export default function Book() {
               <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
                 <div className="flex justify-between py-3 text-sm font-medium">
                   <dt className="text-gray-500">Author(s)</dt>
-                  <dd className="whitespace-nowrap text-gray-900">
+                  <dd className="break-all pl-2 text-gray-900">
                     {authors?.join(", ")}
                   </dd>
                 </div>
@@ -152,6 +151,16 @@ export default function Book() {
               </dl>
             </div>
           </div>
+          <p className="block text-center md:hidden">
+            <a
+              href={link}
+              target="_blank"
+              className="rounded-lg bg-rosyWorm py-5 px-10 text-white hover:bg-rosyWorm-900"
+              rel="noreferrer"
+            >
+              View more information
+            </a>
+          </p>
         </div>
       </div>
       {status && status?.type === "done" && status?.data?.message ? (

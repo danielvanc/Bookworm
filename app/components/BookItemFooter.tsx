@@ -11,6 +11,7 @@ interface Props {
   isReading: boolean;
   isRead: boolean;
   showReadMore?: boolean;
+  classNames?: string;
 }
 
 export default function BookItemFooter({
@@ -21,6 +22,7 @@ export default function BookItemFooter({
   isReading,
   isRead,
   showReadMore = true,
+  classNames = "",
 }: Props) {
   const statusFetcher = useFetcher();
   const isIdle = statusFetcher.state === "idle";
@@ -56,7 +58,11 @@ export default function BookItemFooter({
   return (
     <div>
       <div className="-mt-px flex divide-x-2 divide-gray-200">
-        <div className="flex w-0 flex-1 items-center justify-center py-4">
+        <div
+          className={`flex w-0 flex-1 items-center py-4 ${
+            classNames ? classNames : "justify-center"
+          }`}
+        >
           <statusFetcher.Form method="post" action="/home">
             <input type="hidden" name="buid" value={buid} />
             <input type="hidden" name="book_id" value={bookId} />
