@@ -15,9 +15,10 @@ interface Props {
       errorMessage?: string;
     };
   };
+  classNames?: string;
 }
 
-export default function Notification({ status }: Props) {
+export default function Notification({ status, classNames }: Props) {
   const [show, setShow] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -37,7 +38,7 @@ export default function Notification({ status }: Props) {
   return (
     <div
       aria-live="assertive"
-      className="pointer-events-none fixed bottom-0 flex items-center px-4 py-6 sm:p-6"
+      className={`pointer-events-none fixed bottom-0 flex items-center px-4 py-6 sm:p-6 ${classNames}`}
     >
       <div className="flex w-96 flex-col items-center space-y-4">
         <Transition

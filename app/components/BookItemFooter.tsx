@@ -10,6 +10,7 @@ interface Props {
   isBookmarked: boolean;
   isReading: boolean;
   isRead: boolean;
+  showReadMore?: boolean;
 }
 
 export default function BookItemFooter({
@@ -19,6 +20,7 @@ export default function BookItemFooter({
   isBookmarked,
   isReading,
   isRead,
+  showReadMore = true,
 }: Props) {
   const statusFetcher = useFetcher();
   const isIdle = statusFetcher.state === "idle";
@@ -176,16 +178,18 @@ export default function BookItemFooter({
             </span>
           </statusFetcher.Form>
         </div>
-        <div className="-ml-px flex w-0 flex-1 items-center justify-center">
-          <Link
-            to={`/book/${bookId}`}
-            prefetch="intent"
-            type="button"
-            className="relative -ml-px inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-          >
-            Read more...
-          </Link>
-        </div>
+        {showReadMore ? (
+          <div className="-ml-px flex w-0 flex-1 items-center justify-center">
+            <Link
+              to={`/book/${bookId}`}
+              prefetch="intent"
+              type="button"
+              className="relative -ml-px inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            >
+              Read more...
+            </Link>
+          </div>
+        ) : null}
       </div>
     </div>
   );
