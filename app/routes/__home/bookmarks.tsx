@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getBookmarks } from "~/models/books.server";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
-import PreviewListBookItem from "~/components/PreviewListBookItem";
+import PreviewBookItem from "~/components/PreviewBookItem";
 
 export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
@@ -25,7 +25,7 @@ export default function Bookmarks() {
         <ul className="flex flex-col gap-6">
           {bookmarks.map((book: Book, index) => {
             return (
-              <PreviewListBookItem
+              <PreviewBookItem
                 key={`${book.id}-${index}`}
                 book={book}
                 // TODO: Fix with correct type

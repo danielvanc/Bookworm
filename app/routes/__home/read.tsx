@@ -1,10 +1,10 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import PreviewListBookItem from "~/components/PreviewListBookItem";
 import { getAllRead } from "~/models/books.server";
 import { useLoaderData } from "@remix-run/react";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
+import PreviewBookItem from "~/components/PreviewBookItem";
 
 export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
@@ -25,7 +25,7 @@ export default function Reading() {
       <ul className="relative my-3 mb-20 flex flex-wrap gap-6">
         {allBooks.map((book, index) => {
           return (
-            <PreviewListBookItem
+            <PreviewBookItem
               key={`${book.id}-${index}`}
               book={book}
               // TODO: Fix with correct type
