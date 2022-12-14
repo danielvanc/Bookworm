@@ -12,9 +12,11 @@ import { SampleFeatures } from "~/components/Marketing/SampleFeatures";
 
 export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
-  if (!session) return redirect(FAILURE_REDIRECT);
+  // if (!session) return redirect(FAILURE_REDIRECT);
 
-  return redirect(SUCCESS_REDIRECT);
+  if (session) return redirect(SUCCESS_REDIRECT);
+
+  return {};
 }
 
 export default function Welcome() {

@@ -33,14 +33,16 @@ export default function PreviewBookItem({
         <div className="w-4/5 py-5 md:py-0 md:px-10">
           <h3 className="text-xl font-black text-gray-700">{book.title}</h3>
           <dl className="mt-1 flex flex-grow flex-col justify-between">
-            <dt className="sr-only">Title</dt>
             <dd className="mt-1 mb-3">
               <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                 {/* TODO: Replace with book genre */}
                 {book.title}
               </span>
             </dd>
-            <dd className="text-md text-gray-500">{book.description}</dd>
+            <dd
+              className="text-md text-gray-500"
+              dangerouslySetInnerHTML={{ __html: book.description }}
+            />
             <dt className="sr-only">Role</dt>
           </dl>
         </div>
