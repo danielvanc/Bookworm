@@ -21,7 +21,10 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function HomeOverview() {
   const transition = useTransition();
-  const isLoading = transition?.state !== "idle";
+  const paths = ["/home", "/bookmarks", "/read"];
+  const isLoading =
+    transition?.state === "loading" &&
+    paths.includes(transition.location.pathname);
 
   return (
     <>
