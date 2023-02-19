@@ -7,4 +7,7 @@ module.exports = {
   publicPath: "/build/",
   serverBuildDirectory: "api/_build",
   ignoredRouteFiles: [".*", "**/*.css", "**/*.test.{js,jsx,ts,tsx}"],
+  future: {
+    unstable_tailwind: true,
+  },
 };
