@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-lg bg-slate-300 text-slate-800;
+  }
+
+  .input {
+    @apply rounded-lg border-[1px] border-slate-300 px-2 pt-2 pb-1;
+  }
+}
+
+button:disabled {
+  @apply cursor-not-allowed;
+}
