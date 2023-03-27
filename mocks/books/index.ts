@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 export function buildBookList(total: number = 10, overrides?: Partial<Book>) {
   const books: Book[] = [];
 
-  Array(total).forEach(() => {
+  [...Array(total)].forEach(() => {
     const book = {
       id: faker.datatype.uuid(),
       title: faker.lorem.words(),
