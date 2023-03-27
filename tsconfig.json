@@ -1,6 +1,11 @@
 {
   "exclude": ["./cypress", "./api/_build/**/*"],
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "remix.env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./tests/setup-test-env.ts"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
@@ -13,7 +18,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "tests/*": ["./tests/*"]
     },
     "skipLibCheck": true,
     "noEmit": true,

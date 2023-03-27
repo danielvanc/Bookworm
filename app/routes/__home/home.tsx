@@ -14,10 +14,9 @@ import {
   markAsReading,
   removeBookmark,
 } from "~/models/books.server";
-import { useUser } from "~/utils/user";
 import Notification from "~/components/Notification";
-import PreviewBookItem from "~/components/PreviewBookItem";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
+import Discover from "~/components/Discover";
 
 // TODO: Move messaging to a separate file
 
@@ -117,31 +116,15 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Home() {
   const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
-  const { id: userId } = useUser();
   const updates = useFetchers() || [];
   const orderByFirstUpdate = [...updates]?.reverse();
   const status = orderByFirstUpdate?.[0];
 
   return (
     <div className="flex items-center justify-center">
-      <div>
-        <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
+      <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
 
-        <ul className="flex flex-col gap-6">
-          {books?.map((book: Book) => {
-            if (!book.title || !book.image) return null;
-
-            return (
-              <PreviewBookItem
-                key={book.id}
-                book={book}
-                usersBookmarks={usersBookmarks}
-                userId={String(userId)}
-              />
-            );
-          })}
-        </ul>
-      </div>
+      <Discover books={books} usersBookmarks={usersBookmarks} />
 
       {status && status?.type === "done" && status?.data?.message ? (
         <Notification status={status} />

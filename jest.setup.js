@@ -1,10 +1,13 @@
+import { installGlobals } from "@remix-run/node";
 import { setupServer } from "msw/node";
-import { handlers } from "./handlers";
+import { handlers } from "./mocks/handlers";
 
-export const server = setupServer(...handlers);
+installGlobals();
+const server = setupServer(...handlers);
 
-server.listen({ onUnhandledRequest: "warn" });
 console.info("🔶 Mock server running");
+
+server.listen();
 
 process.once("SIGINT", () => server.close());
 process.once("SIGTERM", () => server.close());
