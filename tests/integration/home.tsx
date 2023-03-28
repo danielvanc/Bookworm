@@ -7,17 +7,17 @@ import "whatwg-fetch";
 import { useUser } from "~/utils/user";
 import { getLatestBooks } from "~/models/books.server";
 import { buildBookList } from "mocks/books";
-import Discover from "../components/Discover";
+import Discover from "~/components/Discover";
 
 beforeEach(() => {
   vi.clearAllMocks();
 });
 
-vi.mock("../utils/user.ts", () => ({
+vi.mock("~/utils/user.ts", () => ({
   useUser: vi.fn(),
 }));
 
-vi.mock("../models/books.server.ts", () => ({
+vi.mock("~/models/books.server.ts", () => ({
   getLatestBooks: vi.fn(),
 }));
 
