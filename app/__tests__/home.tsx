@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { Mock } from "vitest";
 import { render, screen, renderHook } from "@testing-library/react";
 import { unstable_createRemixStub } from "@remix-run/testing";
 import { Outlet, useLoaderData } from "@remix-run/react";
@@ -10,24 +10,23 @@ import { buildBookList } from "mocks/books";
 import Discover from "../components/Discover";
 
 beforeEach(() => {
-  jest.resetModules();
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
-jest.mock("../utils/user.ts", () => ({
-  useUser: jest.fn(),
+vi.mock("../utils/user.ts", () => ({
+  useUser: vi.fn(),
 }));
 
-jest.mock("../models/books.server.ts", () => ({
-  getLatestBooks: jest.fn(),
+vi.mock("../models/books.server.ts", () => ({
+  getLatestBooks: vi.fn(),
 }));
 
 test("render a list of books", async () => {
   const maxResults = 2;
-  const mockedGetLatestBooks = (getLatestBooks as jest.Mock).mockImplementation(
-    () => buildBookList(maxResults)
+  const mockedGetLatestBooks = (getLatestBooks as Mock).mockImplementation(() =>
+    buildBookList(maxResults)
   );
-  const mockedUser = (useUser as jest.Mock).mockImplementation(() => ({
+  const mockedUser = (useUser as Mock).mockImplementation(() => ({
     id: "0",
   }));
 
