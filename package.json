@@ -19,11 +19,9 @@
     "prepare": "husky install",
     "start": "remix-serve build",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
-    "start:mocks": "cross-env NODE_ENV=production node --require ./mocks",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
-    "test:e2e:dev": "cross-env RUNNING_E2E=true ENABLE_TEST_ROUTES=true start-server-and-test dev http-get://localhost:3000 cy:open",
-    "test:e2e:run": "cross-env RUNNING_E2E=true PORT=8811 start-server-and-test start:mocks http-get://localhost:8811/build/info.json cy:run",
+    "test:e2e:dev": "playwright test",
+    "test:e2e:run": "cross-env CI=true playwright test",
+    "test:e2e:install": "npx playwright install chromium --with-deps",
     "typecheck": "tsc -b",
     "validate": "./other/validate"
   },
@@ -31,7 +29,8 @@
   "eslintIgnore": [
     "/node_modules",
     "/build",
-    "/public/build"
+    "/public/build",
+    "/playwright-report"
   ],
   "dependencies": {
     "@headlessui/react": "^1.5.0",
@@ -57,10 +56,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@playwright/test": "^1.32.1",
     "@remix-run/dev": "^1.14.3",
     "@remix-run/eslint-config": "^1.14.3",
     "@remix-run/testing": "^1.14.3",
-    "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -69,7 +68,6 @@
     "@types/redis": "^4.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.4",
-    "cypress": "^9.5.2",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^7.0.4",

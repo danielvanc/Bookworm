@@ -9,8 +9,9 @@ public/build
 api/_build
 .env
 
-
-/cypress/screenshots
-/cypress/videos
-/cypress/integration/1-getting-started
-/cypress/integration/2-advanced-examples
+# Playwright specific
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/tests-examples/
+tests/e2e/example.spec.ts
