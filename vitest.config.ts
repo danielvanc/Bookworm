@@ -8,12 +8,19 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
-    include: ["./app/__tests__/**/*.{ts,tsx}"],
+    include: [
+      "./tests/integration/**/*.{ts,tsx}",
+      "./tests/unit/**/*.{ts,tsx}",
+    ],
+    exclude: ["./tests/e2e/**/*.{ts,tsx}"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
-      include: ["app/**/*.{ts,tsx}"],
+      include: [
+        "./tests/integration/**/*.{ts,tsx}",
+        "./tests/unit/**/*.{ts,tsx}",
+      ],
       all: true,
     },
   },
