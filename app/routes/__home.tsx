@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useTransition } from "@remix-run/react";
+import { Outlet, useNavigation } from "@remix-run/react";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import TabNavigation from "~/components/TabNavigation";
 import PreviewBookItemSkeleton from "../components/LoadingUI/PreviewBookItemSkeleton";
@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function HomeOverview() {
-  const transition = useTransition();
+  const transition = useNavigation();
   const paths = ["/home", "/bookmarks", "/read"];
   const isLoading =
     transition?.state === "loading" &&
