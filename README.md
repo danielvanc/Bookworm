@@ -11,6 +11,6 @@ Built with:
 - Supabase
 - MSW
 - Cypress
-- Jest + React Testing Library
+- ViTest + React Testing Library
 - React Icons
 - Framer Motion
