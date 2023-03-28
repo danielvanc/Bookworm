@@ -1,10 +1,10 @@
-import { Form, useActionData, useTransition } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { TextField } from "./Fields";
 
 export default function LoginWithEmail() {
   const data = useActionData();
   const errors = useActionData();
-  const transition = useTransition();
+  const transition = useNavigation();
   const isSubmitting = transition.state === "submitting";
 
   return (
