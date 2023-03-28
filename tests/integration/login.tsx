@@ -1,8 +1,12 @@
+import type { Mock } from "vitest";
 import { render } from "tests/utils";
+import { loader } from "~/routes/login";
 import LoginWithEmail from "~/components/LoginWithEmail";
+import { getSession } from "~/auth/auth.server";
+import { createCookieSessionStorage } from "@remix-run/node";
 // import AuthenticateForm from "~/components/AuthenticateForm";
 
-// const socialHeading = /or sign in with:/i;
+const path = "/login";
 
 vi.mock("~/auth/client", () => {
   return {
@@ -15,22 +19,24 @@ vi.mock("~/auth/auth.server", () => {
     oAuthStrategy: {
       checkSession: vi.fn(),
     },
+    getSession: vi.fn(),
+    SUCCESS_REDIRECT: "/login",
   };
 });
 
-// const sessionStorage = createCookieSessionStorage({
-//   cookie: {
-//     name: "BKW",
-//     httpOnly: true,
-//     path: "/",
-//     sameSite: "lax",
-//     secrets: [`${process.env.SESSION_SECRET}`],
-//     secure: process.env.NODE_ENV === "production",
-//   },
-// });
+const sessionStorage = createCookieSessionStorage({
+  cookie: {
+    name: "BKW",
+    httpOnly: true,
+    path: "/",
+    sameSite: "lax",
+    secrets: [`${process.env.SESSION_SECRET}`],
+    secure: process.env.NODE_ENV === "production",
+  },
+});
 
 test("renders loginWithEmail form with required fields", async () => {
-  const { getByRole } = render("/login", <LoginWithEmail />);
+  const { getByRole } = render(path, <LoginWithEmail />);
 
   const emailInput = getByRole("textbox", { name: /email address/i });
   const submitButton = getByRole("button", { name: /request a login link/i });
@@ -40,29 +46,42 @@ test("renders loginWithEmail form with required fields", async () => {
   expect(submitButton).toHaveTextContent(/request a login link/i);
 });
 
-test.todo(
-  "renders social login form and includes all login methods"
-  // render(<AuthenticateForm error={{}} />);
-  // expect(
-  //   screen.getByRole("heading", { name: socialHeading })
-  // ).toBeInTheDocument();
-  // expect(screen.getByRole("button", { name: /google/i })).toBeInTheDocument();
-  // expect(screen.getByRole("button", { name: /github/i })).toBeInTheDocument();
-  // expect(screen.getByRole("button", { name: /facebook/i })).toBeInTheDocument();
-  // expect(screen.getByRole("button", { name: /twitter/i })).toBeInTheDocument();
-);
+// TODO: Create e2e test for social login
+// test("renders social login form and includes all login methods", () => {
 
-// test("returns status of 200 if not logged in", async () => {
-//   let session = await sessionStorage.getSession();
+// const socialHeading = /or sign in with:/i;
+// const { getByRole, debug } = render(path, <AuthenticateForm error={{}} />);
+// expect(
+//   getByRole("heading", { name: socialHeading })
+// ).toBeInTheDocument();
+// expect(getByRole("button", { name: /google/i })).toBeInTheDocument();
+// expect(getByRole("button", { name: /github/i })).toBeInTheDocument();
+// expect(getByRole("button", { name: /facebook/i })).toBeInTheDocument();
+// expect(getByRole("button", { name: /twitter/i })).toBeInTheDocument();
 
-//   const request = new Request("/login", {
-//     headers: { cookie: await sessionStorage.commitSession(session) },
-//   });
-
-//   const response = await loader({ request, params: {}, context: {} });
-
-//   expect(response.status).toBe(200);
+//   debug();
 // });
+
+test("should return a response", async () => {
+  let session = await sessionStorage.getSession();
+  (getSession as Mock).mockReturnValueOnce({
+    session,
+    error: null,
+    response: {
+      headers: {
+        cookie: await sessionStorage.commitSession(session),
+      },
+    },
+  });
+
+  const response = await loader({
+    request: new Request("http://localhost:3000/login"),
+    params: {},
+    context: {},
+  });
+
+  expect(response).toBeInstanceOf(Response);
+});
 
 test.todo("returns user object if users logged in");
 test.todo("logs user out");
