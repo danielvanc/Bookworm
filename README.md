@@ -10,7 +10,7 @@ Built with:
 - Prisma
 - Supabase
 - MSW
-- Cypress
+- Playwright
 - ViTest + React Testing Library
 - React Icons
 - Framer Motion
