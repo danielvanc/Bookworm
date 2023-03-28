@@ -14,6 +14,7 @@
     "module": "ES2020",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "types": ["vitest/globals"],
     "target": "ES2019",
     "strict": true,
     "baseUrl": ".",

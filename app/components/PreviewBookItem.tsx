@@ -1,4 +1,3 @@
-import React from "react";
 import BookItemFooter from "./BookItemFooter";
 
 export default function PreviewBookItem({
