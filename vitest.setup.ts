@@ -3,7 +3,7 @@ import { setupServer } from "msw/node";
 import matchers, {
   type TestingLibraryMatchers,
 } from "@testing-library/jest-dom/matchers";
-import { handlers } from "./mocks/handlers";
+import { handlers } from "tests/mocks/handlers";
 
 declare global {
   namespace Vi {

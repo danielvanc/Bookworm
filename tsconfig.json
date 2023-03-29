@@ -20,7 +20,6 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "mocks": ["./mocks"],
       "tests/*": ["./tests/*"]
     },
     "skipLibCheck": true,
