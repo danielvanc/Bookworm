@@ -4,7 +4,7 @@ import { json } from "@remix-run/node";
 import "whatwg-fetch";
 import { useUser } from "~/utils/user";
 import { getLatestBooks } from "~/models/books.server";
-import { buildBookList } from "mocks/books";
+import { buildBookList } from "tests/mocks/books";
 import Discover from "~/components/Discover";
 
 beforeEach(() => {
