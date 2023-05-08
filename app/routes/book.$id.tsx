@@ -1,5 +1,10 @@
 import { json, redirect, type LoaderArgs } from "@remix-run/node";
-import { useFetchers, useLoaderData } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useFetchers,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { format } from "date-fns";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
@@ -80,7 +85,7 @@ export default function Book() {
           </h1>
 
           <div
-            className="mt-10 text-lg lg:text-lg [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl [&_li]:ml-6 [&_b]:text-2xl"
+            className="mt-10 text-lg lg:text-lg [&_b]:text-2xl [&_li]:ml-6 [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl"
             dangerouslySetInnerHTML={{ __html: description }}
           />
           <p className="mt-14 hidden md:block">
@@ -173,15 +178,23 @@ export default function Book() {
   );
 }
 
-export function CatchBoundary() {
-  return <div>CatchBoundary</div>;
-}
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-export function ErrorBoundary({ error }: { error: Error }) {
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>Oops</h1>
+        <p>Status: {error.status}</p>
+        <p>{error.data.message}</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <h1>Oh no, no book id was provided!</h1>
-      <pre>{error.message}</pre>
-    </>
+    <div>
+      <h1>Uh oh ...</h1>
+      <p>Something went wrong.</p>
+    </div>
   );
 }
