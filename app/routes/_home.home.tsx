@@ -4,7 +4,7 @@ import {
   type ActionArgs,
   type LoaderArgs,
 } from "@remix-run/node";
-import { useCatch, useFetchers, useLoaderData } from "@remix-run/react";
+import { useFetchers, useLoaderData, useRouteError } from "@remix-run/react";
 import {
   createBookmark,
   getLatestBooks,
@@ -133,34 +133,33 @@ export default function Home() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-  if (caught.status === 403) {
-    return (
-      <div className="mt-10 text-center">
-        <h2 className="mb-4">{caught.data}</h2>
-        <button onClick={() => window.location.reload()}>Retry?</button>
-      </div>
-    );
-  }
+  // TODO: fix these below
+  // if (error === 403) {
+  //   return (
+  //     <div className="mt-10 text-center">
+  //       {/* <h2 className="mb-4">{caught.data}</h2>
+  //       <button onClick={() => window.location.reload()}>Retry?</button> */}
+  //     </div>
+  //   );
+  // }
 
-  return (
-    <div>
-      <h1>Caught</h1>
-      <p>Status: {caught.status}</p>
-      <pre>
-        <code>{JSON.stringify(caught.data, null, 2)}</code>
-      </pre>
-    </div>
-  );
-}
+  //  return (
+  //    <div>
+  //      <h1>Caught</h1>
+  //      <p>Status: {caught.status}</p>
+  //      <pre>
+  //        <code>{JSON.stringify(caught.data, null, 2)}</code>
+  //      </pre>
+  //    </div>
+  //  );
 
-export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
       <h1>Oh no!</h1>
-      <pre>{error.message}</pre>
+      {/* <pre>{error.message}</pre> */}
       <p>There was an error in the Discover route!</p>
     </>
   );

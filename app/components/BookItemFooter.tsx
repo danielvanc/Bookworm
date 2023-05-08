@@ -29,7 +29,7 @@ export default function BookItemFooter({
   const hasErrors = statusFetcher.data?.error;
   const failedUpdate = hasErrors && isIdle;
   const action = statusFetcher.data?.action;
-  const subData = statusFetcher.submission && statusFetcher.submission.formData;
+  const subData = statusFetcher.formData;
   const ErrorMessage = "Error, please retry";
 
   const isBookmarkAction = action === "create" || action === "remove-bookmark";
@@ -154,7 +154,7 @@ export default function BookItemFooter({
                 >
                   {isReadUpdate ? "Read" : "Not Finished"}
                   {isReadUpdate && (
-                    <Done className="ml-2 -mr-2 h-5 w-5 text-gray-400" />
+                    <Done className="-mr-2 ml-2 h-5 w-5 text-gray-400" />
                   )}
                 </button>
               ) : (
@@ -177,7 +177,7 @@ export default function BookItemFooter({
                     : "Not Finished"}
 
                   {isRead && !isReadingUpdate && (
-                    <Done className="ml-2 -mr-1 h-5 w-5 text-gray-400 sm:-mr-2" />
+                    <Done className="-mr-1 ml-2 h-5 w-5 text-gray-400 sm:-mr-2" />
                   )}
                 </button>
               )}
