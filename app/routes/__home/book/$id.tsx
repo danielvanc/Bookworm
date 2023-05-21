@@ -1,5 +1,10 @@
 import { json, redirect, type LoaderArgs } from "@remix-run/node";
-import { useFetchers, useLoaderData } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useFetchers,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { format } from "date-fns";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
@@ -80,14 +85,14 @@ export default function Book() {
           </h1>
 
           <div
-            className="mt-10 text-lg lg:text-lg [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl [&_li]:ml-6 [&_b]:text-2xl"
+            className="mt-10 text-lg lg:text-lg [&_b]:text-2xl [&_li]:ml-6 [&_p]:mt-5 [&_p]:text-2xl lg:[&_p]:text-2xl"
             dangerouslySetInnerHTML={{ __html: description }}
           />
           <p className="mt-14 hidden md:block">
             <a
               href={link}
               target="_blank"
-              className="rounded-lg bg-rosyWorm py-5 px-10 text-white hover:bg-rosyWorm-900"
+              className="bg-rosyWorm hover:bg-rosyWorm-900 rounded-lg px-10 py-5 text-white"
               rel="noreferrer"
             >
               View more information
@@ -105,7 +110,7 @@ export default function Book() {
           <div className="mx-auto mt-10 w-3/4 space-y-6 pb-16">
             <div>
               <h3 className="font-semibold text-gray-900">Information</h3>
-              <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
+              <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                 <div className="flex justify-between py-3 text-sm font-medium">
                   <dt className="text-gray-500">Author(s)</dt>
                   <dd className="break-all pl-2 text-gray-900">
@@ -155,7 +160,7 @@ export default function Book() {
             <a
               href={link}
               target="_blank"
-              className="rounded-lg bg-rosyWorm py-5 px-10 text-white hover:bg-rosyWorm-900"
+              className="bg-rosyWorm hover:bg-rosyWorm-900 rounded-lg px-10 py-5 text-white"
               rel="noreferrer"
             >
               View more information
@@ -163,7 +168,7 @@ export default function Book() {
           </p>
         </div>
       </div>
-      {status && status?.type === "done" && status?.data?.message ? (
+      {status && status?.data === "done" && status?.data?.message ? (
         <Notification
           status={status}
           classNames="mx-auto w-full max-w-[400px] left-1/2 -translate-x-1/2"
@@ -173,15 +178,23 @@ export default function Book() {
   );
 }
 
-export function CatchBoundary() {
-  return <div>CatchBoundary</div>;
-}
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-export function ErrorBoundary({ error }: { error: Error }) {
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>Oops</h1>
+        <p>Status: {error.status}</p>
+        <p>{error.data.message}</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <h1>Oh no, no book id was provided!</h1>
-      <pre>{error.message}</pre>
-    </>
+    <div>
+      <h1>Uh oh ...</h1>
+      <p>Something went wrong.</p>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import type { Fetcher } from "@remix-run/react";
 import * as React from "react";
 import { Transition } from "@headlessui/react";
 import {
@@ -7,14 +8,7 @@ import {
 import XMark from "./icons/XMark";
 
 interface Props {
-  status: {
-    data: {
-      error?: boolean;
-      action: string;
-      message?: string;
-      errorMessage?: string;
-    };
-  };
+  status: Fetcher;
   classNames?: string;
 }
 
