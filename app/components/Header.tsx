@@ -1,6 +1,7 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import React from "react";
+import { useOutletContext } from "@remix-run/react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-
 import {
   FireIcon,
   MagnifyingGlassIcon,
@@ -14,8 +15,7 @@ import {
   HomeIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "~/utils";
-import { Form } from "@remix-run/react";
-import BlankAvatar from "./BlankAvatar";
+import BlankAvatar from "~/components/BlankAvatar";
 
 interface Props {
   name: string;
@@ -34,6 +34,12 @@ const navigation = [
 
 /* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */
 export default function Header({ name, email, avatar }: Props) {
+  const { supabase } = useOutletContext() as { supabase: SupabaseClient };
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+  }
+
   return (
     <Popover
       as="header"
@@ -49,7 +55,7 @@ export default function Header({ name, email, avatar }: Props) {
           <div
             className={`${
               open ? "bg-rosyWorm" : ""
-            } mx-auto max-w-screen-desktopMax px-4 sm:px-6 lg:px-8`}
+            } max-w-screen-desktopMax mx-auto px-4 sm:px-6 lg:px-8`}
           >
             <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
               <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
@@ -110,7 +116,7 @@ export default function Header({ name, email, avatar }: Props) {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-5 flex-shrink-0">
                   <div>
-                    <Menu.Button className="ring-offset- to-blue-400focus:outline-none focus:white flex rounded-full bg-rosyWorm  ring-2 ring-pink-400 focus:ring-2 focus:ring-white">
+                    <Menu.Button className="ring-offset- to-blue-400focus:outline-none focus:white bg-rosyWorm flex rounded-full  ring-2 ring-pink-400 focus:ring-2 focus:ring-white">
                       <span className="sr-only">Open user menu</span>
                       {avatar !== "" ? (
                         <img
@@ -140,7 +146,7 @@ export default function Header({ name, email, avatar }: Props) {
                               href={item.href}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block py-2 px-4 text-sm text-gray-700"
+                                "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               {item.name}
@@ -152,17 +158,18 @@ export default function Header({ name, email, avatar }: Props) {
                   </Transition>
                 </Menu>
 
-                <Form method="post" action="/logout">
-                  <button className="ml-6 inline-flex items-center rounded-md border border-transparent bg-pink-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2">
-                    Logout
-                  </button>
-                </Form>
+                <button
+                  onClick={handleLogout}
+                  className="ml-6 inline-flex items-center rounded-md border border-transparent bg-pink-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
 
           <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
-            <div className="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
+            <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
               {navigation.map((item) => (
                 <a
                   key={item.name}
@@ -172,7 +179,7 @@ export default function Header({ name, email, avatar }: Props) {
                     item.current
                       ? "bg-gray-100 text-gray-900"
                       : "hover:bg-gray-50",
-                    "block rounded-md py-2 px-3 text-base font-medium"
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
                 >
                   {item.name}
@@ -213,7 +220,7 @@ export default function Header({ name, email, avatar }: Props) {
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                   >
                     {item.name}
                   </a>

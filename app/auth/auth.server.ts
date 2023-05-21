@@ -50,7 +50,6 @@ export async function getSession(request: Request) {
 
 export async function closeSession(request: Request) {
   const { supabaseClient, response } = createSupabaseClient(request);
-
   const { error } = await supabaseClient.auth.signOut();
 
   return { error, response };

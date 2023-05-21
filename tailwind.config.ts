@@ -1,10 +1,11 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
 
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
-module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+
+export default {
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
       lm: "400px",
@@ -51,7 +52,7 @@ module.exports = {
         h2Normal: "2rem",
       },
       lineHeight: {
-        tighter: 0.8,
+        tighter: "0.8",
       },
       padding: {
         sectionMedium: "3rem",
@@ -70,8 +71,12 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(function ({ addVariant }) {
+    plugin(function ({
+      addVariant,
+    }: {
+      addVariant: (arg0: string, arg1: string) => void;
+    }) {
       addVariant("initial", "html :where(&)");
     }),
   ],
-};
+} satisfies Config;
