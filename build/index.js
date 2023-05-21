@@ -33,19 +33,87 @@ __export(stdin_exports, {
 });
 module.exports = __toCommonJS(stdin_exports);
 
-// app/entry.server.tsx
-var entry_server_exports = {};
-__export(entry_server_exports, {
+// node_modules/@remix-run/dev/dist/config/defaults/node/entry.server.react-stream.tsx
+var entry_server_react_stream_exports = {};
+__export(entry_server_react_stream_exports, {
   default: () => handleRequest
 });
-var import_react = require("@remix-run/react"), import_server = require("react-dom/server"), import_jsx_runtime = require("react/jsx-runtime");
+var import_stream = require("stream"), import_node = require("@remix-run/node"), import_react = require("@remix-run/react"), import_isbot = __toESM(require("isbot")), import_server = require("react-dom/server"), import_jsx_runtime = require("react/jsx-runtime"), ABORT_DELAY = 5e3;
 function handleRequest(request, responseStatusCode, responseHeaders, remixContext) {
-  let markup = (0, import_server.renderToString)(
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react.RemixServer, { context: remixContext, url: request.url })
+  return (0, import_isbot.default)(request.headers.get("user-agent")) ? handleBotRequest(
+    request,
+    responseStatusCode,
+    responseHeaders,
+    remixContext
+  ) : handleBrowserRequest(
+    request,
+    responseStatusCode,
+    responseHeaders,
+    remixContext
   );
-  return responseHeaders.set("Content-Type", "text/html"), new Response("<!DOCTYPE html>" + markup, {
-    status: responseStatusCode,
-    headers: responseHeaders
+}
+function handleBotRequest(request, responseStatusCode, responseHeaders, remixContext) {
+  return new Promise((resolve, reject) => {
+    let { pipe, abort } = (0, import_server.renderToPipeableStream)(
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        import_react.RemixServer,
+        {
+          context: remixContext,
+          url: request.url,
+          abortDelay: ABORT_DELAY
+        }
+      ),
+      {
+        onAllReady() {
+          let body = new import_stream.PassThrough();
+          responseHeaders.set("Content-Type", "text/html"), resolve(
+            new import_node.Response(body, {
+              headers: responseHeaders,
+              status: responseStatusCode
+            })
+          ), pipe(body);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          responseStatusCode = 500, console.error(error);
+        }
+      }
+    );
+    setTimeout(abort, ABORT_DELAY);
+  });
+}
+function handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext) {
+  return new Promise((resolve, reject) => {
+    let { pipe, abort } = (0, import_server.renderToPipeableStream)(
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        import_react.RemixServer,
+        {
+          context: remixContext,
+          url: request.url,
+          abortDelay: ABORT_DELAY
+        }
+      ),
+      {
+        onShellReady() {
+          let body = new import_stream.PassThrough();
+          responseHeaders.set("Content-Type", "text/html"), resolve(
+            new import_node.Response(body, {
+              headers: responseHeaders,
+              status: responseStatusCode
+            })
+          ), pipe(body);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          console.error(error), responseStatusCode = 500;
+        }
+      }
+    );
+    setTimeout(abort, ABORT_DELAY);
   });
 }
 
@@ -58,7 +126,7 @@ __export(root_exports, {
   loader: () => loader,
   meta: () => meta
 });
-var import_node = require("@remix-run/node"), import_react3 = require("@remix-run/react");
+var import_node2 = require("@remix-run/node"), import_react3 = require("@remix-run/react");
 
 // app/tailwind.css
 var tailwind_default = "/build/_assets/tailwind-KM7CNWIY.css";
@@ -143,7 +211,7 @@ function links() {
 }
 var loader = async ({ request }) => {
   let { SUPABASE_URL, SUPABASE_KEY, NODE_ENV } = process.env, { session, error, response } = await getSession(request);
-  return (0, import_node.json)({
+  return (0, import_node2.json)({
     session,
     error,
     env: {
@@ -199,10 +267,10 @@ __export(oauth_callback_exports, {
   action: () => action,
   default: () => OAuth
 });
-var React2 = __toESM(require("react")), import_node2 = require("@remix-run/node"), import_react4 = require("@remix-run/react"), import_auth_helpers_remix3 = require("@supabase/auth-helpers-remix");
+var React2 = __toESM(require("react")), import_node3 = require("@remix-run/node"), import_react4 = require("@remix-run/react"), import_auth_helpers_remix3 = require("@supabase/auth-helpers-remix");
 var action = async ({ request }) => {
   let { session, response } = await getSession(request);
-  return (0, import_node2.redirect)(session ? SUCCESS_REDIRECT : FAILURE_REDIRECT, {
+  return (0, import_node3.redirect)(session ? SUCCESS_REDIRECT : FAILURE_REDIRECT, {
     headers: response.headers
   });
 };
@@ -236,7 +304,7 @@ __export(home_exports, {
   default: () => Home,
   loader: () => loader2
 });
-var import_node3 = require("@remix-run/node"), React4 = __toESM(require("react")), import_react9 = require("@remix-run/react"), import_outline3 = require("@heroicons/react/24/outline");
+var import_node4 = require("@remix-run/node"), React4 = __toESM(require("react")), import_react9 = require("@remix-run/react"), import_outline3 = require("@heroicons/react/24/outline");
 
 // app/utils/index.ts
 function classNames(...classes) {
@@ -527,12 +595,12 @@ var import_auth_helpers_remix4 = require("@supabase/auth-helpers-remix"), import
 ], loader2 = async ({ request }) => {
   let { session, error, response } = await getSession(request);
   if (!(session != null && session.user))
-    return (0, import_node3.redirect)(FAILURE_REDIRECT);
+    return (0, import_node4.redirect)(FAILURE_REDIRECT);
   let env = {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_KEY: process.env.SUPABASE_KEY
   };
-  return (0, import_node3.json)({
+  return (0, import_node4.json)({
     env,
     session,
     error,
@@ -611,7 +679,7 @@ __export(bookmarks_exports, {
   default: () => Bookmarks,
   loader: () => loader3
 });
-var import_node4 = require("@remix-run/node"), import_react11 = require("@remix-run/react");
+var import_node5 = require("@remix-run/node"), import_react11 = require("@remix-run/react");
 
 // app/utils/redis.server.ts
 var import_ioredis = __toESM(require("ioredis")), url = process.env.REDIS_URL, client = new import_ioredis.default(url);
@@ -1052,9 +1120,9 @@ var import_jsx_runtime11 = require("react/jsx-runtime");
 async function loader3({ request }) {
   let { session } = await getSession(request);
   if (!session)
-    return (0, import_node4.redirect)(FAILURE_REDIRECT);
+    return (0, import_node5.redirect)(FAILURE_REDIRECT);
   let userId = session.user.id, { bookmarks } = await getBookmarks(userId);
-  return (0, import_node4.json)({ userId, bookmarks });
+  return (0, import_node5.json)({ userId, bookmarks });
 }
 function Bookmarks() {
   let { userId, bookmarks } = (0, import_react11.useLoaderData)();
@@ -1086,7 +1154,7 @@ __export(id_exports, {
   default: () => Book,
   loader: () => loader4
 });
-var import_node5 = require("@remix-run/node"), import_react13 = require("@remix-run/react"), import_tiny_invariant3 = __toESM(require("tiny-invariant")), import_date_fns = require("date-fns");
+var import_node6 = require("@remix-run/node"), import_react13 = require("@remix-run/react"), import_tiny_invariant3 = __toESM(require("tiny-invariant")), import_date_fns = require("date-fns");
 
 // app/components/Notification.tsx
 var React5 = __toESM(require("react")), import_react12 = require("@headlessui/react"), import_outline4 = require("@heroicons/react/24/outline");
@@ -1183,11 +1251,11 @@ var import_jsx_runtime14 = require("react/jsx-runtime");
 async function loader4({ request, params }) {
   let { session } = await getSession(request);
   if (!session)
-    return (0, import_node5.redirect)(FAILURE_REDIRECT);
+    return (0, import_node6.redirect)(FAILURE_REDIRECT);
   let { id: userId } = session == null ? void 0 : session.user, { id: bookId } = params;
   (0, import_tiny_invariant3.default)(bookId, "bookId is required"), (0, import_tiny_invariant3.default)(userId, "userId is required");
   let data = await fetchBookInfo(bookId), userBookmark = (await getUsersBookmarks(userId)).find((bookmark) => bookmark.id === bookId), buid = userBookmark == null ? void 0 : userBookmark.buid, isBookmarked = (userBookmark == null ? void 0 : userBookmark.bookmarked) ?? !1, isReading = (userBookmark == null ? void 0 : userBookmark.reading) ?? !1, isRead = (userBookmark == null ? void 0 : userBookmark.read) ?? !1;
-  return (0, import_node5.json)({
+  return (0, import_node6.json)({
     ...data,
     buid,
     bookId,
@@ -1342,7 +1410,7 @@ __export(home_exports2, {
   default: () => DashboardHome,
   loader: () => loader5
 });
-var import_node6 = require("@remix-run/node"), import_react16 = require("@remix-run/react");
+var import_node7 = require("@remix-run/node"), import_react16 = require("@remix-run/react");
 
 // app/utils/user.ts
 var import_react14 = require("@remix-run/react"), import_react15 = require("react");
@@ -1386,7 +1454,7 @@ async function action2({ request }) {
   var _a, _b, _c;
   let formData = await request.formData(), userId = ((_a = formData.get("user_id")) == null ? void 0 : _a.toString()) ?? "", bookId = ((_b = formData.get("book_id")) == null ? void 0 : _b.toString()) ?? "", buid = ((_c = formData.get("buid")) == null ? void 0 : _c.toString()) ?? "", action5 = formData.get("_action"), isAddingBookmark = action5 === "create", isRemovingBookmark = action5 === "remove-bookmark", isReading = action5 === "reading", isNotReading = action5 === "remove-reading", isRead = action5 === "read", isNotRead = action5 === "remove-read", addingBookmarkError = "Error adding bookmark. Please retry", removingBookmarkError = "Error removing bookmark. Please retry.", isReadingError = "Error marking book as reading. Please retry", isNotReadingError = "Error marking book as not reading. Please retry", isReadError = "Error marking book as read. Please retry.", isNotReadError = "Error marking book as not finished. Please retry", errorMessage = "", successMessage = "", errors = { error: !0, action: action5 };
   try {
-    return isAddingBookmark && (errorMessage = addingBookmarkError, successMessage = "Successfully added to your bookmarks!", await createBookmark(buid, bookId, userId)), isRemovingBookmark && (errorMessage = removingBookmarkError, successMessage = "Successfully removed from your bookmarks!", await removeBookmark(buid)), isReading && (errorMessage = isReadingError, successMessage = "Successfully marked as reading!", await markAsReading(buid, bookId, userId)), isNotReading && (errorMessage = isNotReadingError, successMessage = "Successfully marked as not reading!", await markAsNotReading(buid)), isRead && (errorMessage = isReadError, successMessage = "Successfully marked as read!", await markAsRead(buid, bookId, userId)), isNotRead && (errorMessage = isNotReadError, successMessage = "Successfully marked as not finished!", await markAsNotRead(buid)), (0, import_node6.json)({ status: 200, message: successMessage, id: buid || bookId });
+    return isAddingBookmark && (errorMessage = addingBookmarkError, successMessage = "Successfully added to your bookmarks!", await createBookmark(buid, bookId, userId)), isRemovingBookmark && (errorMessage = removingBookmarkError, successMessage = "Successfully removed from your bookmarks!", await removeBookmark(buid)), isReading && (errorMessage = isReadingError, successMessage = "Successfully marked as reading!", await markAsReading(buid, bookId, userId)), isNotReading && (errorMessage = isNotReadingError, successMessage = "Successfully marked as not reading!", await markAsNotReading(buid)), isRead && (errorMessage = isReadError, successMessage = "Successfully marked as read!", await markAsRead(buid, bookId, userId)), isNotRead && (errorMessage = isNotReadError, successMessage = "Successfully marked as not finished!", await markAsNotRead(buid)), (0, import_node7.json)({ status: 200, message: successMessage, id: buid || bookId });
   } catch {
     return {
       ...errors,
@@ -1397,13 +1465,13 @@ async function action2({ request }) {
 async function loader5({ request }) {
   let { session } = await getSession(request);
   if (!(session != null && session.user))
-    return (0, import_node6.redirect)(FAILURE_REDIRECT);
+    return (0, import_node7.redirect)(FAILURE_REDIRECT);
   let { id } = session == null ? void 0 : session.user, data = await getLatestBooks(id, 10);
   if (!data || !(data != null && data.books) || !(data != null && data.books.length))
     throw new Response("Problem fetching book list...", {
       status: 403
     });
-  return (0, import_node6.json)(data);
+  return (0, import_node7.json)(data);
 }
 function DashboardHome() {
   let { books, usersBookmarks } = (0, import_react16.useLoaderData)(), orderByFirstUpdate = [...(0, import_react16.useFetchers)() || []].reverse(), status = orderByFirstUpdate == null ? void 0 : orderByFirstUpdate[0];
@@ -1426,15 +1494,15 @@ __export(read_exports, {
   default: () => Reading,
   loader: () => loader6
 });
-var import_node7 = require("@remix-run/node"), import_node8 = require("@remix-run/node");
+var import_node8 = require("@remix-run/node"), import_node9 = require("@remix-run/node");
 var import_react17 = require("@remix-run/react");
 var import_jsx_runtime17 = require("react/jsx-runtime");
 async function loader6({ request }) {
   let { session } = await getSession(request);
   if (!session)
-    return (0, import_node7.redirect)(FAILURE_REDIRECT);
+    return (0, import_node8.redirect)(FAILURE_REDIRECT);
   let userId = session.user.id, { bookmarks } = await getAllRead(userId);
-  return (0, import_node8.json)({ userId, bookmarks });
+  return (0, import_node9.json)({ userId, bookmarks });
 }
 function Reading() {
   let { userId, bookmarks } = (0, import_react17.useLoaderData)(), allBooks = bookmarks.filter((book) => book.read || book.reading);
@@ -1454,10 +1522,10 @@ var logout_exports = {};
 __export(logout_exports, {
   action: () => action3
 });
-var import_node9 = require("@remix-run/node");
+var import_node10 = require("@remix-run/node");
 var action3 = async ({ request }) => {
   let { response } = await closeSession(request);
-  return (0, import_node9.redirect)(FAILURE_REDIRECT, { headers: response.headers });
+  return (0, import_node10.redirect)(FAILURE_REDIRECT, { headers: response.headers });
 };
 
 // app/routes/index.tsx
@@ -1466,7 +1534,7 @@ __export(routes_exports, {
   default: () => Welcome,
   loader: () => loader7
 });
-var import_node10 = require("@remix-run/node");
+var import_node11 = require("@remix-run/node");
 
 // app/components/Marketing/Container.tsx
 var import_clsx = __toESM(require("clsx")), import_jsx_runtime18 = require("react/jsx-runtime");
@@ -1896,7 +1964,7 @@ function SampleFeatures() {
 var import_jsx_runtime24 = require("react/jsx-runtime");
 async function loader7({ request }) {
   let { session } = await getSession(request);
-  return session ? (0, import_node10.redirect)(SUCCESS_REDIRECT) : {};
+  return session ? (0, import_node11.redirect)(SUCCESS_REDIRECT) : {};
 }
 function Welcome() {
   return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("main", { children: [
@@ -1914,7 +1982,7 @@ __export(login_exports, {
   default: () => Login,
   loader: () => loader8
 });
-var import_node11 = require("@remix-run/node"), import_node12 = require("@remix-run/node"), import_react24 = require("@remix-run/react");
+var import_node12 = require("@remix-run/node"), import_node13 = require("@remix-run/node"), import_react24 = require("@remix-run/react");
 
 // app/components/AuthenticateForm.tsx
 var React7 = __toESM(require("react")), import_fa = require("react-icons/fa"), import_ai = require("react-icons/ai"), import_react22 = require("@remix-run/react"), import_jsx_runtime25 = require("react/jsx-runtime");
@@ -2093,14 +2161,14 @@ function LoginWithEmail() {
 var import_jsx_runtime29 = require("react/jsx-runtime"), action4 = async ({ request }) => {
   let email = (await request.formData()).get("email"), errors = {};
   if ((typeof email != "string" || !email.includes("@")) && (errors.email = "That doesn't look like an email address"), Object.keys(errors).length)
-    return (0, import_node12.json)(errors, { status: 422 });
+    return (0, import_node13.json)(errors, { status: 422 });
   let { supabaseClient, response } = await createSupabaseClient(request), { data } = await supabaseClient.auth.signInWithOtp({
     email: String(email),
     options: {
       emailRedirectTo: `http://${request.headers.get("host")}/oauth/callback/`
     }
   });
-  return (0, import_node12.json)(
+  return (0, import_node13.json)(
     { data },
     {
       headers: response.headers
@@ -2109,7 +2177,7 @@ var import_jsx_runtime29 = require("react/jsx-runtime"), action4 = async ({ requ
 };
 async function loader8({ request }) {
   let { session, error, response } = await getSession(request);
-  return session ? (0, import_node11.redirect)(SUCCESS_REDIRECT, { headers: response.headers }) : (0, import_node12.json)(
+  return session ? (0, import_node12.redirect)(SUCCESS_REDIRECT, { headers: response.headers }) : (0, import_node13.json)(
     { error },
     {
       headers: response.headers
@@ -2129,10 +2197,10 @@ function Login() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-UPUNYRSP.js", imports: ["/build/_shared/chunk-34E6I5LM.js", "/build/_shared/chunk-6RE5ADJW.js", "/build/_shared/chunk-25SZ5MWR.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-QYQDQ2V6.js", imports: ["/build/_shared/chunk-BBQVSA32.js", "/build/_shared/chunk-KYUWNA5S.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home": { id: "routes/__home", parentId: "root", path: void 0, index: void 0, caseSensitive: void 0, module: "/build/routes/__home-I4JE6BXQ.js", imports: ["/build/_shared/chunk-DM5NHE2D.js", "/build/_shared/chunk-EVHANG5Z.js", "/build/_shared/chunk-AUAFYJE2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/__home/book/$id": { id: "routes/__home/book/$id", parentId: "routes/__home", path: "book/:id", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/book/$id-M42GIEUF.js", imports: ["/build/_shared/chunk-NWIKZLHL.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/bookmarks": { id: "routes/__home/bookmarks", parentId: "routes/__home", path: "bookmarks", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/bookmarks-MVVUHS5G.js", imports: ["/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/home": { id: "routes/__home/home", parentId: "routes/__home", path: "home", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/home-PCOG3J4Z.js", imports: ["/build/_shared/chunk-NWIKZLHL.js", "/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/read": { id: "routes/__home/read", parentId: "routes/__home", path: "read", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/read-VY64S5XA.js", imports: ["/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-GSB7SEEX.js", imports: ["/build/_shared/chunk-RJXH7JT6.js", "/build/_shared/chunk-DM5NHE2D.js", "/build/_shared/chunk-AUAFYJE2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-KETZ6YTE.js", imports: ["/build/_shared/chunk-RJXH7JT6.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-UIVMAB3N.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/oauth.callback": { id: "routes/oauth.callback", parentId: "root", path: "oauth/callback", index: void 0, caseSensitive: void 0, module: "/build/routes/oauth.callback-2V4CEESW.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "e43bc01e", hmr: void 0, url: "/build/manifest-E43BC01E.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-YUYWXZ42.js", imports: ["/build/_shared/chunk-34E6I5LM.js", "/build/_shared/chunk-6RE5ADJW.js", "/build/_shared/chunk-25SZ5MWR.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-BONLWM4Z.js", imports: ["/build/_shared/chunk-KINNEDYY.js", "/build/_shared/chunk-KYUWNA5S.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home": { id: "routes/__home", parentId: "root", path: void 0, index: void 0, caseSensitive: void 0, module: "/build/routes/__home-WAWMHIAX.js", imports: ["/build/_shared/chunk-DM5NHE2D.js", "/build/_shared/chunk-EVHANG5Z.js", "/build/_shared/chunk-AUAFYJE2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/__home/book/$id": { id: "routes/__home/book/$id", parentId: "routes/__home", path: "book/:id", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/book/$id-M42GIEUF.js", imports: ["/build/_shared/chunk-NWIKZLHL.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/bookmarks": { id: "routes/__home/bookmarks", parentId: "routes/__home", path: "bookmarks", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/bookmarks-MVVUHS5G.js", imports: ["/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/home": { id: "routes/__home/home", parentId: "routes/__home", path: "home", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/home-PCOG3J4Z.js", imports: ["/build/_shared/chunk-NWIKZLHL.js", "/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/__home/read": { id: "routes/__home/read", parentId: "routes/__home", path: "read", index: void 0, caseSensitive: void 0, module: "/build/routes/__home/read-VY64S5XA.js", imports: ["/build/_shared/chunk-JAPWAI7Y.js", "/build/_shared/chunk-XCPWJEWY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-GSB7SEEX.js", imports: ["/build/_shared/chunk-RJXH7JT6.js", "/build/_shared/chunk-DM5NHE2D.js", "/build/_shared/chunk-AUAFYJE2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-KETZ6YTE.js", imports: ["/build/_shared/chunk-RJXH7JT6.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-UIVMAB3N.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/oauth.callback": { id: "routes/oauth.callback", parentId: "root", path: "oauth/callback", index: void 0, caseSensitive: void 0, module: "/build/routes/oauth.callback-FJYLUX5B.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "bcdf1d1c", hmr: void 0, url: "/build/manifest-BCDF1D1C.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var assetsBuildDirectory = "./public/build", future = { unstable_dev: !0, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var assetsBuildDirectory = "./public/build", future = { unstable_dev: !0, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_react_stream_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,
