@@ -92,7 +92,7 @@ export default function Book() {
             <a
               href={link}
               target="_blank"
-              className="rounded-lg bg-rosyWorm py-5 px-10 text-white hover:bg-rosyWorm-900"
+              className="bg-rosyWorm hover:bg-rosyWorm-900 rounded-lg px-10 py-5 text-white"
               rel="noreferrer"
             >
               View more information
@@ -110,7 +110,7 @@ export default function Book() {
           <div className="mx-auto mt-10 w-3/4 space-y-6 pb-16">
             <div>
               <h3 className="font-semibold text-gray-900">Information</h3>
-              <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
+              <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                 <div className="flex justify-between py-3 text-sm font-medium">
                   <dt className="text-gray-500">Author(s)</dt>
                   <dd className="break-all pl-2 text-gray-900">
@@ -160,7 +160,7 @@ export default function Book() {
             <a
               href={link}
               target="_blank"
-              className="rounded-lg bg-rosyWorm py-5 px-10 text-white hover:bg-rosyWorm-900"
+              className="bg-rosyWorm hover:bg-rosyWorm-900 rounded-lg px-10 py-5 text-white"
               rel="noreferrer"
             >
               View more information
@@ -168,7 +168,7 @@ export default function Book() {
           </p>
         </div>
       </div>
-      {status && status?.type === "done" && status?.data?.message ? (
+      {status && status?.data === "done" && status?.data?.message ? (
         <Notification
           status={status}
           classNames="mx-auto w-full max-w-[400px] left-1/2 -translate-x-1/2"

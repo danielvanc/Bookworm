@@ -4,7 +4,7 @@ import {
   type ActionArgs,
   type LoaderArgs,
 } from "@remix-run/node";
-import { useFetchers, useLoaderData, useRouteError } from "@remix-run/react";
+import { useFetchers, useLoaderData } from "@remix-run/react";
 import {
   createBookmark,
   getLatestBooks,
@@ -103,18 +103,20 @@ export async function action({ request }: ActionArgs) {
 
 export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
-  if (!session) return redirect(FAILURE_REDIRECT);
-  const { id } = session?.user!;
+  if (!session?.user) return redirect(FAILURE_REDIRECT);
 
+  const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
+
   if (!data || !data?.books || !data?.books.length)
     throw new Response("Problem fetching book list...", {
       status: 403,
     });
+
   return json(data);
 }
 
-export default function Home() {
+export default function DashboardHome() {
   const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
   const updates = useFetchers() || [];
   const orderByFirstUpdate = [...updates]?.reverse();
@@ -122,19 +124,15 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center">
-      <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
-
+      <h1 className="font-monty sr-only text-xl">Discover - latest!</h1>
       <Discover books={books} usersBookmarks={usersBookmarks} />
-
-      {status && status?.type === "done" && status?.data?.message ? (
-        <Notification status={status} />
-      ) : null}
+      {status && status?.data ? <Notification status={status} /> : null}
     </div>
   );
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError();
+  // const error = useRouteError();
 
   // TODO: fix these below
   // if (error === 403) {

@@ -21,7 +21,7 @@ export default function Bookmarks() {
   return (
     <div className="flex items-center justify-center">
       <div>
-        <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
+        <h1 className="font-monty sr-only text-xl">Discover - latest!</h1>
         <ul className="flex flex-col gap-6">
           {bookmarks.map((book: Book, index) => {
             return (
