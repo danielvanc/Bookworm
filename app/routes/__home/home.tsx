@@ -4,7 +4,7 @@ import {
   type ActionArgs,
   type LoaderArgs,
 } from "@remix-run/node";
-import { useCatch, useFetchers, useLoaderData } from "@remix-run/react";
+import { useFetchers, useLoaderData } from "@remix-run/react";
 import {
   createBookmark,
   getLatestBooks,
@@ -103,18 +103,20 @@ export async function action({ request }: ActionArgs) {
 
 export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
-  if (!session) return redirect(FAILURE_REDIRECT);
-  const { id } = session?.user!;
+  if (!session?.user) return redirect(FAILURE_REDIRECT);
 
+  const { id } = session?.user!;
   const data = await getLatestBooks(id, 10);
+
   if (!data || !data?.books || !data?.books.length)
     throw new Response("Problem fetching book list...", {
       status: 403,
     });
+
   return json(data);
 }
 
-export default function Home() {
+export default function DashboardHome() {
   const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
   const updates = useFetchers() || [];
   const orderByFirstUpdate = [...updates]?.reverse();
@@ -122,45 +124,40 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center">
-      <h1 className="sr-only font-monty text-xl">Discover - latest!</h1>
-
+      <h1 className="font-monty sr-only text-xl">Discover - latest!</h1>
       <Discover books={books} usersBookmarks={usersBookmarks} />
-
-      {status && status?.type === "done" && status?.data?.message ? (
-        <Notification status={status} />
-      ) : null}
+      {status && status?.data ? <Notification status={status} /> : null}
     </div>
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
+export function ErrorBoundary() {
+  // const error = useRouteError();
 
-  if (caught.status === 403) {
-    return (
-      <div className="mt-10 text-center">
-        <h2 className="mb-4">{caught.data}</h2>
-        <button onClick={() => window.location.reload()}>Retry?</button>
-      </div>
-    );
-  }
+  // TODO: fix these below
+  // if (error === 403) {
+  //   return (
+  //     <div className="mt-10 text-center">
+  //       {/* <h2 className="mb-4">{caught.data}</h2>
+  //       <button onClick={() => window.location.reload()}>Retry?</button> */}
+  //     </div>
+  //   );
+  // }
 
-  return (
-    <div>
-      <h1>Caught</h1>
-      <p>Status: {caught.status}</p>
-      <pre>
-        <code>{JSON.stringify(caught.data, null, 2)}</code>
-      </pre>
-    </div>
-  );
-}
+  //  return (
+  //    <div>
+  //      <h1>Caught</h1>
+  //      <p>Status: {caught.status}</p>
+  //      <pre>
+  //        <code>{JSON.stringify(caught.data, null, 2)}</code>
+  //      </pre>
+  //    </div>
+  //  );
 
-export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
       <h1>Oh no!</h1>
-      <pre>{error.message}</pre>
+      {/* <pre>{error.message}</pre> */}
       <p>There was an error in the Discover route!</p>
     </>
   );

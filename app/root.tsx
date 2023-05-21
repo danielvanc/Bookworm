@@ -1,4 +1,4 @@
-import { json, type MetaFunction, type LoaderArgs } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,20 +6,22 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
+
 import tailwindStyles from "~/tailwind.css";
 import { getMetaInfo } from "~/utils/seo";
 import { getSession } from "./auth/auth.server";
-import Dashboard from "~/components/Dashboard";
 import { useWatchSession } from "./auth/client";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  viewport: "width=device-width,initial-scale=1",
-  ...getMetaInfo({ title: "Welcome to BKWorm!" }),
-});
+export function meta() {
+  return [
+    { charset: "utf-8" },
+    { viewport: "width=device-width,initial-scale=1" },
+    { ...getMetaInfo({ title: "Welcome to BKWorm!" }) },
+  ];
+}
 
 export function links() {
   return [
@@ -53,7 +55,6 @@ export default function App() {
   const { env, session } = useLoaderData<typeof loader>();
   const context = useWatchSession(session);
   const isLoggedIn = session?.user;
-
   const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
   const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;
 
@@ -64,14 +65,7 @@ export default function App() {
         <Links />
       </head>
       <body className={`font-serifPro ${bodyClasses}`}>
-        {isLoggedIn ? (
-          <Dashboard user={context.session?.user || {}}>
-            <Outlet context={context} />
-          </Dashboard>
-        ) : (
-          <Outlet context={context} />
-        )}
-
+        <Outlet context={context} />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
@@ -85,10 +79,12 @@ export default function App() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
+// TODO: Add a better U.I component for main Error Boundary
+// TODO: Fix these below
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-  if (caught.status === 404) {
+  if (error === 404) {
     return (
       <html lang="en" className="dark">
         <head>
@@ -103,15 +99,11 @@ export function CatchBoundary() {
       </html>
     );
   }
-  throw new Error(`Unhandled error: ${caught.status}`);
-}
 
-// TODO: Add a better U.I component for main Error Boundary
-export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
       <h1>Boom!</h1>
-      <pre>{error.message}</pre>
+      {/* <pre>{error.message}</pre> */}
       <p>Houston we have a problem with the mainframe</p>
     </>
   );

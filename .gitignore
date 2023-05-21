@@ -15,3 +15,5 @@ api/_build
 /playwright/.cache/
 /tests-examples/
 tests/e2e/example.spec.ts
+
+/app/dump.rdb

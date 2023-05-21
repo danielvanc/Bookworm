@@ -1,9 +1,9 @@
 import type { Session, SupabaseClient, Provider } from "@supabase/supabase-js";
 import * as React from "react";
+import { useRevalidator } from "@remix-run/react";
 import { createClient } from "@supabase/supabase-js";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import invariant from "tiny-invariant";
-// import { GoogleStrategy } from "remix-auth-google";
 
 export const SUCCESS_REDIRECT = "/home";
 export const FAILURE_REDIRECT = "/login";
@@ -27,10 +27,13 @@ export type ContextType = {
 export function useWatchSession(initialSession: Session | null) {
   const [supabase, setSupabase] = React.useState<SupabaseClient | null>(null);
   const [session, setSession] = React.useState<Session | null>(initialSession);
+  const { revalidate } = useRevalidator();
 
   // TODO: Fix type error
   // @ts-ignore
   const context: ContextType = { supabase, session };
+
+  const serverAccessToken = session?.access_token;
 
   React.useEffect(() => {
     invariant(window.env.SUPABASE_URL, "SUPABASE_URL is required");
@@ -44,14 +47,18 @@ export function useWatchSession(initialSession: Session | null) {
       setSupabase(supabaseClient);
       const {
         data: { subscription },
-      } = supabaseClient.auth.onAuthStateChange((_, session) =>
-        setSession(session)
-      );
+      } = supabaseClient.auth.onAuthStateChange((_, session) => {
+        if (session?.access_token !== serverAccessToken) {
+          // server and client are out of sync.
+          revalidate();
+          setSession(session);
+        }
+      });
       return () => {
         subscription.unsubscribe();
       };
     }
-  }, []);
+  }, [revalidate, serverAccessToken, supabase]);
 
   return context;
 }
