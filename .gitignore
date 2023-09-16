@@ -17,3 +17,5 @@ api/_build
 tests/e2e/example.spec.ts
 
 /app/dump.rdb
+
+build/
