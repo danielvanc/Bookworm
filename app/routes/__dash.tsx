@@ -5,22 +5,13 @@ import {
   Outlet,
   useFetcher,
   useLoaderData,
-  useNavigation,
   useRevalidator,
 } from "@remix-run/react";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import { classNames } from "~/utils";
 import Header from "~/components/Header";
-import TabNavigation from "~/components/TabNavigation";
-import PreviewBookItemSkeleton from "~/components/LoadingUI/PreviewBookItemSkeleton";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
-
-const tabs = [
-  { name: "Discover", href: "home", current: true },
-  { name: "Bookmarked", href: "bookmarks", current: false },
-  { name: "Read / Reading", href: "read", current: false },
-];
 
 export const loader = async ({ request }: LoaderArgs) => {
   const { session, error, response } = await getSession(request);
@@ -41,12 +32,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Home() {
   const { env, session } = useLoaderData<typeof loader>();
-  const transition = useNavigation();
+
   const refreshFetcher = useFetcher();
-  const paths = ["/home", "/bookmarks", "/read"];
-  const isLoading =
-    transition?.state === "loading" &&
-    paths.includes(transition.location.pathname);
+
   const userData = session?.user.user_metadata || {};
   const name = userData?.full_name
     ? userData?.full_name.split(" ")[0]
@@ -124,12 +112,8 @@ export default function Home() {
           </div>
           <main className="lg:col-span-9">
             <>
-              <TabNavigation
-                tabs={tabs}
-                optimisticPath={transition?.location?.pathname}
-              />
               <div className="mt-4">
-                {isLoading ? <PreviewBookItemSkeleton /> : <Outlet />}
+                <Outlet />
               </div>
             </>
           </main>
