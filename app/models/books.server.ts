@@ -10,7 +10,7 @@ const initialBookData = (data: initialBook) => ({
   title: data.volumeInfo?.title,
   description: data.volumeInfo?.description,
   image: data.volumeInfo?.imageLinks?.thumbnail,
-  link: data.volumeInfo?.canonicalVolumeLink,
+  link: data.volumeInfo?.previewLink,
   authors: data.volumeInfo?.authors,
   publisher: data.volumeInfo?.publisher,
   publishedDate: data.volumeInfo?.publishedDate,
@@ -20,13 +20,13 @@ const initialBookData = (data: initialBook) => ({
   price: data.saleInfo?.retailPrice?.amount,
 });
 
-export function createBookmark(
+export async function createBookmark(
   id: books["id"],
   book_id: books["book_id"],
   user_id: books["user_id"]
 ) {
   if (!id) {
-    return prisma.books.create({
+    return await prisma.books.create({
       data: {
         user_id,
         book_id,
@@ -38,7 +38,7 @@ export function createBookmark(
     });
   }
 
-  return prisma.books.update({
+  return await prisma.books.update({
     where: {
       id,
     },
@@ -48,10 +48,10 @@ export function createBookmark(
   });
 }
 
-export function removeBookmark(id: books["id"]) {
-  return prisma.books.update({
+export async function removeBookmark(book_id: books["id"]) {
+  return await prisma.books.update({
     where: {
-      id,
+      id: book_id,
     },
     data: {
       bookmarked: false,
@@ -59,13 +59,13 @@ export function removeBookmark(id: books["id"]) {
   });
 }
 
-export function markAsRead(
+export async function markAsRead(
   id: books["id"],
   book_id: books["book_id"],
   user_id: books["user_id"]
 ) {
   if (!id) {
-    return prisma.books.create({
+    return await prisma.books.create({
       data: {
         user_id,
         book_id,
@@ -77,7 +77,7 @@ export function markAsRead(
     });
   }
 
-  return prisma.books.upsert({
+  return await prisma.books.upsert({
     create: {
       user_id,
       book_id,
@@ -95,8 +95,8 @@ export function markAsRead(
     },
   });
 }
-export function markAsNotRead(id: books["id"]) {
-  return prisma.books.update({
+export async function markAsNotRead(id: books["id"]) {
+  return await prisma.books.update({
     where: {
       id,
     },
@@ -106,13 +106,13 @@ export function markAsNotRead(id: books["id"]) {
   });
 }
 
-export function markAsReading(
+export async function markAsReading(
   id: books["id"],
   book_id: books["book_id"],
   user_id: books["user_id"]
 ) {
   if (!id) {
-    return prisma.books.create({
+    return await prisma.books.create({
       data: {
         user_id,
         book_id,
@@ -124,7 +124,7 @@ export function markAsReading(
     });
   }
 
-  return prisma.books.upsert({
+  return await prisma.books.upsert({
     create: {
       user_id,
       book_id,
@@ -143,8 +143,8 @@ export function markAsReading(
   });
 }
 
-export function markAsNotReading(id: books["id"]) {
-  return prisma.books.update({
+export async function markAsNotReading(id: books["id"]) {
+  return await prisma.books.update({
     where: {
       id,
     },
@@ -164,16 +164,19 @@ export async function getAllRead(id: string) {
       books: true,
     },
   });
+
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.read || book.reading)
       .map((book) => {
-        const { id: buid, book_id: id, reading, read, bookmarked } = book;
-        return { buid, id, reading, read, bookmarked };
+        const { id: buid, book_id, reading, read, bookmarked } = book;
+        return { buid, book_id, reading, read, bookmarked };
       }) || [];
+
   if (usersBookmarks.length) {
     bookmarks = await getAllBooksmarkData(usersBookmarks);
   }
+
   return { userId: id, bookmarks };
 }
 
@@ -187,13 +190,15 @@ export async function getBookmarks(id: string) {
       books: true,
     },
   });
+
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.bookmarked)
       .map((book) => {
-        const { id: buid, book_id: id, reading, read, bookmarked } = book;
-        return { buid, id, reading, read, bookmarked };
+        const { id: buid, book_id, reading, read, bookmarked } = book;
+        return { buid, book_id, reading, read, bookmarked };
       }) || [];
+
   if (usersBookmarks.length) {
     bookmarks = await getAllBooksmarkData(usersBookmarks);
   }
@@ -208,8 +213,8 @@ export async function getUsersBookmarks(user_id: books["user_id"]) {
   });
   const usersBookmarks =
     bookIds?.map((book) => {
-      const { id: buid, book_id: id, reading, read, bookmarked } = book;
-      return { buid, id, reading, read, bookmarked };
+      const { id: buid, book_id, reading, read, bookmarked } = book;
+      return { buid, book_id, reading, read, bookmarked };
     }) || [];
   return usersBookmarks;
 }
@@ -219,6 +224,7 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
   let latestBooks;
   let usersBookmarks: Book[] = [];
   let cacheEntry = await getCacheData("home-latest-books");
+
   if (cacheEntry) {
     const c0 = new Date().getTime();
     const parsedCache = JSON.parse(cacheEntry).filter(
@@ -240,10 +246,13 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
     latestBooks = [...allBooks, { responseTime: `${t1 - t0}ms` }];
     saveToRedis("home-latest-books", latestBooks);
   }
+
   const bookmarkIds = await getUsersBookmarks(userId);
+
   if (bookmarkIds.length) {
     usersBookmarks = await getAllBooksmarkData(bookmarkIds);
   }
+
   return { books: latestBooks, usersBookmarks };
 }
 
@@ -257,13 +266,14 @@ export async function fetchBookInfo(bookId: string): Promise<Book> {
 }
 
 async function getAllBooksmarkData(bookmarkIds: usersBookmarks[]) {
-  return Promise.all(
+  return await Promise.all(
     bookmarkIds.map(async (book: books) => {
-      const data = await fetchBookInfo(book.id);
+      const data = await fetchBookInfo(book.book_id);
       data.buid = book.buid;
       data.read = book.read;
       data.reading = book.reading;
       data.bookmarked = book.bookmarked;
+
       return data;
     })
   );

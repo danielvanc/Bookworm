@@ -26,7 +26,7 @@ export default function Bookmarks() {
           {bookmarks.map((book: Book, index) => {
             return (
               <PreviewBookItem
-                key={`${book.id}-${index}`}
+                key={`${book.book_id}-${index}`}
                 book={book}
                 // TODO: Fix with correct type
                 usersBookmarks={bookmarks as any}

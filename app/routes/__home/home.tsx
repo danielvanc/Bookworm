@@ -105,7 +105,7 @@ export async function loader({ request }: LoaderArgs) {
   const { session } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 
-  const { id } = session?.user!;
+  const { id } = session?.user;
   const data = await getLatestBooks(id, 10);
 
   if (!data || !data?.books || !data?.books.length)
