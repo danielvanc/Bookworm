@@ -10,7 +10,6 @@ export default function PreviewBookItem({
     (bookmark) => bookmark.id === bookId
   );
   const buid = userBookmark?.buid;
-
   const isBookmarked = userBookmark?.bookmarked ?? false;
   const isReading = userBookmark?.reading ?? false;
   const isRead = userBookmark?.read ?? false;

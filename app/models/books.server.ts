@@ -164,7 +164,6 @@ export async function getAllRead(id: string) {
       books: true,
     },
   });
-
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.read || book.reading)
@@ -190,7 +189,6 @@ export async function getBookmarks(id: string) {
       books: true,
     },
   });
-
   const usersBookmarks =
     bookIds?.books
       ?.filter((book) => book.bookmarked)
@@ -224,7 +222,6 @@ export async function getLatestBooks(userId: books["user_id"], total: number) {
   let latestBooks;
   let usersBookmarks: Book[] = [];
   let cacheEntry = await getCacheData("home-latest-books");
-
   if (cacheEntry) {
     const c0 = new Date().getTime();
     const parsedCache = JSON.parse(cacheEntry).filter(
@@ -273,7 +270,6 @@ async function getAllBooksmarkData(bookmarkIds: usersBookmarks[]) {
       data.read = book.read;
       data.reading = book.reading;
       data.bookmarked = book.bookmarked;
-
       return data;
     })
   );
