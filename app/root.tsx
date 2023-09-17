@@ -1,4 +1,5 @@
-import { json, type LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -14,6 +15,7 @@ import tailwindStyles from "~/tailwind.css";
 import { getMetaInfo } from "~/utils/seo";
 import { getSession } from "./auth/auth.server";
 import { useWatchSession } from "./auth/client";
+import { Session } from "@supabase/auth-helpers-remix";
 
 export function meta() {
   return [
@@ -35,7 +37,7 @@ export function links() {
   ];
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { SUPABASE_URL, SUPABASE_KEY, NODE_ENV } = process.env;
   const { session, error, response } = await getSession(request);
 
@@ -53,7 +55,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function App() {
   const { env, session } = useLoaderData<typeof loader>();
-  const context = useWatchSession(session);
+  const context = useWatchSession(session as unknown as Session);
   const isLoggedIn = session?.user;
   const htmlClasses = isLoggedIn ? `h-full bg-gray-100` : `h-full`;
   const bodyClasses = isLoggedIn ? `h-full` : `flex flex-col h-full`;

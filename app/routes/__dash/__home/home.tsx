@@ -1,8 +1,8 @@
 import {
   json,
   redirect,
-  type ActionArgs,
-  type LoaderArgs,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
 } from "@remix-run/node";
 import { useFetchers, useLoaderData } from "@remix-run/react";
 import {
@@ -20,7 +20,7 @@ import Discover from "~/components/Discover";
 
 // TODO: Move messaging to a separate file
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const userId = formData.get("user_id")?.toString() ?? "";
   const bookId = formData.get("book_id")?.toString() ?? "";
@@ -101,7 +101,7 @@ export async function action({ request }: ActionArgs) {
   }
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { session } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 

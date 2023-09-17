@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import * as React from "react";
 import {
@@ -11,9 +11,9 @@ import { HomeIcon } from "@heroicons/react/24/outline";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import { classNames } from "~/utils";
 import Header from "~/components/Header";
-import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import { Session, createBrowserClient } from "@supabase/auth-helpers-remix";
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session, error, response } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 
@@ -33,9 +33,12 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Home() {
   const { env, session } = useLoaderData<typeof loader>();
 
+  const userSession = session?.user as Session["user"];
+
   const refreshFetcher = useFetcher();
 
-  const userData = session?.user.user_metadata || {};
+  const userData = userSession.user_metadata || {};
+
   const name = userData?.full_name
     ? userData?.full_name.split(" ")[0]
     : userData.email;

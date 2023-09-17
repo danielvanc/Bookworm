@@ -1,9 +1,14 @@
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { TextField } from "./Fields";
+import { ActionFunctionArgs } from "@remix-run/node";
+import { action } from "~/routes/login";
 
 export default function LoginWithEmail() {
-  const data = useActionData();
-  const errors = useActionData();
+  const data = useActionData<typeof action>();
+  console.log("data", data);
+
+  const errors = useActionData<typeof action>();
+  console.log("errors", errors);
   const transition = useNavigation();
   const isSubmitting = transition.state === "submitting";
 
@@ -13,7 +18,7 @@ export default function LoginWithEmail() {
       action="/login"
       className="mt-10 grid grid-cols-1 gap-y-8"
     >
-      {!errors?.email && data ? (
+      {data ? (
         <p>Success! Go ahead and click the link in your email!</p>
       ) : (
         <>
@@ -24,16 +29,13 @@ export default function LoginWithEmail() {
             type="email"
             autoComplete="email"
             required
-            className={`${
-              data?.errors?.email ? "border-red-300 text-red-900" : ""
-            }`}
           />
-          {data?.errors?.email && <p>Please submit a valid email address</p>}
+
           <div>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group inline-flex w-full items-center justify-center rounded-full bg-rosyWorm py-2 px-4 text-sm font-semibold text-white focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-slate-600"
+              className="bg-rosyWorm group inline-flex w-full items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-slate-600"
             >
               {isSubmitting ? "Requesting a login link..." : null}
               {!isSubmitting ? (

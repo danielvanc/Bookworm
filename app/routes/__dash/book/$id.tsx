@@ -1,4 +1,4 @@
-import { json, redirect, type LoaderArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useFetchers,
@@ -12,7 +12,7 @@ import { fetchBookInfo, getUsersBookmarks } from "~/models/books.server";
 import BookItemFooter from "~/components/BookItemFooter";
 import Notification from "~/components/Notification";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const { session } = await getSession(request);
   if (!session) return redirect(FAILURE_REDIRECT);
 

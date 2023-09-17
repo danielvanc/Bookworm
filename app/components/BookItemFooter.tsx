@@ -26,9 +26,9 @@ export default function BookItemFooter({
 }: Props) {
   const statusFetcher = useFetcher();
   const isIdle = statusFetcher.state === "idle";
-  const hasErrors = statusFetcher.data?.error;
+  const hasErrors = statusFetcher.formData?.get("errors");
   const failedUpdate = hasErrors && isIdle;
-  const action = statusFetcher.data?.action;
+  const action = statusFetcher.formAction;
   const subData = statusFetcher.formData;
   const ErrorMessage = "Error, please retry";
 

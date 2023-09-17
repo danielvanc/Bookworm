@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import * as React from "react";
 import {
@@ -19,7 +19,7 @@ const tabs = [
   { name: "Read / Reading", href: "read", current: false },
 ];
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session, error, response } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 

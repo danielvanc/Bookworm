@@ -1,7 +1,7 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import type { AuthError } from "@supabase/supabase-js";
 import { redirect } from "@remix-run/node";
-import { type LoaderArgs, json } from "@remix-run/node";
+import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import AuthenticateForm from "~/components/AuthenticateForm";
 import AuthLayout from "~/components/AuthLayout";
@@ -10,7 +10,7 @@ import LoginWithEmail from "../components/LoginWithEmail";
 import { SUCCESS_REDIRECT, getSession } from "~/auth/auth.server";
 import { createSupabaseClient } from "../auth/auth.server";
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const errors: { email?: string; error?: AuthError | null } = {};
@@ -23,7 +23,7 @@ export const action = async ({ request }: ActionArgs) => {
     return json(errors, { status: 422 });
   }
 
-  const { supabaseClient, response } = await createSupabaseClient(request);
+  const { supabaseClient, response } = createSupabaseClient(request);
 
   const { data } = await supabaseClient.auth.signInWithOtp({
     email: String(email),
@@ -42,7 +42,7 @@ export const action = async ({ request }: ActionArgs) => {
   );
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { session, error, response } = await getSession(request);
   if (session) return redirect(SUCCESS_REDIRECT, { headers: response.headers });
 
