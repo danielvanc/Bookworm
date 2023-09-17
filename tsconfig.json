@@ -4,7 +4,9 @@
     "remix.env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "./tests/setup-test-env.ts"
+    "./tests/setup-test-env.ts",
+    "app/routes/_dash/.home.read.tsx",
+    "app/routes/_dash/.home.tsx"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],

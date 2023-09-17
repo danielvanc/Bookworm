@@ -16,7 +16,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     await supabaseClient.auth.exchangeCodeForSession(code);
   }
 
-  return redirect("/", {
+  return redirect("/home", {
     headers: response.headers,
   });
 };

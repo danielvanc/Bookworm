@@ -54,21 +54,23 @@ export default function TabNavigation({ tabs, optimisticPath }: Props) {
               className={({ isActive }: { isActive: boolean }) =>
                 appendBorders(isActive, tabIdx)
               }
+              end={tab.name === "Discover"}
             >
-              {({ isActive }) => (
-                <>
-                  <span>{tab.name}</span>
-                  <span
-                    aria-hidden="true"
-                    className={
-                      (isActive && !optimisticPath) ||
-                      (optimisticPath && optimisticPath === `/${tab.href}`)
-                        ? activeLinkSpanStyles
-                        : `bg-transparent ${defaultSpanStyles}`
-                    }
-                  />
-                </>
-              )}
+              {({ isActive }) => {
+                return (
+                  <>
+                    <span>{tab.name}</span>
+                    <span
+                      aria-hidden="true"
+                      className={
+                        isActive
+                          ? activeLinkSpanStyles
+                          : `bg-transparent ${defaultSpanStyles}`
+                      }
+                    />
+                  </>
+                );
+              }}
             </NavLink>
           ))}
         </nav>
