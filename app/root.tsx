@@ -11,7 +11,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 
-import tailwindStyles from "~/tailwind.css";
+import "~/tailwind.css";
 import { getMetaInfo } from "~/utils/seo";
 import { getSession } from "./auth/auth.server";
 import { useWatchSession } from "./auth/client";
@@ -33,7 +33,6 @@ export function links() {
       rel: "stylesheet",
       href: "https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@600&family=Source+Serif+Pro:wght@400;700&display=swap&crossOrigin=true",
     },
-    { rel: "stylesheet", href: tailwindStyles },
   ];
 }
 
@@ -74,8 +73,8 @@ export default function App() {
             __html: `window.env = ${JSON.stringify(env)}`,
           }}
         />
-        <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
+        <Scripts />
       </body>
     </html>
   );

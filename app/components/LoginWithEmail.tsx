@@ -5,10 +5,6 @@ import { action } from "~/routes/login";
 
 export default function LoginWithEmail() {
   const data = useActionData<typeof action>();
-  console.log("data", data);
-
-  const errors = useActionData<typeof action>();
-  console.log("errors", errors);
   const transition = useNavigation();
   const isSubmitting = transition.state === "submitting";
 

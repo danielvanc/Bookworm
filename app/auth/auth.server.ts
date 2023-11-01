@@ -27,7 +27,6 @@ export async function getSession(request: Request) {
     error,
   } = await supabaseClient.auth.getSession();
 
-  // console.log("session is", session);
   return { session, error, response };
 }
 

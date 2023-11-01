@@ -1,8 +1,7 @@
 import type { Config } from "tailwindcss";
-
-const plugin = require("tailwindcss/plugin");
-const colors = require("tailwindcss/colors");
-const defaultTheme = require("tailwindcss/defaultTheme");
+import plugin from "tailwindcss/plugin";
+import colors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],

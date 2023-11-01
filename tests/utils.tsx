@@ -1,5 +1,5 @@
 import { render as rtlRender } from "@testing-library/react";
-import { unstable_createRemixStub } from "@remix-run/testing";
+import { createRemixStub } from "@remix-run/testing";
 
 function render(
   path: string,
@@ -7,7 +7,7 @@ function render(
   children: any[] = [],
   initialEntries: string[] = [path]
 ) {
-  let RemixStub = unstable_createRemixStub([
+  let RemixStub = createRemixStub([
     {
       path,
       children,

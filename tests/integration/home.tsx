@@ -31,7 +31,7 @@ test("render a list of books", async () => {
   const firstTitle = mockBooks[0].title;
 
   function DiscoverPanel() {
-    const { books } = useLoaderData();
+    const { books } = useLoaderData<BooksAndBookmarks>();
     return <Discover books={books} usersBookmarks={[]} />;
   }
 

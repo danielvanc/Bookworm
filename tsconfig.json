@@ -1,12 +1,12 @@
 {
   "exclude": ["./api/_build/**/*"],
   "include": [
-    "remix.env.d.ts",
+    "env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "./tests/setup-test-env.ts",
-    "app/routes/_dash/.home.read.tsx",
-    "app/routes/_dash/.home.tsx"
+    "app/routes/_dash.home.read.tsx",
+    "app/routes/_dash.home.tsx"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
