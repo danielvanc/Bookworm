@@ -1,28 +1,19 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import * as React from "react";
 import {
   Outlet,
   useFetcher,
   useLoaderData,
-  useNavigation,
   useRevalidator,
 } from "@remix-run/react";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import { classNames } from "~/utils";
 import Header from "~/components/Header";
-import TabNavigation from "~/components/TabNavigation";
-import PreviewBookItemSkeleton from "~/components/LoadingUI/PreviewBookItemSkeleton";
-import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import { Session, createBrowserClient } from "@supabase/auth-helpers-remix";
 
-const tabs = [
-  { name: "Discover", href: "home", current: true },
-  { name: "Bookmarked", href: "bookmarks", current: false },
-  { name: "Read / Reading", href: "read", current: false },
-];
-
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session, error, response } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 
@@ -41,13 +32,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Home() {
   const { env, session } = useLoaderData<typeof loader>();
-  const transition = useNavigation();
+
+  const userSession = session?.user as Session["user"];
+
   const refreshFetcher = useFetcher();
-  const paths = ["/home", "/bookmarks", "/read"];
-  const isLoading =
-    transition?.state === "loading" &&
-    paths.includes(transition.location.pathname);
-  const userData = session?.user.user_metadata || {};
+
+  const userData = userSession.user_metadata || {};
+
   const name = userData?.full_name
     ? userData?.full_name.split(" ")[0]
     : userData.email;
@@ -124,12 +115,8 @@ export default function Home() {
           </div>
           <main className="lg:col-span-9">
             <>
-              <TabNavigation
-                tabs={tabs}
-                optimisticPath={transition?.location?.pathname}
-              />
               <div className="mt-4">
-                {isLoading ? <PreviewBookItemSkeleton /> : <Outlet />}
+                <Outlet />
               </div>
             </>
           </main>

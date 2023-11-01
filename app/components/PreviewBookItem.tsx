@@ -18,7 +18,7 @@ export default function PreviewBookItem({
 
   return (
     <li
-      key={book.id}
+      key={book.book_id}
       className="flex flex-col divide-y divide-gray-200 rounded-lg bg-white shadow"
     >
       <div className="flex flex-col items-start p-8 md:flex-row">
@@ -30,10 +30,10 @@ export default function PreviewBookItem({
           />
         </div>
 
-        <div className="w-4/5 py-5 md:py-0 md:px-10">
+        <div className="w-4/5 py-5 md:px-10 md:py-0">
           <h3 className="text-xl font-black text-gray-700">{book.title}</h3>
           <dl className="mt-1 flex flex-grow flex-col justify-between">
-            <dd className="mt-1 mb-3">
+            <dd className="mb-3 mt-1">
               <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                 {/* TODO: Replace with book genre */}
                 {book.title}

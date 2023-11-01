@@ -1,26 +1,33 @@
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import * as React from "react";
 import {
-  json,
-  redirect,
-  type ActionArgs,
-  type LoaderArgs,
-} from "@remix-run/node";
-import { useFetchers, useLoaderData } from "@remix-run/react";
+  Outlet,
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+  useRevalidator,
+} from "@remix-run/react";
 import {
   createBookmark,
-  getLatestBooks,
   markAsNotRead,
   markAsNotReading,
   markAsRead,
   markAsReading,
   removeBookmark,
 } from "~/models/books.server";
-import Notification from "~/components/Notification";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
-import Discover from "~/components/Discover";
+import TabNavigation from "~/components/TabNavigation";
+import PreviewBookItemSkeleton from "~/components/LoadingUI/PreviewBookItemSkeleton";
+import { createBrowserClient } from "@supabase/auth-helpers-remix";
 
-// TODO: Move messaging to a separate file
+const tabs = [
+  { name: "Discover", href: "/home", current: true },
+  { name: "Bookmarked", href: "bookmarks", current: false },
+  { name: "Read / Reading", href: "read", current: false },
+];
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const userId = formData.get("user_id")?.toString() ?? "";
   const bookId = formData.get("book_id")?.toString() ?? "";
@@ -101,64 +108,66 @@ export async function action({ request }: ActionArgs) {
   }
 }
 
-export async function loader({ request }: LoaderArgs) {
-  const { session } = await getSession(request);
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session, error, response } = await getSession(request);
   if (!session?.user) return redirect(FAILURE_REDIRECT);
 
-  const { id } = session?.user!;
-  const data = await getLatestBooks(id, 10);
+  const env = {
+    SUPABASE_URL: process.env.SUPABASE_URL!,
+    SUPABASE_KEY: process.env.SUPABASE_KEY!,
+  };
 
-  if (!data || !data?.books || !data?.books.length)
-    throw new Response("Problem fetching book list...", {
-      status: 403,
+  return json({
+    env,
+    session,
+    error,
+    headers: response.headers,
+  });
+};
+
+export default function Home() {
+  const { env, session } = useLoaderData<typeof loader>();
+  const transition = useNavigation();
+  const refreshFetcher = useFetcher();
+  const paths = ["/home", "/bookmarks", "/read"];
+  const isLoading =
+    transition?.state === "loading" &&
+    paths.includes(transition.location.pathname);
+
+  const { revalidate } = useRevalidator();
+
+  const [supabase] = React.useState(() =>
+    createBrowserClient(env.SUPABASE_URL, env.SUPABASE_KEY)
+  );
+
+  const serverAccessToken = session?.access_token;
+
+  React.useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (
+        session?.access_token !== serverAccessToken &&
+        refreshFetcher.state === "idle"
+      ) {
+        revalidate();
+      }
     });
 
-  return json(data);
-}
-
-export default function DashboardHome() {
-  const { books, usersBookmarks } = useLoaderData<BooksAndBookmarks>();
-  const updates = useFetchers() || [];
-  const orderByFirstUpdate = [...updates]?.reverse();
-  const status = orderByFirstUpdate?.[0];
-
-  return (
-    <div className="flex items-center justify-center">
-      <h1 className="font-monty sr-only text-xl">Discover - latest!</h1>
-      <Discover books={books} usersBookmarks={usersBookmarks} />
-      {status && status?.data ? <Notification status={status} /> : null}
-    </div>
-  );
-}
-
-export function ErrorBoundary() {
-  // const error = useRouteError();
-
-  // TODO: fix these below
-  // if (error === 403) {
-  //   return (
-  //     <div className="mt-10 text-center">
-  //       {/* <h2 className="mb-4">{caught.data}</h2>
-  //       <button onClick={() => window.location.reload()}>Retry?</button> */}
-  //     </div>
-  //   );
-  // }
-
-  //  return (
-  //    <div>
-  //      <h1>Caught</h1>
-  //      <p>Status: {caught.status}</p>
-  //      <pre>
-  //        <code>{JSON.stringify(caught.data, null, 2)}</code>
-  //      </pre>
-  //    </div>
-  //  );
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [refreshFetcher, revalidate, serverAccessToken, supabase]);
 
   return (
     <>
-      <h1>Oh no!</h1>
-      {/* <pre>{error.message}</pre> */}
-      <p>There was an error in the Discover route!</p>
+      <TabNavigation
+        tabs={tabs}
+        optimisticPath={transition?.location?.pathname}
+      />
+      <div className="mt-4">
+        {isLoading ? <PreviewBookItemSkeleton /> : <Outlet />}
+      </div>
     </>
   );
 }

@@ -10,7 +10,6 @@ function render(
   let RemixStub = unstable_createRemixStub([
     {
       path,
-      element,
       children,
     },
   ]);

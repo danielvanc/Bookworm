@@ -1,11 +1,11 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getBookmarks } from "~/models/books.server";
 import { FAILURE_REDIRECT, getSession } from "~/auth/auth.server";
 import PreviewBookItem from "~/components/PreviewBookItem";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { session } = await getSession(request);
   if (!session) return redirect(FAILURE_REDIRECT);
 
@@ -26,7 +26,7 @@ export default function Bookmarks() {
           {bookmarks.map((book: Book, index) => {
             return (
               <PreviewBookItem
-                key={`${book.id}-${index}`}
+                key={`${book.book_id}-${index}`}
                 book={book}
                 // TODO: Fix with correct type
                 usersBookmarks={bookmarks as any}

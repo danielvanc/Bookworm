@@ -1,4 +1,4 @@
-import { json, redirect, type LoaderArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useFetchers,
@@ -12,20 +12,23 @@ import { fetchBookInfo, getUsersBookmarks } from "~/models/books.server";
 import BookItemFooter from "~/components/BookItemFooter";
 import Notification from "~/components/Notification";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const { session } = await getSession(request);
   if (!session) return redirect(FAILURE_REDIRECT);
 
-  const { id: userId } = session?.user!;
+  const { id: userId } = session?.user;
   const { id: bookId } = params;
 
   invariant(bookId, "bookId is required");
   invariant(userId, "userId is required");
 
   const data = await fetchBookInfo(bookId);
+
   const bookmarks = await getUsersBookmarks(userId);
 
-  const userBookmark = bookmarks.find((bookmark) => bookmark.id === bookId);
+  const userBookmark = bookmarks.find(
+    (bookmark) => bookmark.book_id === bookId
+  );
   const buid = userBookmark?.buid;
   const isBookmarked = userBookmark?.bookmarked ?? false;
   const isReading = userBookmark?.reading ?? false;
@@ -90,7 +93,8 @@ export default function Book() {
           />
           <p className="mt-14 hidden md:block">
             <a
-              href={link}
+              // href={link}
+              href={`https://www.google.co.uk/books/edition/_/${bookId}`}
               target="_blank"
               className="bg-rosyWorm hover:bg-rosyWorm-900 rounded-lg px-10 py-5 text-white"
               rel="noreferrer"

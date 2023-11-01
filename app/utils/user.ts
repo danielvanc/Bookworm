@@ -16,7 +16,10 @@ function isUser(user: any) {
 }
 
 export function useUser(): User {
-  const data = useMatchesData("root");
+  const data = useMatchesData("root") as {
+    session: { user: User | null };
+  };
+
   if (!data?.session?.user || !isUser(data?.session?.user)) return {};
 
   const { id, email, user_metadata } = data.session.user;

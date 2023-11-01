@@ -49,6 +49,7 @@ interface BooksFeed {
  */
 interface Book {
   id: string;
+  book_id: string;
   title: string;
   description: string;
   image: string;
