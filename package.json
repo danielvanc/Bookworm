@@ -17,7 +17,7 @@
     "commit": "cz",
     "test": "vitest",
     "prepare": "husky install",
-    "start": "remix-serve build",
+    "start": "remix-serve ./build/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "test:e2e:dev": "playwright test",
     "test:e2e:run": "cross-env CI=true playwright test",
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@flydotio/dockerfile": "^0.4.10",
     "@playwright/test": "^1.32.1",
     "@remix-run/dev": "^2.0.0",
     "@remix-run/eslint-config": "^2.0.0",

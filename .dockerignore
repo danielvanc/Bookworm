@@ -1,0 +1,21 @@
+node_modules
+.DS_Store
+
+.cache
+.vercel
+.output
+
+public/build
+api/_build
+.env
+
+# Playwright specific
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/tests-examples/
+tests/e2e/example.spec.ts
+
+/app/dump.rdb
+
+build/
